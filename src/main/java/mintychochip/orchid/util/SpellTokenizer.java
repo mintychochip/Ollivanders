@@ -34,7 +34,6 @@ public class SpellTokenizer {
 
         packagedModifiers = makePackagedModifiers();
         mechanicName = getElement(Keyword.MECHANIC);
-        Bukkit.broadcastMessage(mechanicName);
         shape = getElement(Keyword.SHAPE);
         wait = getElement(Keyword.WAIT);
     }

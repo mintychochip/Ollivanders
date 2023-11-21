@@ -8,7 +8,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class BookReader {
+public class BookReader { //avoid creating more instances of objects we do not need
+
 
     private final BookMeta bookMeta;
 

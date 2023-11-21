@@ -42,6 +42,10 @@ public class MechanicRegistry {
         }
     }
 
+    public static OrchidMechanic getMechanic(String mechanic) {
+        return mechanics.get(mechanic);
+    }
+
     public static Map<String, OrchidMechanic> getMechanics() {
         return mechanics;
     }
