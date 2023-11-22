@@ -14,6 +14,8 @@ public class OrchidMechanicSettings {
     }
     private List<String> keywords;
 
+    private boolean bendable;
+
    private int damage;
 
     public void setMagnitudeAffectable(boolean magnitudeAffectable) {

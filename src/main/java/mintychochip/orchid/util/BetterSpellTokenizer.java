@@ -30,7 +30,7 @@ public class BetterSpellTokenizer {
                 }
                 keyword = OrchidRegistry.getKeywordAlias().get(s);
 
-                tokens.delete(0,tokens.length() - 1);
+                tokens.delete(0,tokens.length());
             }
             tokens.append(s).append(" ");
         }
@@ -54,7 +54,7 @@ public class BetterSpellTokenizer {
         }
         return name.toString().strip();
     }
-    public List<PackagedModifier> makePackagedModifiers() {
+    public List<PackagedModifier> getPackagedModifiers() {
         List<PackagedModifier> modifiers = new ArrayList<>();
         for (String modifier : getCheckableStrings(Keyword.MODIFIER)) {
             Modifier modifierType = null;
@@ -79,5 +79,9 @@ public class BetterSpellTokenizer {
             }
         }
         return result;
+    }
+
+    public Map<String, Keyword> getTokenizedSpell() {
+        return tokenizedSpell;
     }
 }

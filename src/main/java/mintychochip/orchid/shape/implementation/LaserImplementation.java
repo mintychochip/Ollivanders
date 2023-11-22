@@ -22,13 +22,9 @@ public class LaserImplementation extends Implementation implements OrchidLaser {
     @Override
     public int castLaser() {
         BlockIterator blockIterator = new BlockIterator(player.getEyeLocation(),0D,30);
-        Bukkit.broadcastMessage(player.getEyeLocation().toString());
         Snowball projectile = player.launchProjectile(Snowball.class);
         projectile.setVelocity(player.getLocation().getDirection().multiply(3));
         projectile.setGravity(false);
-        if(blockIterator.hasNext()) {
-            Bukkit.broadcastMessage("has next");
-        }
         float rotationSpeed = 120;
         final double INCREMENT = (2 * Math.PI) / rotationSpeed;
 
@@ -72,8 +68,8 @@ public class LaserImplementation extends Implementation implements OrchidLaser {
                     Location add1 = startLoc.clone().add(vec);
                     Location add = startLoc.clone().add(inverseVec);
                     float random = 0.03f;
-                    add1.getWorld().spawnParticle(Particle.SNOWFLAKE,add1,1,0,random,random,random,null,true);
-                    add.getWorld().spawnParticle(Particle.FLAME,add,1,0,random,random,random,null,true);
+                    add1.getWorld().spawnParticle(Particle.SOUL_FIRE_FLAME,add1,1,0,random,random,random,null,true);
+                    add.getWorld().spawnParticle(Particle.SOUL_FIRE_FLAME,add,1,0,random,random,random,null,true);
 
 
 

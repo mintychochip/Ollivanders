@@ -26,7 +26,6 @@ public class ProjectileImplementation extends Implementation implements OrchidPr
         Location playerLocation = player.getLocation();
         //injection
         if(playerLocation.getWorld() != null && type != null) {
-            BlockFace facing = player.getFacing();
             spawnedProjectile = (Projectile) playerLocation.getWorld().spawnEntity(playerLocation.add(playerLocation.getDirection().getX(),1f,playerLocation.getDirection().getZ()), type); //cant have errors at this line, because type is pulled from hash
             spawnedProjectile.setVelocity(playerLocation.getDirection().multiply(mechanic.getOrchidModifier().getVelocity()));
             return spawnedProjectile.getEntityId();

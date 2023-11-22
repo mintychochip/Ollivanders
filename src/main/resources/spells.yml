@@ -18,3 +18,5 @@ Fireblast:
 Light:
   keywords: [light]
   range: 5
+SummonSteed:
+  keywords: [horse]

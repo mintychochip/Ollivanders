@@ -6,6 +6,7 @@ import mintychochip.orchid.handler.ProjectileHandler;
 import mintychochip.orchid.listener.PlayerListener;
 import mintychochip.orchid.registry.MechanicRegistry;
 import mintychochip.orchid.registry.OrchidRegistry;
+import mintychochip.orchid.sequencer.BetterSpellSequencer;
 import mintychochip.orchid.util.BetterSpellTokenizer;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -14,6 +15,8 @@ public final class Orchid extends JavaPlugin {
 
     private static KeywordConfig keywordConfig;
     private static MechanicConfig mechanicConfig;
+
+    private static BetterSpellSequencer sequencer;
 
     private static BetterSpellTokenizer tokenizer;
     private static Orchid instance;
@@ -45,10 +48,15 @@ public final class Orchid extends JavaPlugin {
         mechanicConfig = new MechanicConfig("spells.yml");
         MechanicRegistry mechanicRegistry = new MechanicRegistry();
         OrchidRegistry registry = new OrchidRegistry();
-        BetterSpellTokenizer tokenizer = new BetterSpellTokenizer();
+        tokenizer = new BetterSpellTokenizer();
+        sequencer = new BetterSpellSequencer();
     }
 
     public static BetterSpellTokenizer getTokenizer() {
         return tokenizer;
+    }
+
+    public static BetterSpellSequencer getSequencer() {
+        return sequencer;
     }
 }

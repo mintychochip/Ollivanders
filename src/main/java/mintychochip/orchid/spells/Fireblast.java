@@ -19,7 +19,7 @@ public class Fireblast extends OrchidMechanic implements OrchidSelf, OrchidAoe {
         for (Entity nearbyEntity : nearbyEntities) {
             int fireTicks = nearbyEntity.getFireTicks();
             if(fireTicks > 0) {
-                if(nearbyEntity instanceof LivingEntity entity) {
+                if(nearbyEntity instanceof LivingEntity entity && entity != context.getPlayer()) {
                     entity.damage(mechanicSettings.getDamage(),context.getPlayer());
                     entity.getLocation().getWorld().spawnParticle(Particle.LAVA,entity.getLocation(), mechanicSettings.getDamage());
                 }
