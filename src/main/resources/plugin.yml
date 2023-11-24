@@ -1,4 +1,4 @@
-name: Orchid
+name: Ollivanders
 version: '${project.version}'
-main: mintychochip.orchid.Orchid
+main: mintychochip.ollivanders.Ollivanders
 api-version: '1.20'

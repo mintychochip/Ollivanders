@@ -5,11 +5,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>mintychochip</groupId>
-    <artifactId>Orchid</artifactId>
+    <artifactId>Ollivanders</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>Orchid</name>
+    <name>Ollivanders</name>
 
     <properties>
         <java.version>1.8</java.version>
