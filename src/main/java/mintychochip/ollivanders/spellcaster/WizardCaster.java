@@ -11,6 +11,7 @@ import mintychochip.ollivanders.shape.*;
 import mintychochip.ollivanders.shape.implementation.AoeImplementation;
 import mintychochip.ollivanders.shape.implementation.LaserImplementation;
 import mintychochip.ollivanders.shape.implementation.ProjectileImplementation;
+import mintychochip.ollivanders.shape.implementation.SelfImplementation;
 import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -42,15 +43,15 @@ public class WizardCaster {
                         if (spell.getMechanic() instanceof WizardAoe) {
                             boolean aoeImplementation = new AoeImplementation(spell.getMechanic()).castAoe();
                             if (aoeImplementation) {
-                                Bukkit.getPluginManager().callEvent(new AoeCastEvent(shape, spell.getMechanic()));
+                                Bukkit.getPluginManager().callEvent(new AoeCastEvent(shape, spell.getMechanic(),spell));
                             }
                         }
                     }
                     case SELF -> {
                         if (spell.getMechanic() instanceof WizardSelf self) {
-                            boolean b = self.castSelf();
+                            boolean b = new SelfImplementation(spell.getMechanic()).castSelf();
                             if (b) {
-                                Bukkit.getPluginManager().callEvent(new SelfCastEvent(shape, spell.getMechanic()));
+                                Bukkit.getPluginManager().callEvent(new SelfCastEvent(shape, spell.getMechanic(),spell));
                                 self.applyParticleSelf();
                             }
                         }
@@ -61,7 +62,7 @@ public class WizardCaster {
                             if(i > 0) {
                                 ProjectileHandler.getInstance().getHitMap().put(i, spell);
 
-                                Bukkit.getPluginManager().callEvent(new LaserCastEvent(shape,spell.getMechanic()));
+                                Bukkit.getPluginManager().callEvent(new LaserCastEvent(shape,spell.getMechanic(),spell));
                             }
 
                     }
@@ -73,6 +74,34 @@ public class WizardCaster {
         }.runTaskLater(Ollivanders.getInstance(), 0L);
 
 
+    }
+
+    public void persistentCast(Context context) {
+        spell.getMechanic().setContext(context);
+        Shape shape = spell.getMechanic().getShape();
+        new BukkitRunnable() {
+
+            @Override
+            public void run() {
+                switch (shape) {
+                    case AOE -> {
+                        if (spell.getMechanic() instanceof WizardAoe) {
+                            boolean aoeImplementation = new AoeImplementation(spell.getMechanic()).castAoe();
+                        }
+                    }
+                    case SELF -> {
+                        if (spell.getMechanic() instanceof WizardSelf self) {
+                            boolean b = new SelfImplementation(spell.getMechanic()).castSelf();
+                            if (b) {
+                                self.applyParticleSelf();
+                            }
+                        }
+                    }
+                    default -> {
+                    }
+                }
+            }
+        }.runTaskLater(Ollivanders.getInstance(), 0L);
     }
 
     public void callEvent() {

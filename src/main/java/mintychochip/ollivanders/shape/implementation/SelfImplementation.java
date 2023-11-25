@@ -3,9 +3,11 @@ package mintychochip.ollivanders.shape.implementation;
 import mintychochip.ollivanders.container.WizardMechanic;
 import mintychochip.ollivanders.shape.WizardSelf;
 
+import java.util.ArrayList;
+
 public class SelfImplementation extends Implementation implements WizardSelf {
 
-    protected SelfImplementation(WizardMechanic mechanic) {
+    public SelfImplementation(WizardMechanic mechanic) {
         super(mechanic);
     }
 
@@ -21,4 +23,5 @@ public class SelfImplementation extends Implementation implements WizardSelf {
     public void applyParticleSelf() {
 
     }
+
 }

@@ -10,19 +10,9 @@ import java.util.List;
 
 public class AoeImplementation extends Implementation implements WizardAoe {
     //probably want a method to collect entities within the range of the mechanic
-    private final Location castLocation;
-    private List<Entity> nearbyEntities;
 
     public AoeImplementation(WizardMechanic mechanic) {
         super(mechanic);
-        castLocation = context.getHitLocation() != null ? context.getHitLocation() : player.getLocation();
-        if (castLocation != null) {
-            nearbyEntities = new ArrayList<>();
-            double range = mechanic.getMechanicSettings().getRange() / 2f;
-            if (castLocation.getWorld() != null) {
-                nearbyEntities.addAll(castLocation.getWorld().getNearbyEntities(castLocation, range, range, range));
-            }
-        }
     }
 
     @Override

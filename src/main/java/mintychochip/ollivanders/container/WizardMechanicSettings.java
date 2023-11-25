@@ -3,23 +3,26 @@ package mintychochip.ollivanders.container;
 import java.util.List;
 
 public class WizardMechanicSettings {
-    private boolean isMagnitudeAffectable;
     private int range;
     private int duration;
     private int cost;
     private double cooldown;
     private boolean isCantrip;
-    public boolean isMagnitudeAffectable() {
-        return isMagnitudeAffectable;
-    }
     private List<String> keywords;
 
     private boolean bendable;
 
+    private boolean persistent;
    private int damage;
 
-    public void setMagnitudeAffectable(boolean magnitudeAffectable) {
-        isMagnitudeAffectable = magnitudeAffectable;
+   private long interval;
+
+    public void setInterval(long interval) {
+        this.interval = interval;
+    }
+
+    public long getInterval() {
+        return interval;
     }
 
     public int getRange() {
@@ -76,5 +79,13 @@ public class WizardMechanicSettings {
 
     public void setDamage(int damage) {
         this.damage = damage;
+    }
+
+    public boolean isPersistent() {
+        return persistent;
+    }
+
+    public void setPersistent(boolean persistent) {
+        this.persistent = persistent;
     }
 }

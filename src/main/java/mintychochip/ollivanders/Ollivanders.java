@@ -2,6 +2,7 @@ package mintychochip.ollivanders;
 
 import mintychochip.ollivanders.config.KeywordConfig;
 import mintychochip.ollivanders.config.MechanicConfig;
+import mintychochip.ollivanders.handler.PersistentSpellManager;
 import mintychochip.ollivanders.handler.ProjectileHandler;
 import mintychochip.ollivanders.listener.PlayerListener;
 import mintychochip.ollivanders.registry.MechanicRegistry;
@@ -16,12 +17,12 @@ public final class Ollivanders extends JavaPlugin {
 
     private static KeywordConfig keywordConfig;
     private static MechanicConfig mechanicConfig;
-
     private static BetterSpellSequencer sequencer;
-
     private static BetterSpellTokenizer tokenizer;
     private static Ollivanders instance;
     private static BookReader reader;
+
+    private static PersistentSpellManager persistentSpellManager;
 
     public static KeywordConfig getKeywordConfig() {
         return keywordConfig;
@@ -52,6 +53,7 @@ public final class Ollivanders extends JavaPlugin {
         tokenizer = new BetterSpellTokenizer();
         sequencer = new BetterSpellSequencer();
         reader = new BookReader();
+        persistentSpellManager = new PersistentSpellManager();
     }
 
     public static BookReader getReader() {
@@ -64,5 +66,9 @@ public final class Ollivanders extends JavaPlugin {
 
     public static BetterSpellSequencer getSequencer() {
         return sequencer;
+    }
+
+    public static PersistentSpellManager getPersistentSpellManager() {
+        return persistentSpellManager;
     }
 }

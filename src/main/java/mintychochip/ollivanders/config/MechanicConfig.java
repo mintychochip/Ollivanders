@@ -16,7 +16,10 @@ public class MechanicConfig {
         DURATION,
         COST,
         COOLDOWN,
-        DAMAGE
+        DAMAGE,
+
+        PERSISTENT,
+        INTERVAL
 
     }
 
@@ -40,6 +43,8 @@ public class MechanicConfig {
                     case DURATION -> WizardMechanicSettings.setDuration(configurationSection.getInt(key));
                     case KEYWORDS -> WizardMechanicSettings.setKeywords(configurationSection.getStringList(key));
                     case DAMAGE -> WizardMechanicSettings.setDamage(configurationSection.getInt(key));
+                    case PERSISTENT -> WizardMechanicSettings.setPersistent(configurationSection.getBoolean(key));
+                    case INTERVAL -> WizardMechanicSettings.setInterval(configurationSection.getLong(key));
                 }
             }
         }

@@ -1,5 +1,6 @@
 package mintychochip.ollivanders.listener;
 
+import mintychochip.ollivanders.Ollivanders;
 import mintychochip.ollivanders.container.Context;
 import mintychochip.ollivanders.container.WizardBook;
 import mintychochip.ollivanders.container.WizardMechanic;
@@ -7,9 +8,11 @@ import mintychochip.ollivanders.container.WizardSpell;
 import mintychochip.ollivanders.events.AoeCastEvent;
 import mintychochip.ollivanders.events.LaserCastEvent;
 import mintychochip.ollivanders.events.SelfCastEvent;
+import mintychochip.ollivanders.handler.PersistentSpellManager;
 import mintychochip.ollivanders.handler.ProjectileHandler;
 import mintychochip.ollivanders.sequencer.BookReader;
 import mintychochip.ollivanders.spellcaster.WizardCaster;
+import mintychochip.ollivanders.util.Diagnostics;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -27,6 +30,8 @@ import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.BookMeta;
 
 public class PlayerListener implements Listener {
+
+    int count = 0;
     @EventHandler
     public void playerInteract(PlayerInteractEvent event) {
         PlayerInventory playerInventory = event.getPlayer().getInventory();
@@ -40,9 +45,13 @@ public class PlayerListener implements Listener {
 
                 WizardBook wizardBook = new WizardBook(bookMeta);
                 WizardSpell spell = wizardBook.getSpell(0);
-                Bukkit.broadcastMessage(spell.getMechanic().toString());
+                Bukkit.broadcastMessage(spell.getMechanic().getMechanicSettings().isPersistent() +"");
+                Context context = new Context(event.getPlayer());
                 WizardCaster caster = new WizardCaster(spell);
-                caster.cast(new Context(event.getPlayer()));
+                caster.cast(context);
+                if(spell.getMechanic().getMechanicSettings().isPersistent()) {
+                    Ollivanders.getPersistentSpellManager().add(spell,context);
+                }
             }
         }
     }
@@ -73,9 +82,14 @@ public class PlayerListener implements Listener {
         if (WizardMechanic == null) {
             return;
         }
+        Bukkit.broadcastMessage("CAST");
         if (WizardMechanic.getTransition() != null) {
+            Bukkit.broadcastMessage("wrong block");
             WizardCaster caster = new WizardCaster(WizardMechanic.getTransition());
             caster.cast(new Context(WizardMechanic.getContext().getPlayer(), WizardMechanic.getContext().getHitLocation()));
+        }
+        if(event.getMechanic().getMechanicSettings().isPersistent()) {
+            Ollivanders.getPersistentSpellManager().add(event.getSpell(),new Context(WizardMechanic.getContext().getPlayer(), WizardMechanic.getContext().getHitLocation()));
         }
     }
 
