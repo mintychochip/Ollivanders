@@ -1,17 +1,28 @@
 package mintychochip.ollivanders.container;
 
+import mintychochip.ollivanders.betterwand.WandBoost;
 import mintychochip.ollivanders.shape.Shape;
 import mintychochip.ollivanders.shape.implementation.Implementation;
 
 public abstract class WizardMechanic { //make all protected
+
+    protected WandBoost wandBoost;
     protected WizardMechanicSettings mechanicSettings;
     protected Implementation implementation;
     protected WizardSpell Transition;
     protected Context context;
-    protected WizardModifier WizardModifier;
+    protected WizardModifier wizardModifier;
     protected Shape shape;
     protected long delay;
     protected String name;
+
+    public WandBoost getWandBoost() {
+        return wandBoost;
+    }
+
+    public void setWandBoost(WandBoost wandBoost) {
+        this.wandBoost = wandBoost;
+    }
 
     public WizardSpell getTransition() {
         return Transition;
@@ -30,11 +41,11 @@ public abstract class WizardMechanic { //make all protected
     }
 
     public WizardModifier getWizardModifier() {
-        return WizardModifier;
+        return wizardModifier;
     }
 
     public void setWizardModifier(WizardModifier WizardModifier) {
-        this.WizardModifier = WizardModifier;
+        this.wizardModifier = WizardModifier;
     }
 
     public Shape getShape() {

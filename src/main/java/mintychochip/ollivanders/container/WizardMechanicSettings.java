@@ -6,7 +6,7 @@ public class WizardMechanicSettings {
     private int range;
     private int duration;
     private int cost;
-    private double cooldown;
+    private double haste;
     private boolean isCantrip;
     private List<String> keywords;
 
@@ -49,12 +49,12 @@ public class WizardMechanicSettings {
         this.cost = cost;
     }
 
-    public double getCooldown() {
-        return cooldown;
+    public double gethaste() {
+        return haste;
     }
 
-    public void setCooldown(double cooldown) {
-        this.cooldown = cooldown;
+    public void sethaste(double haste) {
+        this.haste = haste;
     }
 
     public boolean isCantrip() {

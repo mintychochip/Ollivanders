@@ -15,11 +15,11 @@ import java.util.*;
 
 public class WandBuilder {
 
-    private ItemStack itemStack = new ItemStack(Material.BLAZE_ROD);
+    private final ItemStack itemStack = new ItemStack(Material.BLAZE_ROD);
 
     private final WandBoost wandBoost = new WandBoost();
 
-    private Map<ItemStack, ComponentType> mappedComponents = new HashMap<>();
+    private final Map<ItemStack, ComponentType> mappedComponents = new HashMap<>();
 
     public WandBuilder(List<ItemStack> materials) {
         for (ItemStack material : materials) {
@@ -34,16 +34,30 @@ public class WandBuilder {
 
     }
 
+    public WandBuilder setUnstackable() {
+        Random random = new Random();
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        String string = Long.toString(random.nextLong());
+        itemMeta.getPersistentDataContainer().set(Keys.getUnstackable(),PersistentDataType.STRING,string);
+        itemStack.setItemMeta(itemMeta);
+        return this;
+    }
+    public WandBuilder setCustomModelData(int modelData) {
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        itemMeta.setCustomModelData(modelData);
+        itemStack.setItemMeta(itemMeta);
+        return this;
+    }
     public void addBoost(WandBoost wandBoost) {
         this.wandBoost.addAll(wandBoost);
     }
     public WandBuilder addLore(List<String> description) {
         List<String> lore = description != null ? new ArrayList<>(description) : new ArrayList<>();
-        lore.add(ChatColor.GOLD + "Duration: " + ChatColor.GRAY + wandBoost.getDuration() + "x multiplier");
-        lore.add(ChatColor.GOLD + "Drain: " + ChatColor.GRAY + wandBoost.getCost() + "x multiplier");
-        lore.add(ChatColor.GOLD + "Range: " + ChatColor.GRAY + wandBoost.getRange() + "x multiplier");
-        lore.add(ChatColor.GOLD + "Power: " + ChatColor.GRAY + wandBoost.getPower() + "x multiplier");
-        lore.add(ChatColor.GOLD + "Cooldown: " + ChatColor.GRAY + wandBoost.getCooldown() + "x multiplier");
+        lore.add(ChatColor.YELLOW + "* " + ChatColor.GOLD + "Duration: " + ChatColor.GRAY + wandBoost.getDuration() + "x");
+        lore.add(ChatColor.YELLOW + "* " + ChatColor.GOLD + "Efficiency: " + ChatColor.GRAY + wandBoost.getCost() + "x");
+        lore.add(ChatColor.YELLOW + "* " + ChatColor.GOLD + "Range: " + ChatColor.GRAY + wandBoost.getRange() + "x");
+        lore.add(ChatColor.YELLOW + "* " + ChatColor.GOLD + "Power: " + ChatColor.GRAY + wandBoost.getPower() + "x");
+        lore.add(ChatColor.YELLOW + "* " + ChatColor.GOLD + "Haste: " + ChatColor.GRAY + wandBoost.getHaste() + "x");
         ItemMeta itemMeta = itemStack.getItemMeta();
         itemMeta.setLore(lore);
         itemStack.setItemMeta(itemMeta);
@@ -79,7 +93,7 @@ public class WandBuilder {
         for (ItemStack stack : mappedComponents.keySet()) {
             addBoost(stack);
         }
-        wandBoost.addCost(1).addRange(1).addCooldown(1).addDuration(1).addPower(1);
+        wandBoost.addCost(1).addRange(1).addHaste(1).addDuration(1).addPower(1);
         try {
             ItemMeta itemMeta = itemStack.getItemMeta();
             itemMeta.getPersistentDataContainer().set(Keys.getBoost(), PersistentDataType.BYTE_ARRAY, Serializer.serializeObject(wandBoost));

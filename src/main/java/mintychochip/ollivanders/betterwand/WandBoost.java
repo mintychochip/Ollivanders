@@ -1,16 +1,22 @@
 package mintychochip.ollivanders.betterwand;
 
+import org.bukkit.Material;
+import org.bukkit.entity.Trident;
+import org.bukkit.inventory.ItemStack;
+
 import java.io.Serializable;
 
 public class WandBoost implements Serializable {
 
+    private final long serialVersionUID = 120594823L;
     private double range;
     private double power;
-    private double cooldown;
+    private double haste;
     private double cost;
     private double duration;
 
     public WandBoost addRange(double v) {
+        ItemStack itemStack = new ItemStack(Material.SPYGLASS);
         range += v;
         return this;
     }
@@ -20,8 +26,8 @@ public class WandBoost implements Serializable {
         return this;
     }
 
-    public WandBoost addCooldown(double v) {
-        cooldown += v;
+    public WandBoost addHaste(double v) {
+        haste += v;
         return this;
     }
 
@@ -51,12 +57,12 @@ public class WandBoost implements Serializable {
         this.power = power;
     }
 
-    public double getCooldown() {
-        return cooldown;
+    public double getHaste() {
+        return haste;
     }
 
-    public void setCooldown(double cooldown) {
-        this.cooldown = cooldown;
+    public void setHaste(double haste) {
+        this.haste = haste;
     }
 
     public double getCost() {
@@ -76,7 +82,7 @@ public class WandBoost implements Serializable {
     }
 
     public void addAll(WandBoost boost) {
-        this.cooldown += boost.cooldown;
+        this.haste += boost.haste;
         this.cost += boost.cost;
         this.range += boost.range;
         this.duration += boost.duration;

@@ -1,14 +1,13 @@
 package mintychochip.ollivanders.shape.implementation;
 
+import mintychochip.ollivanders.betterwand.WandBoost;
 import mintychochip.ollivanders.container.WizardMechanic;
 import mintychochip.ollivanders.shape.WizardSelf;
 
-import java.util.ArrayList;
-
 public class SelfImplementation extends Implementation implements WizardSelf {
 
-    public SelfImplementation(WizardMechanic mechanic) {
-        super(mechanic);
+    public SelfImplementation(WizardMechanic mechanic, WandBoost wandBoost) {
+        super(wandBoost, mechanic);
     }
 
     @Override

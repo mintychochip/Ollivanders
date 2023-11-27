@@ -54,11 +54,18 @@ public class PlayerListener implements Listener {
                 Bukkit.broadcastMessage(spell.getMechanic().getMechanicSettings().isPersistent() +"");
                 Context context = new Context(event.getPlayer());
                 WizardCaster caster = new WizardCaster(spell);
-                caster.cast(context);
-                if(spell.getMechanic().getMechanicSettings().isPersistent()) {
-                    Ollivanders.getPersistentSpellManager().add(spell,context);
+                byte[] bytes = playerInventory.getItemInMainHand().getItemMeta().getPersistentDataContainer().get(Keys.getBoost(), PersistentDataType.BYTE_ARRAY);
+                try {
+                    WandBoost wandBoost = Serializer.deserializeBoost(bytes);
+                    caster.cast(context, wandBoost);
+                    if(spell.getMechanic().getMechanicSettings().isPersistent()) {
+                        Ollivanders.getPersistentSpellManager().add(spell,context,wandBoost);
+                    }
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                } catch (ClassNotFoundException e) {
+                    throw new RuntimeException(e);
                 }
-
             }
         }
     }
@@ -79,7 +86,7 @@ public class PlayerListener implements Listener {
             } else {
                 location = event.getHitBlock().getLocation();
             }
-            caster.cast(new Context(context.getPlayer(), location, event.getHitBlock(), event.getHitEntity()));
+            caster.cast(new Context(context.getPlayer(), location, event.getHitBlock(), event.getHitEntity()),WizardSpell.getMechanic().getWandBoost());
         }
     }
 
@@ -93,10 +100,10 @@ public class PlayerListener implements Listener {
         if (WizardMechanic.getTransition() != null) {
             Bukkit.broadcastMessage("wrong block");
             WizardCaster caster = new WizardCaster(WizardMechanic.getTransition());
-            caster.cast(new Context(WizardMechanic.getContext().getPlayer(), WizardMechanic.getContext().getHitLocation()));
+            caster.cast(new Context(WizardMechanic.getContext().getPlayer(), WizardMechanic.getContext().getHitLocation()),WizardMechanic.getWandBoost());
         }
         if(event.getMechanic().getMechanicSettings().isPersistent()) {
-            Ollivanders.getPersistentSpellManager().add(event.getSpell(),new Context(WizardMechanic.getContext().getPlayer(), WizardMechanic.getContext().getHitLocation()));
+            Ollivanders.getPersistentSpellManager().add(event.getSpell(),new Context(WizardMechanic.getContext().getPlayer(), WizardMechanic.getContext().getHitLocation()),WizardMechanic.getWandBoost());
         }
     }
 
@@ -116,7 +123,7 @@ public class PlayerListener implements Listener {
         if(WizardMechanic.getTransition() != null) {
             WizardCaster caster = new WizardCaster(WizardMechanic.getTransition());
             Player player = WizardMechanic.getContext().getPlayer();
-            caster.cast(new Context(player,player.getLocation()));
+            caster.cast(new Context(player,player.getLocation()),WizardMechanic.getWandBoost());
         }
     }
     //@EventHandler
@@ -127,7 +134,7 @@ public class PlayerListener implements Listener {
         }
         if (WizardMechanic.getTransition() != null) {
             WizardCaster caster = new WizardCaster(WizardMechanic.getTransition());
-            caster.cast(new Context(WizardMechanic.getContext().getPlayer(), WizardMechanic.getContext().getHitLocation()));
+            caster.cast(new Context(WizardMechanic.getContext().getPlayer(), WizardMechanic.getContext().getHitLocation()),WizardMechanic.getWandBoost());
         }
     }
 

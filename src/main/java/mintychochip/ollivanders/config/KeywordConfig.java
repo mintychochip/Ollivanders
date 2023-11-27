@@ -9,7 +9,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import java.util.HashMap;
 import java.util.Map;
 
-public class KeywordConfig { //will add mechanics config,cost,cooldown, and projectile alias
+public class KeywordConfig { //will add mechanics config,cost,haste, and projectile alias
     //can add numerical, probably want to rename it though
     private final ConfigReader c;
 

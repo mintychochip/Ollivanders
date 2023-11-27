@@ -1,18 +1,18 @@
 package mintychochip.ollivanders.shape.implementation;
 
+import mintychochip.ollivanders.betterwand.WandBoost;
 import mintychochip.ollivanders.container.WizardMechanic;
 import mintychochip.ollivanders.shape.WizardAoe;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class AoeImplementation extends Implementation implements WizardAoe {
     //probably want a method to collect entities within the range of the mechanic
 
-    public AoeImplementation(WizardMechanic mechanic) {
-        super(mechanic);
+    public AoeImplementation(WizardMechanic mechanic, WandBoost wandBoost) {
+        super(wandBoost, mechanic);
     }
 
     @Override

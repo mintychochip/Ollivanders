@@ -12,7 +12,7 @@ import java.util.List;
 public class Ablaze extends WizardMechanic implements WizardAoe, WizardSelf {
     @Override
     public boolean castAoe() {
-        List<Entity> nearbyEntities = ((AoeImplementation) getImplementation()).getNearbyEntities();
+        List<Entity> nearbyEntities = getImplementation().getNearbyEntities();
         if (nearbyEntities == null) {
             return false;
         }

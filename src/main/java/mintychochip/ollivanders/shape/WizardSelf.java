@@ -2,7 +2,7 @@ package mintychochip.ollivanders.shape;
 
 public interface WizardSelf {
 
-    public boolean castSelf();
+    boolean castSelf();
 
-    public void applyParticleSelf();
+    void applyParticleSelf();
 }

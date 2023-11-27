@@ -4,6 +4,6 @@ public enum WandModifier {
     POWER,
     RANGE,
     COST,
-    COOLDOWN,
+    HASTE,
     DURATION
 }

@@ -11,7 +11,7 @@ import java.util.List;
 
 public class CommandManager implements CommandExecutor {
 
-    private List<SubCommand> subCommandList = new ArrayList<>();
+    private final List<SubCommand> subCommandList = new ArrayList<>();
 
     public CommandManager() {
         subCommandList.add(new WandCommand());

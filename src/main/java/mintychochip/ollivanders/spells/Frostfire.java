@@ -7,8 +7,7 @@ import mintychochip.ollivanders.shape.implementation.ProjectileImplementation;
 public class Frostfire extends WizardMechanic implements WizardProjectile {
     @Override
     public int castProjectile() {
-        ProjectileImplementation implementation = new ProjectileImplementation(this);
-        return implementation.castProjectile();
+        return 0;
     }
 
     @Override

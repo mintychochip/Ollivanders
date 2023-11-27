@@ -40,7 +40,7 @@ public class WandCommand extends SubCommand {
         lore.add(ChatColor.RED + "Because Taco gonna nut in your butt!!!");
         lore.add(ChatColor.GREEN + "He is gonna bend you over like a mutt");
         lore.add(ChatColor.BLUE + "GG");
-        ItemStack build = new WandBuilder(materials).addAllBoosts().addName("This the nut I NEED").addLore(lore).build();
+        ItemStack build = new WandBuilder(materials).addAllBoosts().addName(ChatColor.BOLD + "This the nut I NEED").addLore(null).setCustomModelData(1).setUnstackable().build();
         player.getInventory().addItem(build);
     }
 }

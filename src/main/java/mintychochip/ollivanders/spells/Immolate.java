@@ -10,11 +10,11 @@ import org.bukkit.entity.Entity;
 public class Immolate extends WizardMechanic implements WizardSelf, WizardAoe {
     @Override
     public boolean castAoe() {
-        Location castLocation = ((AoeImplementation) getImplementation()).getCastLocation();
+        Location castLocation = getImplementation().getCastLocation();
         if (castLocation.getWorld() == null) {
             return false;
         }
-        for (Entity nearbyEntity : ((AoeImplementation) getImplementation()).getNearbyEntities()) {
+        for (Entity nearbyEntity : getImplementation().getNearbyEntities()) {
             nearbyEntity.setFireTicks(mechanicSettings.getDuration());
         }
         return true;

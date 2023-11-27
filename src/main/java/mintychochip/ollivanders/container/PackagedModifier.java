@@ -2,8 +2,8 @@ package mintychochip.ollivanders.container;
 
 public class PackagedModifier {
 
-    private Modifier type;
-    private String value;
+    private final Modifier type;
+    private final String value;
 
     public PackagedModifier(Modifier type) {
         this(type,null);

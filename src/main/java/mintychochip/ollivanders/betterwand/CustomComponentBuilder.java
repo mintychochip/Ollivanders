@@ -11,7 +11,7 @@ import java.io.IOException;
 
 public class CustomComponentBuilder {
 
-    private ItemStack itemStack;
+    private final ItemStack itemStack;
 
     public CustomComponentBuilder(Material material) {
         itemStack = new ItemStack(material);

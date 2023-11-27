@@ -15,7 +15,7 @@ public class MechanicConfig {
         RANGE,
         DURATION,
         COST,
-        COOLDOWN,
+        haste,
         DAMAGE,
 
         PERSISTENT,
@@ -39,7 +39,7 @@ public class MechanicConfig {
                 switch (MechanicSettings.valueOf(key.toUpperCase())) {
                     case COST -> WizardMechanicSettings.setCost(configurationSection.getInt(key));
                     case RANGE -> WizardMechanicSettings.setRange(configurationSection.getInt(key));
-                    case COOLDOWN -> WizardMechanicSettings.setCooldown(configurationSection.getDouble(key));
+                    case haste -> WizardMechanicSettings.sethaste(configurationSection.getDouble(key));
                     case DURATION -> WizardMechanicSettings.setDuration(configurationSection.getInt(key));
                     case KEYWORDS -> WizardMechanicSettings.setKeywords(configurationSection.getStringList(key));
                     case DAMAGE -> WizardMechanicSettings.setDamage(configurationSection.getInt(key));
@@ -54,7 +54,7 @@ public class MechanicConfig {
     public WizardMechanic getMechanic(String mechanic) {
         try {
             Class<?> clazz = Class.forName("mintychochip.ollivanders.spells." + mechanic);
-            Constructor<?> constructor = clazz.getConstructor(new Class[]{});
+            Constructor<?> constructor = clazz.getConstructor();
             Object o = constructor.newInstance();
             if(o instanceof WizardMechanic) {
                 return (WizardMechanic) o;

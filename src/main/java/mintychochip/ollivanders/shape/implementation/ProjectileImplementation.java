@@ -1,5 +1,6 @@
 package mintychochip.ollivanders.shape.implementation;
 
+import mintychochip.ollivanders.betterwand.WandBoost;
 import mintychochip.ollivanders.container.WizardMechanic;
 import mintychochip.ollivanders.registry.WizardRegistry;
 import mintychochip.ollivanders.shape.WizardProjectile;
@@ -11,8 +12,8 @@ public class ProjectileImplementation extends Implementation implements WizardPr
     private Projectile spawnedProjectile;
     private EntityType type;
 
-    public ProjectileImplementation(WizardMechanic mechanic) {
-        super(mechanic);
+    public ProjectileImplementation(WizardMechanic mechanic, WandBoost wandBoost) {
+        super(wandBoost, mechanic);
         String name = mechanic.getName();
         if(name != null) {
             type = WizardRegistry.getProjectileAlias().get(name);

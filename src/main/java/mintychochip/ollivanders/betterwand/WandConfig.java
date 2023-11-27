@@ -8,7 +8,7 @@ import org.bukkit.configuration.ConfigurationSection;
 public class WandConfig {
 
 
-    private ConfigReader c;
+    private final ConfigReader c;
 
     public WandConfig(String file) {
         c = new ConfigReader(file);
@@ -34,7 +34,7 @@ public class WandConfig {
                     case COST -> wandBoost.setCost(wandBoost.getCost() + modifiers.getDouble(key));
                     case DURATION -> wandBoost.setDuration(wandBoost.getDuration() + modifiers.getDouble(key));
                     case POWER -> wandBoost.setPower(wandBoost.getPower() + modifiers.getDouble(key));
-                    case COOLDOWN -> wandBoost.setCooldown(wandBoost.getCooldown() + modifiers.getDouble(key));
+                    case HASTE -> wandBoost.setHaste(wandBoost.getHaste() + modifiers.getDouble(key));
                 }
             }
         }

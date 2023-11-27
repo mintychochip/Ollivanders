@@ -1,6 +1,7 @@
 package mintychochip.ollivanders.shape.implementation;
 
 import mintychochip.ollivanders.Ollivanders;
+import mintychochip.ollivanders.betterwand.WandBoost;
 import mintychochip.ollivanders.container.WizardMechanic;
 import mintychochip.ollivanders.shape.WizardLaser;
 import org.bukkit.*;
@@ -13,8 +14,8 @@ public class LaserImplementation extends Implementation implements WizardLaser {
 
 
 
-    public LaserImplementation(WizardMechanic mechanic) {
-        super(mechanic);
+    public LaserImplementation(WizardMechanic mechanic, WandBoost wandBoost) {
+        super(wandBoost, mechanic);
     }
 
     @Override
@@ -31,7 +32,7 @@ public class LaserImplementation extends Implementation implements WizardLaser {
         Location lastLocation = player.getEyeLocation();
         new BukkitRunnable() {
             double circlePointOffset = 0;
-            float radius = 1f;
+            final float radius = 1f;
             Location lastLocation = player.getEyeLocation();
             @Override
             public void run() {

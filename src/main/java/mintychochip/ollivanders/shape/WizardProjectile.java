@@ -1,9 +1,9 @@
 package mintychochip.ollivanders.shape;
 public interface WizardProjectile {
 
-    public int castProjectile();
+    int castProjectile();
 
-    public void effect();
+    void effect();
 
-    public void applyParticleProjectile();
+    void applyParticleProjectile();
 }

@@ -13,7 +13,7 @@ import java.util.Map;
 
 public class BetterSpellTokenizer {
 
-    private Map<String,Keyword> tokenizedSpell = new HashMap<>();
+    private final Map<String,Keyword> tokenizedSpell = new HashMap<>();
 
     public void setTokenizedSpell(String spell) throws IOException {
         if(spell == null) {

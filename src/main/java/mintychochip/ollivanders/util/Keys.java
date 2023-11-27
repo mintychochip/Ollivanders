@@ -7,11 +7,13 @@ import javax.naming.Name;
 
 public class Keys {
 
-    private static NamespacedKey boost = new NamespacedKey(Ollivanders.getInstance(),"boost");
+    private static final NamespacedKey boost = new NamespacedKey(Ollivanders.getInstance(),"boost");
 
-    private static NamespacedKey wand = new NamespacedKey(Ollivanders.getInstance(), "wand");
+    private static final NamespacedKey wand = new NamespacedKey(Ollivanders.getInstance(), "wand");
 
-    private static NamespacedKey core = new NamespacedKey(Ollivanders.getInstance(), "core");
+    private static final NamespacedKey core = new NamespacedKey(Ollivanders.getInstance(), "core");
+
+    private static final NamespacedKey unstackable = new NamespacedKey(Ollivanders.getInstance(),"unstackable");
     public static NamespacedKey getBoost() {
         return boost;
     }
@@ -22,5 +24,9 @@ public class Keys {
 
     public static NamespacedKey getCore() {
         return core;
+    }
+
+    public static NamespacedKey getUnstackable() {
+        return unstackable;
     }
 }

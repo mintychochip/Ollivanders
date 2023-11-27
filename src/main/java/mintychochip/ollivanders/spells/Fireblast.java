@@ -14,8 +14,8 @@ import java.util.List;
 public class Fireblast extends WizardMechanic implements WizardSelf, WizardAoe {
     @Override
     public boolean castAoe() {
-        Location castLocation = ((AoeImplementation) getImplementation()).getCastLocation();
-        List<Entity> nearbyEntities = ((AoeImplementation) getImplementation()).getNearbyEntities();
+        Location castLocation = getImplementation().getCastLocation();
+        List<Entity> nearbyEntities = getImplementation().getNearbyEntities();
         for (Entity nearbyEntity : nearbyEntities) {
             int fireTicks = nearbyEntity.getFireTicks();
             if(fireTicks > 0) {

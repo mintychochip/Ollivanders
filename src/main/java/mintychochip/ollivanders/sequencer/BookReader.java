@@ -14,7 +14,7 @@ public class BookReader { //avoid creating more instances of objects we do not n
 
     private BookMeta bookMeta;
 
-    private Map<Integer,String> content = new HashMap<>();
+    private final Map<Integer,String> content = new HashMap<>();
 
     public BookReader setBookMeta(BookMeta bookMeta) throws IOException {
         content.clear();

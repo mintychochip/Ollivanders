@@ -13,11 +13,11 @@ import java.util.List;
 public class Switch extends WizardMechanic implements WizardAoe {
     @Override
     public boolean castAoe() {
-        Location castLocation = ((AoeImplementation) getImplementation()).getCastLocation();
+        Location castLocation = getImplementation().getCastLocation();
         if(castLocation == null) {
             return false;
         }
-        List<Entity> nearbyEntities = ((AoeImplementation) getImplementation()).getNearbyEntities();
+        List<Entity> nearbyEntities = getImplementation().getNearbyEntities();
         Location location = context.getPlayer().getLocation();
         for (Entity nearbyEntity : nearbyEntities) {
             if(nearbyEntity instanceof LivingEntity entity) {

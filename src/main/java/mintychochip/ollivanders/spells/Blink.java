@@ -13,7 +13,7 @@ public class Blink extends WizardMechanic implements WizardSelf {
     @Override
     public boolean castSelf() {
         Player player = getContext().getPlayer();
-        Block targetBlockExact = player.getTargetBlockExact(range);
+        Block targetBlockExact = player.getTargetBlockExact((int) (range * wandBoost.getRange()));
         if (targetBlockExact == null) {
             return false;
         }
