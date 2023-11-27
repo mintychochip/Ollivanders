@@ -5,11 +5,8 @@ import mintychochip.ollivanders.betterwand.WandBoost;
 import mintychochip.ollivanders.container.Context;
 import mintychochip.ollivanders.container.WizardSpell;
 import mintychochip.ollivanders.spellcaster.WizardCaster;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
-
-import java.util.Date;
 
 public class Diagnostics {
     int step = 0;

@@ -9,7 +9,7 @@ import java.util.Map;
 public class ComponentRegistry {
 
     private static final Map<Material, ComponentType> materialComponentType = new HashMap<>();
-    private static final Map<Material,WandBoost> materialBoostMap = new HashMap<>();
+    private static final Map<Material, WandBoost> materialBoostMap = new HashMap<>();
 
     public ComponentRegistry() {
         Ollivanders.getWandConfig().registerMaterials();

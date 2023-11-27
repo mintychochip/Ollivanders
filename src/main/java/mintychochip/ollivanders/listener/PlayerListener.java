@@ -1,9 +1,7 @@
 package mintychochip.ollivanders.listener;
 
 import mintychochip.ollivanders.Ollivanders;
-import mintychochip.ollivanders.betterwand.ComponentRegistry;
 import mintychochip.ollivanders.betterwand.WandBoost;
-import mintychochip.ollivanders.betterwand.WandConfig;
 import mintychochip.ollivanders.container.Context;
 import mintychochip.ollivanders.container.WizardBook;
 import mintychochip.ollivanders.container.WizardMechanic;
@@ -33,7 +31,6 @@ import org.bukkit.inventory.meta.BookMeta;
 import org.bukkit.persistence.PersistentDataType;
 
 import java.io.IOException;
-import java.util.Map;
 
 public class PlayerListener implements Listener {
 

@@ -7,9 +7,13 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class CommandManager implements CommandExecutor {
+
+    private Map<String,SubCommand> commandMap = new HashMap<>();
 
     private final List<SubCommand> subCommandList = new ArrayList<>();
 

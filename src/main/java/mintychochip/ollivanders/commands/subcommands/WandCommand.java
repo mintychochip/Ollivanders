@@ -1,6 +1,6 @@
 package mintychochip.ollivanders.commands.subcommands;
 
-import mintychochip.ollivanders.betterwand.WandBuilder;
+import mintychochip.ollivanders.betterwand.builder.WandBuilder;
 import mintychochip.ollivanders.commands.SubCommand;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -36,11 +36,7 @@ public class WandCommand extends SubCommand {
         materials.add(new ItemStack(Material.AMETHYST_SHARD));
         materials.add(new ItemStack(Material.QUARTZ));
         List<String> lore = new ArrayList<>();
-        lore.add(ChatColor.WHITE + "Beware of the busters of nuts");
-        lore.add(ChatColor.RED + "Because Taco gonna nut in your butt!!!");
-        lore.add(ChatColor.GREEN + "He is gonna bend you over like a mutt");
-        lore.add(ChatColor.BLUE + "GG");
-        ItemStack build = new WandBuilder(materials).addAllBoosts().addName(ChatColor.BOLD + "This the nut I NEED").addLore(null).setCustomModelData(1).setUnstackable().build();
+        ItemStack build = new WandBuilder(materials,Material.BLAZE_ROD).addAllBoosts().setDisplayName(ChatColor.BOLD + "This the nut I NEED").addLore(null).setCustomModelData(1).setUnstackable().build();
         player.getInventory().addItem(build);
     }
 }

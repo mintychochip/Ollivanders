@@ -1,12 +1,10 @@
 package mintychochip.ollivanders.betterwand;
 
 import mintychochip.ollivanders.util.ConfigReader;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 
 public class WandConfig {
-
 
     private final ConfigReader c;
 
@@ -28,8 +26,7 @@ public class WandConfig {
         ConfigurationSection modifiers = configurationSection.getConfigurationSection("modifiers");
         if(modifiers != null) {
             for (String key : modifiers.getKeys(false)) {
-                WandModifier wandModifier = WandModifier.valueOf(key.toUpperCase());
-                switch (wandModifier) {
+                switch (getWandModifier(key)) {
                     case RANGE -> wandBoost.setRange(wandBoost.getRange() + modifiers.getDouble(key));
                     case COST -> wandBoost.setCost(wandBoost.getCost() + modifiers.getDouble(key));
                     case DURATION -> wandBoost.setDuration(wandBoost.getDuration() + modifiers.getDouble(key));
@@ -41,5 +38,16 @@ public class WandConfig {
         String component = configurationSection.getString("type");
         ComponentRegistry.getMaterialComponentType().put(material,ComponentType.valueOf(component.toUpperCase().strip()));
         ComponentRegistry.getMaterialBoostMap().put(material,wandBoost);
+    }
+    public ConfigurationSection getConfigurationSection(String path) {
+        return c.getConfigurationSection(path);
+    }
+
+    public WandModifier getWandModifier(String key) {
+        return WandModifier.valueOf(key.toUpperCase());
+    }
+
+    public ConfigReader getC() {
+        return c;
     }
 }

@@ -1,3 +1,7 @@
+core:
+  heart-of-the-sea:
+    name: 'Heart of the Sea'
+    effect-name: HeartOfTheSea
 materials:
   STICK:
     type: STICK
@@ -22,6 +26,9 @@ materials:
     type: CORE
   AMETHYST_SHARD:
     type: BINDING
+  HEART_OF_THE_SEA:
+    type: CORE
+    core:
 
 custom-items:
   phoenix-feather:

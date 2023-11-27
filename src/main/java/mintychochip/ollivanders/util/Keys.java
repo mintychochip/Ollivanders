@@ -11,7 +11,7 @@ public class Keys {
 
     private static final NamespacedKey wand = new NamespacedKey(Ollivanders.getInstance(), "wand");
 
-    private static final NamespacedKey core = new NamespacedKey(Ollivanders.getInstance(), "core");
+    private static final NamespacedKey core = new NamespacedKey(Ollivanders.getInstance(), "type");
 
     private static final NamespacedKey unstackable = new NamespacedKey(Ollivanders.getInstance(),"unstackable");
     public static NamespacedKey getBoost() {

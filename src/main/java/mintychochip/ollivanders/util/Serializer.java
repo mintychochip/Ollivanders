@@ -21,9 +21,7 @@ public class Serializer {
             ByteArrayInputStream bis = new ByteArrayInputStream(boost);
             ObjectInputStream ois = new ObjectInputStream(bis);
             return (WandBoost) ois.readObject();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } catch (ClassNotFoundException e) {
+        } catch (IOException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
     }

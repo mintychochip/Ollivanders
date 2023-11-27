@@ -1,8 +1,10 @@
-package mintychochip.ollivanders.betterwand;
+package mintychochip.ollivanders.betterwand.builder;
 
+import mintychochip.ollivanders.betterwand.ComponentRegistry;
+import mintychochip.ollivanders.betterwand.ComponentType;
+import mintychochip.ollivanders.betterwand.WandBoost;
 import mintychochip.ollivanders.util.Keys;
 import mintychochip.ollivanders.util.Serializer;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -11,42 +13,23 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-public class WandBuilder {
-
-    private final ItemStack itemStack = new ItemStack(Material.BLAZE_ROD);
+public class WandBuilder extends ItemBuilder {
 
     private final WandBoost wandBoost = new WandBoost();
 
     private final Map<ItemStack, ComponentType> mappedComponents = new HashMap<>();
 
-    public WandBuilder(List<ItemStack> materials) {
-        for (ItemStack material : materials) {
-            ComponentType componentType = ComponentRegistry.getMaterialComponentType().get(material.getType());
-            mappedComponents.put(material, componentType);
+    public WandBuilder(List<ItemStack> materials, Material material) {
+        super(material);
+        for (ItemStack itemStack : materials) {
+            ComponentType componentType = ComponentRegistry.getMaterialComponentType().get(itemStack.getType());
+            mappedComponents.put(itemStack, componentType);
         }
-        for (ItemStack stack : mappedComponents.keySet()) {
-            if (mappedComponents.get(stack) == ComponentType.CORE) {
-                itemStack.getItemMeta().getPersistentDataContainer().set(Keys.getCore(), PersistentDataType.STRING, stack.getType().toString());
-            }
-        }
-
-    }
-
-    public WandBuilder setUnstackable() {
-        Random random = new Random();
-        ItemMeta itemMeta = itemStack.getItemMeta();
-        String string = Long.toString(random.nextLong());
-        itemMeta.getPersistentDataContainer().set(Keys.getUnstackable(),PersistentDataType.STRING,string);
-        itemStack.setItemMeta(itemMeta);
-        return this;
-    }
-    public WandBuilder setCustomModelData(int modelData) {
-        ItemMeta itemMeta = itemStack.getItemMeta();
-        itemMeta.setCustomModelData(modelData);
-        itemStack.setItemMeta(itemMeta);
-        return this;
     }
     public void addBoost(WandBoost wandBoost) {
         this.wandBoost.addAll(wandBoost);
@@ -82,13 +65,6 @@ public class WandBuilder {
         }
     }
 
-    public WandBuilder addName(String name) {
-        ItemMeta itemMeta = itemStack.getItemMeta();
-        itemMeta.setDisplayName(ChatColor.WHITE + name);
-        itemStack.setItemMeta(itemMeta);
-        return this;
-    }
-
     public WandBuilder addAllBoosts() {
         for (ItemStack stack : mappedComponents.keySet()) {
             addBoost(stack);
@@ -102,9 +78,5 @@ public class WandBuilder {
             throw new RuntimeException(e);
         }
         return this;
-    }
-
-    public ItemStack build() {
-        return itemStack;
     }
 }

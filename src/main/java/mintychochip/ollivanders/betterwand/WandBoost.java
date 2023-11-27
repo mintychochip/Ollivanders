@@ -1,14 +1,13 @@
 package mintychochip.ollivanders.betterwand;
 
 import org.bukkit.Material;
-import org.bukkit.entity.Trident;
 import org.bukkit.inventory.ItemStack;
 
 import java.io.Serializable;
 
 public class WandBoost implements Serializable {
 
-    private final long serialVersionUID = 120594823L;
+    private static final long serialVersionUID = 120594823L;
     private double range;
     private double power;
     private double haste;

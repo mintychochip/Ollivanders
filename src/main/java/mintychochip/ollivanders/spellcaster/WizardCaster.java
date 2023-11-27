@@ -20,8 +20,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.awt.*;
-
 public class WizardCaster {
 
     private final WizardSpell spell;

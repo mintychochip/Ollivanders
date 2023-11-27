@@ -7,12 +7,10 @@ import mintychochip.ollivanders.container.WizardSpell;
 import mintychochip.ollivanders.spellcaster.WizardCaster;
 import mintychochip.ollivanders.util.ActionBarUtil;
 import mintychochip.ollivanders.util.ActionBarUtil.ProgressBar;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
-import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 
