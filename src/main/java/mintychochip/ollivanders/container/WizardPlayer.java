@@ -5,9 +5,4 @@ import java.util.List;
 
 public class WizardPlayer {
 
-    List<WizardBook> readBooks = new ArrayList<>();
-
-    public void addReadBooks() {
-
-    }
 }

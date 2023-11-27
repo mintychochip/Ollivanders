@@ -1,5 +1,7 @@
 package mintychochip.ollivanders;
 
+import mintychochip.ollivanders.betterwand.WandConfig;
+import mintychochip.ollivanders.commands.CommandManager;
 import mintychochip.ollivanders.config.KeywordConfig;
 import mintychochip.ollivanders.config.MechanicConfig;
 import mintychochip.ollivanders.handler.PersistentSpellManager;
@@ -17,6 +19,7 @@ public final class Ollivanders extends JavaPlugin {
 
     private static KeywordConfig keywordConfig;
     private static MechanicConfig mechanicConfig;
+    private static WandConfig wandConfig;
     private static BetterSpellSequencer sequencer;
     private static BetterSpellTokenizer tokenizer;
     private static Ollivanders instance;
@@ -36,6 +39,10 @@ public final class Ollivanders extends JavaPlugin {
         return instance;
     }
 
+    public static WandConfig getWandConfig() {
+        return wandConfig;
+    }
+
     @Override
     public void onDisable() {
         // Plugin shutdown logic
@@ -48,12 +55,14 @@ public final class Ollivanders extends JavaPlugin {
         Bukkit.getServer().getPluginManager().registerEvents(new PlayerListener(),this);
         keywordConfig = new KeywordConfig("keywords.yml");
         mechanicConfig = new MechanicConfig("spells.yml");
+        wandConfig = new WandConfig("components.yml");
         MechanicRegistry mechanicRegistry = new MechanicRegistry();
         WizardRegistry registry = new WizardRegistry();
         tokenizer = new BetterSpellTokenizer();
         sequencer = new BetterSpellSequencer();
         reader = new BookReader();
         persistentSpellManager = new PersistentSpellManager();
+        getCommand("wand").setExecutor(new CommandManager());
     }
 
     public static BookReader getReader() {

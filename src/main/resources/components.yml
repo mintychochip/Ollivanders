@@ -1,0 +1,43 @@
+materials:
+  STICK:
+    type: STICK
+    modifiers:
+      POWER: .1
+      RANGE: .5
+  LIGHTNING_ROD:
+    type: STICK
+  END_ROD:
+    type: STICK
+  BLAZE_ROD:
+    type: STICK
+  BONE:
+    type: STICK
+  QUARTZ:
+    type: LENS
+  END_CRYSTAL:
+    type: CRYSTAL
+  EMERALD:
+    type: CRYSTAL
+  NETHER_STAR:
+    type: CORE
+  AMETHYST_SHARD:
+    type: BINDING
+
+custom-items:
+  phoenix-feather:
+    name: 'Phoenix Feather'
+    material: FEATHER
+    type: CORE
+    lore:
+      - asdasdsd
+      - asdasdasdasd
+      - asdasdasdsd
+    core: PHOENIX_FEATHER
+  opaque-lens:
+    name: 'Opaque Lens'
+    material: GRAY_STAINED_GLASS_PANE
+    type: LENS
+    lore:
+    modifiers:
+      - POWER: .1
+      - RANGE: .5

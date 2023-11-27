@@ -1,6 +1,9 @@
 package mintychochip.ollivanders.listener;
 
 import mintychochip.ollivanders.Ollivanders;
+import mintychochip.ollivanders.betterwand.ComponentRegistry;
+import mintychochip.ollivanders.betterwand.WandBoost;
+import mintychochip.ollivanders.betterwand.WandConfig;
 import mintychochip.ollivanders.container.Context;
 import mintychochip.ollivanders.container.WizardBook;
 import mintychochip.ollivanders.container.WizardMechanic;
@@ -8,11 +11,10 @@ import mintychochip.ollivanders.container.WizardSpell;
 import mintychochip.ollivanders.events.AoeCastEvent;
 import mintychochip.ollivanders.events.LaserCastEvent;
 import mintychochip.ollivanders.events.SelfCastEvent;
-import mintychochip.ollivanders.handler.PersistentSpellManager;
 import mintychochip.ollivanders.handler.ProjectileHandler;
-import mintychochip.ollivanders.sequencer.BookReader;
 import mintychochip.ollivanders.spellcaster.WizardCaster;
-import mintychochip.ollivanders.util.Diagnostics;
+import mintychochip.ollivanders.util.Keys;
+import mintychochip.ollivanders.util.Serializer;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -28,18 +30,22 @@ import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.BookMeta;
+import org.bukkit.persistence.PersistentDataType;
+
+import java.io.IOException;
+import java.util.Map;
 
 public class PlayerListener implements Listener {
 
     int count = 0;
     @EventHandler
-    public void playerInteract(PlayerInteractEvent event) {
+    public void playerInteract(final PlayerInteractEvent event) {
         PlayerInventory playerInventory = event.getPlayer().getInventory();
 
         if (playerInventory.getItemInMainHand().getType() != Material.BLAZE_ROD) {
             return;
         }
-        if (event.getHand().equals(EquipmentSlot.HAND) && event.getAction() == Action.LEFT_CLICK_AIR) {
+        if (event.getHand().equals(EquipmentSlot.HAND) && event.getAction() == Action.LEFT_CLICK_AIR && event.getPlayer().getInventory().getItemInMainHand().getItemMeta().getPersistentDataContainer().has(Keys.getBoost(),PersistentDataType.BYTE_ARRAY)) {
             ItemStack itemInOffHand = playerInventory.getItemInOffHand();
             if (itemInOffHand.getType() == Material.WRITABLE_BOOK && itemInOffHand.getItemMeta() instanceof BookMeta bookMeta) {
 
@@ -52,6 +58,7 @@ public class PlayerListener implements Listener {
                 if(spell.getMechanic().getMechanicSettings().isPersistent()) {
                     Ollivanders.getPersistentSpellManager().add(spell,context);
                 }
+
             }
         }
     }
@@ -97,7 +104,7 @@ public class PlayerListener implements Listener {
     public void onPlayerShiftTest(PlayerToggleSneakEvent event) {
         boolean sneaking = event.getPlayer().isSneaking();
 
-            event.getPlayer().getLocation().getWorld().spawnParticle(Particle.ELECTRIC_SPARK,event.getPlayer().getLocation(),50);
+        event.getPlayer().getLocation().getWorld().spawnParticle(Particle.ELECTRIC_SPARK,event.getPlayer().getLocation(),50);
     }
 
     @EventHandler
