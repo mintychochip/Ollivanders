@@ -4,7 +4,7 @@ import mintychochip.ollivanders.Ollivanders;
 import mintychochip.ollivanders.betterwand.ComponentType;
 import mintychochip.ollivanders.betterwand.WandBoost;
 import mintychochip.ollivanders.betterwand.WandConfig;
-import mintychochip.ollivanders.betterwand.container.WizardWandData;
+import mintychochip.ollivanders.betterwand.container.ComponentData;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.ItemStack;
@@ -14,23 +14,23 @@ import java.io.IOException;
 public class CustomComponentBuilder extends ItemBuilder {
 
     private final WandConfig wandConfig;
-    private final WizardWandData wizardWandData;
+    private final ComponentData componentData;
     private final String mainPath;
 
     public CustomComponentBuilder(Material material, String itemPath) {
         super(material);
         this.mainPath = "custom-items." + itemPath;
         wandConfig = Ollivanders.getWandConfig();
-        wizardWandData = new WizardWandData();
+        componentData = new ComponentData();
     }
 
     public CustomComponentBuilder getComponentType() {
-        wizardWandData.setType(getComponent());
+        componentData.setType(getComponent());
         return this;
     }
 
     public CustomComponentBuilder setComponentType(ComponentType type) {
-        wizardWandData.setType(type);
+        componentData.setType(type);
         return this;
     }
 
@@ -52,18 +52,18 @@ public class CustomComponentBuilder extends ItemBuilder {
                 case DURATION -> wandBoost.addDuration(configurationSection.getDouble(key));
             }
         }
-        wizardWandData.setWandBoost(wandBoost);
+        componentData.setWandBoost(wandBoost);
         return this;
     }
 
     public CustomComponentBuilder getDisplayName() {
         String string = wandConfig.getConfigurationSection(mainPath).getString("name");
-        wizardWandData.setName(string);
+        componentData.setName(string);
         return this;
     }
 
     public CustomComponentBuilder setDisplayName(String name) {
-        wizardWandData.setName(name);
+        componentData.setName(name);
         return this;
     }
 
@@ -76,7 +76,7 @@ public class CustomComponentBuilder extends ItemBuilder {
     }
 
     public boolean isCore() {
-        return wizardWandData.getType() == ComponentType.CORE || getComponent() == ComponentType.CORE;
+        return componentData.getType() == ComponentType.CORE || getComponent() == ComponentType.CORE;
     }
     public ItemStack build() {
         return itemStack;

@@ -13,14 +13,14 @@ public class WandConfig {
         registerMaterials();
     }
 
-    public void registerMaterials() {
+    public void registerMaterials() { //this one too
         ConfigurationSection configurationSection = c.getConfigurationSection("materials");
         for (String key : configurationSection.getKeys(false)) {
             registerMaterial(Material.valueOf(key));
         }
     }
 
-    public void registerMaterial(Material material) {
+    public void registerMaterial(Material material) { //move these methods to the registry
         WandBoost wandBoost = new WandBoost();
         ConfigurationSection configurationSection = c.getConfigurationSection("materials." + material.toString());
         ConfigurationSection modifiers = configurationSection.getConfigurationSection("modifiers");

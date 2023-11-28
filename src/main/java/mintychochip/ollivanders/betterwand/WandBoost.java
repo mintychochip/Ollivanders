@@ -15,7 +15,6 @@ public class WandBoost implements Serializable {
     private double duration;
 
     public WandBoost addRange(double v) {
-        ItemStack itemStack = new ItemStack(Material.SPYGLASS);
         range += v;
         return this;
     }

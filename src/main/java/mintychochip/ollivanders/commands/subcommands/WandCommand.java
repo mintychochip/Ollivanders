@@ -36,7 +36,13 @@ public class WandCommand extends SubCommand {
         materials.add(new ItemStack(Material.AMETHYST_SHARD));
         materials.add(new ItemStack(Material.QUARTZ));
         List<String> lore = new ArrayList<>();
-        ItemStack build = new WandBuilder(materials,Material.BLAZE_ROD).addAllBoosts().setDisplayName(ChatColor.BOLD + "This the nut I NEED").addLore(null).setCustomModelData(1).setUnstackable().build();
-        player.getInventory().addItem(build);
+        ItemStack hello = new WandBuilder(materials, Material.BLAZE_ROD)
+                .addLore(lore)
+                .addAllBoosts()
+                .setDisplayName("Hello")
+                .setUnstackable()
+                .setCustomModelData(1)
+                .build();
+        player.getInventory().addItem(hello);
     }
 }

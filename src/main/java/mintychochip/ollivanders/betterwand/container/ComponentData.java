@@ -6,7 +6,7 @@ import org.bukkit.Material;
 
 import java.io.Serializable;
 
-public class WizardWandData implements Serializable { //holds all wand related objects
+public class ComponentData implements Serializable { //holds all wand related objects
     private static final long serialVersionUID = 120594823L;
 
     private ComponentType type;

@@ -26,8 +26,5 @@ public class ComponentCommand extends SubCommand {
         if(args.length < 3) {
             return;
         }
-        Material material = Material.valueOf(args[1].toUpperCase());
-        String itemPath = args[2];
-        CustomComponentBuilder customComponentBuilder = new CustomComponentBuilder(material, itemPath);
     }
 }
