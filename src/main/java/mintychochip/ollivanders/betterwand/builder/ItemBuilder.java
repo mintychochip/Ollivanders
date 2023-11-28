@@ -13,16 +13,19 @@ import java.util.Random;
 public class ItemBuilder { //to be moved to the library plugin for later
     //pull the unstackable key from the library plugin aswell dont forget
 
-    protected final ItemStack itemStack;
+    protected ItemStack itemStack;
 
     protected ItemMeta itemMeta;
 
     protected List<String> lore;
 
     public ItemBuilder(Material material) {
-        itemStack = new ItemStack(material);
-        itemMeta = itemStack.getItemMeta();
+        if(material != null) {
+            itemStack = new ItemStack(material);
+            itemMeta = itemStack.getItemMeta();
+        }
     }
+
 
     public ItemBuilder setDisplayName(String displayName) {
         itemMeta.setDisplayName(displayName);

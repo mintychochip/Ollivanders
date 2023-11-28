@@ -25,9 +25,22 @@ public class CustomComponentBuilder extends ItemBuilder {
 
     public CustomComponentBuilder(Material material, String itemPath) {
         super(material);
+
         this.mainPath = "custom-items." + itemPath;
         wandConfig = Ollivanders.getWandConfig();
         componentData = new ComponentData();
+        if (material == null) {
+            String string = wandConfig.getConfigurationSection(mainPath).getString("material");
+            if (string != null) {
+                Material configMaterial = Material.valueOf(string.toUpperCase());
+                itemStack = new ItemStack(configMaterial);
+            }
+        }
+    }
+
+    public CustomComponentBuilder setMaterial(Material material) {
+        componentData.setMaterial(material);
+        return this;
     }
 
     public ItemStack defaultCoreBuild() {
@@ -43,6 +56,7 @@ public class CustomComponentBuilder extends ItemBuilder {
             throw new RuntimeException(e);
         }
     }
+
     public ItemStack defaultBuild() {
         try {
             return this.getComponentType()
@@ -70,6 +84,7 @@ public class CustomComponentBuilder extends ItemBuilder {
         ComponentType componentType = ComponentType.valueOf(string != null ? string.toUpperCase() : null);
         return componentType;
     }
+
     public CustomComponentBuilder getTitle() {
         String string = wandConfig.getConfigurationSection(mainPath).getString("title");
         Bukkit.broadcastMessage(string);
@@ -80,7 +95,7 @@ public class CustomComponentBuilder extends ItemBuilder {
     public CustomComponentBuilder getWandBoost() {
         WandBoost wandBoost = new WandBoost();
         ConfigurationSection configurationSection = wandConfig.getConfigurationSection(mainPath + ".modifiers");
-        if(configurationSection != null) {
+        if (configurationSection != null) {
             for (String key : configurationSection.getKeys(false)) {
                 switch (wandConfig.getWandModifier(key)) {
                     case COST -> wandBoost.addCost(configurationSection.getDouble(key));
@@ -107,9 +122,11 @@ public class CustomComponentBuilder extends ItemBuilder {
         itemMeta.setDisplayName(name);
         return this;
     }
+
     public CustomComponentBuilder addLore(String string) {
         return (CustomComponentBuilder) super.addLore(string);
     }
+
     public CustomComponentBuilder getDefaultLore() {
         for (String string : wandConfig.getConfigurationSection(mainPath).getStringList("lore")) { //add color to list function
             string = ChatColor.DARK_GRAY + string;
@@ -118,12 +135,13 @@ public class CustomComponentBuilder extends ItemBuilder {
         addLore("");
         return this;
     }
+
     public CustomComponentBuilder getCore() throws IOException {
         if (!isCore()) {
             throw new IOException("Item path is missing a core component");
         }
         String string = wandConfig.getConfigurationSection(mainPath).getString("core");
-        if(string != null) {
+        if (string != null) {
             componentData.setCore(Core.valueOf(string.toUpperCase()));
         }
         return this;
@@ -132,6 +150,7 @@ public class CustomComponentBuilder extends ItemBuilder {
     public boolean isCore() {
         return componentData.getType() == ComponentType.CORE || getComponent() == ComponentType.CORE;
     }
+
     @Override
     public ItemStack build() {
         itemMeta.setLore(lore);

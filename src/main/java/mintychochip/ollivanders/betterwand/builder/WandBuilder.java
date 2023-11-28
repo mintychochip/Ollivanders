@@ -112,6 +112,15 @@ public class WandBuilder extends ItemBuilder {
         return (WandBuilder) super.addLore(string);
     }
 
+    public ItemStack getDefaultBuild() {
+        return this.getDefaultLore()
+                .addAllBoosts()
+                .getDefaultDisplayName()
+                .setUnstackable()
+                .getDefaultCustomModelData().addStatLore()
+                .build();
+    }
+
     public WandBuilder addAllBoosts() {
         wandBoost = new WandBoost();
         for (ItemStack stack : mappedComponents.keySet()) {
@@ -129,6 +138,11 @@ public class WandBuilder extends ItemBuilder {
             }
         }
         return null;
+    }
+    public WandBuilder getDefaultCustomModelData() {
+        int model = config.getConfigurationSection("core." + coreType.toString()).getInt("model");
+        setCustomModelData(model);
+        return this;
     }
 
     public String getTitle(ItemStack itemStack) {

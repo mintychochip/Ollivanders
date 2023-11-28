@@ -1,20 +1,26 @@
 package mintychochip.ollivanders.commands.subcommands;
 
+import mintychochip.ollivanders.Ollivanders;
 import mintychochip.ollivanders.betterwand.builder.CustomComponentBuilder;
 import mintychochip.ollivanders.betterwand.builder.WandBuilder;
 import mintychochip.ollivanders.commands.SubCommand;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.persistence.PersistentDataContainer;
+import org.bukkit.persistence.PersistentDataType;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class WandCommand extends SubCommand {
+    NamespacedKey last = new NamespacedKey(Ollivanders.getInstance(), "last");
+
     @Override
     public String getName() {
-        return "give";
+        return "build";
     }
 
     @Override
@@ -29,24 +35,38 @@ public class WandCommand extends SubCommand {
 
     @Override
     public void perform(Player player, String[] args) {
-        String arg = args[1];
-        int i = Integer.parseInt(arg);
+        if (args.length < 2) {
+            return;
+        }
+        if (args[1].equalsIgnoreCase("last")) {
+            if (player.getPersistentDataContainer().has(last, PersistentDataType.STRING)) {
+                String s = player.getPersistentDataContainer().get(last, PersistentDataType.STRING);
+                if (s != null) {
+                    getItem(s, player);
+                }
+            }
+        } else {
+            getItem(args[1], player);
+        }
 
+    }
 
-        List<ItemStack> materials =
-                new ArrayList<>();
-        materials.add(new ItemStack(Material.STICK));
-        materials.add(new ItemStack(Material.ENDER_EYE));
-        materials.add(new ItemStack(Material.END_CRYSTAL));
-        materials.add(new ItemStack(Material.AMETHYST_SHARD));
-        materials.add(new ItemStack(Material.QUARTZ));
-        ItemStack hello = new WandBuilder(materials, Material.BLAZE_ROD)
-                .getDefaultLore()
-                .addAllBoosts()
-                .getDefaultDisplayName()
-                .setUnstackable()
-                .setCustomModelData(i).addStatLore()
-                .build();
-        player.getInventory().addItem(hello);
+    public void getItem(String arg, Player player) {
+        List<ItemStack> wandMaterials = new ArrayList<>();
+        for (String material : arg.split(",")) {
+            if (material.contains("core:")) {
+                String[] split = material.split(":");
+                wandMaterials.add(new CustomComponentBuilder(Material.STONE, split[1]).defaultCoreBuild());
+            } else if (material.contains("construct:")) {
+                String[] split = material.split(":");
+                wandMaterials.add(new CustomComponentBuilder(Material.STONE, split[1]).defaultBuild());
+            } else {
+                wandMaterials.add(new ItemStack(Material.valueOf(material.toUpperCase())));
+            }
+        }
+        ItemStack defaultBuild = new WandBuilder(wandMaterials, Material.BLAZE_ROD).getDefaultBuild();
+        player.getInventory().addItem(defaultBuild);
+
+        player.getPersistentDataContainer().set(last, PersistentDataType.STRING, arg);
     }
 }
