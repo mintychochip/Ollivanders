@@ -78,6 +78,31 @@ custom-items:
     modifiers:
       - POWER: .1
       - RANGE: .5
+  lens:
+    name: 'Lens'
+    material: GLASS_PANE
+    type: LENS
+    lore:
+    modifiers:
+      - POWER: .1
+  blue-lens:
+    name: 'Blue Lens'
+    material: BLUE_STAINED_GLASS_PANE
+    type: LENS
+    lore:
+      -
+    modifiers:
+      - POWER:
+  red-lens:
+    name: 'Red Lens'
+    material: RED_STAINED_GLASS_PANE
+    type: LENS
+    lore:
+      -
+    modifiers:
+      - POWER:
+
+
 #-----------------------------------
 core:
   HEART_OF_THE_SEA:

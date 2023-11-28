@@ -1,45 +1,38 @@
 package mintychochip.ollivanders.betterwand;
 
 import mintychochip.ollivanders.Ollivanders;
-import mintychochip.ollivanders.betterwand.core.Core;
+import mintychochip.ollivanders.betterwand.container.MaterialComponentData;
 import org.bukkit.Material;
+import org.bukkit.configuration.ConfigurationSection;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class ComponentRegistry {
 
-    private static final Map<Material, ComponentType> materialComponentType = new HashMap<>();
-    private static final Map<Material, WandBoost> materialBoostMap = new HashMap<>();
-
-    private static final Map<Core, List<String>> defaultLoreMap = new HashMap<>();
-
-    private static final Map<Material,Core> coreTranslationMap = new HashMap<>();
-
-    private static final Map<Material,String> materialTitleMap = new HashMap<>();
+    private static final Map<Material, MaterialComponentData> materialComponentData = new HashMap<>();
+    private final ComponentConfig wc;
 
     public ComponentRegistry() {
-        Ollivanders.getWandConfig().registerMaterials();
-        Ollivanders.getWandConfig().registerLore();
-    }
-    public static Map<Material, ComponentType> getMaterialComponentType() {
-        return materialComponentType;
+        wc = Ollivanders.getWandConfig();
+        registerMaterialComponents();
     }
 
-    public static Map<Material, WandBoost> getMaterialBoostMap() {
-        return materialBoostMap;
+    public static Map<Material, MaterialComponentData> getMaterialComponentData() {
+        return materialComponentData;
     }
 
-    public static Map<Core, List<String>> getDefaultLoreMap() {
-        return defaultLoreMap;
-    }
-
-    public static Map<Material, String> getMaterialTitleMap() {
-        return materialTitleMap;
-    }
-
-    public static Map<Material, Core> getCoreTranslationMap() {
-        return coreTranslationMap;
+    public void registerMaterialComponents() {
+        ConfigurationSection materials = wc.getConfigurationSection("materials");
+        for (String key : materials.getKeys(false)) {
+            wc.setMaterialConfigurationPath(Material.valueOf(key.toUpperCase()));
+            materialComponentData.put(Material.valueOf(key.toUpperCase()), new MaterialComponentData()
+                    .setWandBoost(wc.getMaterialWandBoost())
+                    .setType(wc.getMaterialComponentType())
+                    .setCore(wc.getCore())
+                    .setLore(wc.getMaterialCoreLore())
+                    .setLoreName(wc.getMaterialLoreName())
+                    .setTitle(wc.getMaterialTitle()));
+        }
     }
 }

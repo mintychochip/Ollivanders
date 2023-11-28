@@ -1,10 +1,10 @@
 package mintychochip.ollivanders.betterwand.builder;
 
 import mintychochip.ollivanders.Ollivanders;
+import mintychochip.ollivanders.betterwand.ComponentConfig;
 import mintychochip.ollivanders.betterwand.ComponentRegistry;
 import mintychochip.ollivanders.betterwand.ComponentType;
 import mintychochip.ollivanders.betterwand.WandBoost;
-import mintychochip.ollivanders.betterwand.WandConfig;
 import mintychochip.ollivanders.betterwand.container.ComponentData;
 import mintychochip.ollivanders.betterwand.container.WandData;
 import mintychochip.ollivanders.betterwand.core.Core;
@@ -19,15 +19,13 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
 import java.io.IOException;
-import java.io.Serial;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class WandBuilder extends ItemBuilder {
 
-    private final WandConfig config;
+    private final ComponentConfig config;
     private WandBoost wandBoost;
     private final WandData wandData = new WandData();
 
@@ -57,7 +55,7 @@ public class WandBuilder extends ItemBuilder {
                     throw new RuntimeException(e);
                 }
             } else {
-                ComponentType componentType = ComponentRegistry.getMaterialComponentType().get(itemStack.getType());
+                ComponentType componentType = ComponentRegistry.getMaterialComponentData().get(itemStack.getType()).getType();
                 mappedComponents.put(itemStack, componentType);
                 if (componentType == ComponentType.CORE) {
                     coreItem = itemStack;
@@ -79,7 +77,7 @@ public class WandBuilder extends ItemBuilder {
                     throw new RuntimeException(e);
                 }
             } else {
-                wandBoost.addAll(ComponentRegistry.getMaterialBoostMap().get(itemStack.getType()));
+                wandBoost.addAll(ComponentRegistry.getMaterialComponentData().get(itemStack.getType()).getWandBoost());
             }
         }
     }
@@ -96,7 +94,7 @@ public class WandBuilder extends ItemBuilder {
         if (coreType != null) {
             Bukkit.broadcastMessage("here");
         }
-        for (String string : ComponentRegistry.getDefaultLoreMap().get(coreType)) { //add color to list function
+        for (String string : ComponentRegistry.getMaterialComponentData().get(coreType).getLore()) { //add color to list function
             string = ChatColor.DARK_GRAY + string;
             addLore(string);
         }
@@ -155,7 +153,7 @@ public class WandBuilder extends ItemBuilder {
                 throw new RuntimeException(e);
             }
         } else {
-            return ComponentRegistry.getMaterialTitleMap().get(itemStack.getType());
+            return ComponentRegistry.getMaterialComponentData().get(itemStack.getType()).getTitle();
         }
     }
 
@@ -182,6 +180,25 @@ public class WandBuilder extends ItemBuilder {
             addLore(asterisk + " Haste: " + ChatColor.WHITE + wandBoost.getHaste() + "x");
         }
         return this;
+    }
+
+    public WandBuilder addComponents() {
+        if (mappedComponents != null) {
+            for (ItemStack stack : mappedComponents.keySet()) {
+                ItemMeta itemMeta = stack.getItemMeta();
+                if (itemMeta.getPersistentDataContainer().has(Keys.getComponentData(), PersistentDataType.BYTE_ARRAY)) {
+                    byte[] bytes = itemMeta.getPersistentDataContainer().get(Keys.getComponentData(), PersistentDataType.BYTE_ARRAY);
+                    try {
+                        ComponentData componentData = Serializer.deserializeComponent(bytes);
+                        componentData.getName();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    } catch (ClassNotFoundException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            }
+        }
     }
 
     @Override

@@ -1,9 +1,9 @@
 package mintychochip.ollivanders.betterwand.builder;
 
 import mintychochip.ollivanders.Ollivanders;
+import mintychochip.ollivanders.betterwand.ComponentConfig;
 import mintychochip.ollivanders.betterwand.ComponentType;
 import mintychochip.ollivanders.betterwand.WandBoost;
-import mintychochip.ollivanders.betterwand.WandConfig;
 import mintychochip.ollivanders.betterwand.container.ComponentData;
 import mintychochip.ollivanders.betterwand.core.Core;
 import mintychochip.ollivanders.util.Keys;
@@ -17,9 +17,9 @@ import org.bukkit.persistence.PersistentDataType;
 
 import java.io.IOException;
 
-public class CustomComponentBuilder extends ItemBuilder {
+public class CustomComponentBuilder extends ItemBuilder { //migrate all methods to the config because they shouldnt be fetching
 
-    private final WandConfig wandConfig;
+    private final ComponentConfig componentConfig;
     private final ComponentData componentData;
     private final String mainPath;
 
@@ -27,16 +27,17 @@ public class CustomComponentBuilder extends ItemBuilder {
         super(material);
 
         this.mainPath = "custom-items." + itemPath;
-        wandConfig = Ollivanders.getWandConfig();
+        componentConfig = Ollivanders.getWandConfig();
         componentData = new ComponentData();
         if (material == null) {
-            String string = wandConfig.getConfigurationSection(mainPath).getString("material");
+            String string = componentConfig.getConfigurationSection(mainPath).getString("material");
             if (string != null) {
                 Material configMaterial = Material.valueOf(string.toUpperCase());
                 itemStack = new ItemStack(configMaterial);
             }
         }
     }
+
 
     public CustomComponentBuilder setMaterial(Material material) {
         componentData.setMaterial(material);
@@ -80,13 +81,13 @@ public class CustomComponentBuilder extends ItemBuilder {
     }
 
     public ComponentType getComponent() {
-        String string = wandConfig.getConfigurationSection(mainPath).getString("type");
+        String string = componentConfig.getConfigurationSection(mainPath).getString("type");
         ComponentType componentType = ComponentType.valueOf(string != null ? string.toUpperCase() : null);
         return componentType;
     }
 
     public CustomComponentBuilder getTitle() {
-        String string = wandConfig.getConfigurationSection(mainPath).getString("title");
+        String string = componentConfig.getConfigurationSection(mainPath).getString("title");
         Bukkit.broadcastMessage(string);
         componentData.setTitle(string);
         return this;
@@ -94,10 +95,10 @@ public class CustomComponentBuilder extends ItemBuilder {
 
     public CustomComponentBuilder getWandBoost() {
         WandBoost wandBoost = new WandBoost();
-        ConfigurationSection configurationSection = wandConfig.getConfigurationSection(mainPath + ".modifiers");
+        ConfigurationSection configurationSection = componentConfig.getConfigurationSection(mainPath + ".modifiers");
         if (configurationSection != null) {
             for (String key : configurationSection.getKeys(false)) {
-                switch (wandConfig.getWandModifier(key)) {
+                switch (componentConfig.getWandModifier(key)) {
                     case COST -> wandBoost.addCost(configurationSection.getDouble(key));
                     case HASTE -> wandBoost.addHaste(configurationSection.getDouble(key));
                     case POWER -> wandBoost.addPower(configurationSection.getDouble(key));
@@ -111,7 +112,7 @@ public class CustomComponentBuilder extends ItemBuilder {
     }
 
     public CustomComponentBuilder getDisplayName() {
-        String string = wandConfig.getConfigurationSection(mainPath).getString("name");
+        String string = componentConfig.getConfigurationSection(mainPath).getString("name");
         componentData.setName(string);
         itemMeta.setDisplayName(string);
         return this;
@@ -128,7 +129,7 @@ public class CustomComponentBuilder extends ItemBuilder {
     }
 
     public CustomComponentBuilder getDefaultLore() {
-        for (String string : wandConfig.getConfigurationSection(mainPath).getStringList("lore")) { //add color to list function
+        for (String string : componentConfig.getConfigurationSection(mainPath).getStringList("lore")) { //add color to list function
             string = ChatColor.DARK_GRAY + string;
             addLore(string);
         }
@@ -140,7 +141,7 @@ public class CustomComponentBuilder extends ItemBuilder {
         if (!isCore()) {
             throw new IOException("Item path is missing a core component");
         }
-        String string = wandConfig.getConfigurationSection(mainPath).getString("core");
+        String string = componentConfig.getConfigurationSection(mainPath).getString("core");
         if (string != null) {
             componentData.setCore(Core.valueOf(string.toUpperCase()));
         }
