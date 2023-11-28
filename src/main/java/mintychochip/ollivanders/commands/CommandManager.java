@@ -1,5 +1,6 @@
 package mintychochip.ollivanders.commands;
 
+import mintychochip.ollivanders.commands.subcommands.ComponentCommand;
 import mintychochip.ollivanders.commands.subcommands.WandCommand;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -19,6 +20,7 @@ public class CommandManager implements CommandExecutor {
 
     public CommandManager() {
         subCommandList.add(new WandCommand());
+        subCommandList.add(new ComponentCommand());
     }
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {

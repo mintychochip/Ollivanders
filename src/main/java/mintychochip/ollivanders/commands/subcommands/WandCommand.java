@@ -1,5 +1,6 @@
 package mintychochip.ollivanders.commands.subcommands;
 
+import mintychochip.ollivanders.betterwand.builder.CustomComponentBuilder;
 import mintychochip.ollivanders.betterwand.builder.WandBuilder;
 import mintychochip.ollivanders.commands.SubCommand;
 import org.bukkit.ChatColor;
@@ -28,20 +29,23 @@ public class WandCommand extends SubCommand {
 
     @Override
     public void perform(Player player, String[] args) {
+        String arg = args[1];
+        int i = Integer.parseInt(arg);
+
+
         List<ItemStack> materials =
                 new ArrayList<>();
         materials.add(new ItemStack(Material.STICK));
-        materials.add(new ItemStack(Material.NETHER_STAR));
+        materials.add(new ItemStack(Material.ENDER_EYE));
         materials.add(new ItemStack(Material.END_CRYSTAL));
         materials.add(new ItemStack(Material.AMETHYST_SHARD));
         materials.add(new ItemStack(Material.QUARTZ));
-        List<String> lore = new ArrayList<>();
         ItemStack hello = new WandBuilder(materials, Material.BLAZE_ROD)
-                .addLore(lore)
+                .getDefaultLore()
                 .addAllBoosts()
-                .setDisplayName("Hello")
+                .getDefaultDisplayName()
                 .setUnstackable()
-                .setCustomModelData(1)
+                .setCustomModelData(i).addStatLore()
                 .build();
         player.getInventory().addItem(hello);
     }

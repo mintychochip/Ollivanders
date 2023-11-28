@@ -2,6 +2,7 @@ package mintychochip.ollivanders.betterwand.container;
 
 import mintychochip.ollivanders.betterwand.ComponentType;
 import mintychochip.ollivanders.betterwand.WandBoost;
+import mintychochip.ollivanders.betterwand.core.Core;
 import org.bukkit.Material;
 
 import java.io.Serializable;
@@ -13,6 +14,16 @@ public class ComponentData implements Serializable { //holds all wand related ob
     private WandBoost wandBoost;
     private Material material;
     private String name;
+    private Core core;
+    private String title;
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
     public ComponentType getType() {
         return type;
@@ -44,5 +55,16 @@ public class ComponentData implements Serializable { //holds all wand related ob
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Core getCore() {
+        return core;
+    }
+
+    public void setCore(Core core) {
+        this.core = core;
+    }
+    public boolean hasCore() {
+        return core != null;
     }
 }

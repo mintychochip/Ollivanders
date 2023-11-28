@@ -14,6 +14,14 @@ public class WandBoost implements Serializable {
     private double cost;
     private double duration;
 
+    public WandBoost() {
+        range = 0;
+        power = 0;
+        haste = 0;
+        cost = 0;
+        duration = 0;
+    }
+
     public WandBoost addRange(double v) {
         range += v;
         return this;

@@ -40,7 +40,13 @@ public class ItemBuilder { //to be moved to the library plugin for later
         itemMeta.setCustomModelData(integer);
         return this;
     }
-
+    public ItemBuilder addLore(String string) {
+        if(lore == null) {
+            lore = new ArrayList<>();
+        }
+        lore.add(string);
+        return this;
+    }
     public ItemBuilder addLore(List<String> description) {
         if (lore == null) {
             lore = description != null ? new ArrayList<>(description) : new ArrayList<>();

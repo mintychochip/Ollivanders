@@ -1,5 +1,7 @@
 package mintychochip.ollivanders.betterwand.core;
 
-public abstract class Core {
-
+public enum Core {
+    HEART_OF_THE_SEA,
+    ENDER_EYE,
+    PHOENIX_FEATHER
 }

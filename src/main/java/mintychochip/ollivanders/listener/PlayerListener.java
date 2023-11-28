@@ -47,10 +47,10 @@ public class PlayerListener implements Listener {
         if (!(event.getAction() == Action.LEFT_CLICK_AIR && event.getHand().equals(EquipmentSlot.HAND))) {
             return;
         }
+
         if (!playerInventory.getItemInMainHand().getItemMeta().getPersistentDataContainer().has(Keys.getWandData(), PersistentDataType.BYTE_ARRAY)) {
             return;
         }
-
         ItemStack itemInOffHand = playerInventory.getItemInOffHand();
         if (itemInOffHand.getType() == Material.WRITABLE_BOOK || itemInOffHand.getType() == Material.WRITTEN_BOOK) {
             WizardBook wizardBook = new WizardBook((BookMeta) itemInOffHand.getItemMeta());

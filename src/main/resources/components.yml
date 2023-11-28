@@ -1,45 +1,57 @@
-core:
-  heart-of-the-sea:
-    name: 'Heart of the Sea'
-    effect-name: HeartOfTheSea
 materials:
   STICK:
     type: STICK
     modifiers:
       POWER: .1
       RANGE: .5
+    title: Staff
   LIGHTNING_ROD:
     type: STICK
+    title: Baton
   END_ROD:
     type: STICK
+    title: Rod
   BLAZE_ROD:
     type: STICK
+    title: Wand
   BONE:
     type: STICK
+    title: Scepter
   QUARTZ:
     type: LENS
+    title: Lustrous
   END_CRYSTAL:
     type: CRYSTAL
+    title: Everlasting
   EMERALD:
     type: CRYSTAL
+    title: Shiny
   NETHER_STAR:
     type: CORE
+    title: Soul-Rending
   AMETHYST_SHARD:
     type: BINDING
+    title: Clairvoyant
   HEART_OF_THE_SEA:
     type: CORE
-    core:
-
+    core: HEART_OF_THE_SEA
+    title: Ocean
+  ENDER_EYE:
+    type: CORE
+    core: ENDER_EYE
+    title: Watcher
 custom-items:
   phoenix-feather:
     name: 'Phoenix Feather'
     material: FEATHER
     type: CORE
     lore:
-      - asdasdsd
-      - asdasdasdasd
-      - asdasdasdsd
+      - The iridescent phoenix feather,
+      - plucked gently from the mythical bird's radiant plumage,
+      - shimmered with an ethereal glow,
+      - possessing the power to resurrect and renew life.
     core: PHOENIX_FEATHER
+    title: Phoenix
   opaque-lens:
     name: 'Opaque Lens'
     material: GRAY_STAINED_GLASS_PANE
@@ -48,3 +60,17 @@ custom-items:
     modifiers:
       - POWER: .1
       - RANGE: .5
+#-----------------------------------
+core:
+  HEART_OF_THE_SEA:
+    lore:
+      - asdasd
+  ENDER_EYE:
+    lore:
+      - pp
+  PHOENIX_FEATHER:
+    lore:
+      - Forged from the molten core of a long-extinct volcano,
+      - the phoenix rod bore an intricately carved shaft adorned with runes that glowed like embers.
+      - When wielded, it crackled with the rejuvenating energy of a phoenix,
+      - capable of both destruction and rebirth at the conjurer's command.

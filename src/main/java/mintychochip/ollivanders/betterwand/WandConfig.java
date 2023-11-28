@@ -1,8 +1,11 @@
 package mintychochip.ollivanders.betterwand;
 
+import mintychochip.ollivanders.betterwand.core.Core;
 import mintychochip.ollivanders.util.ConfigReader;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
+
+import java.io.IOException;
 
 public class WandConfig {
 
@@ -11,16 +14,27 @@ public class WandConfig {
     public WandConfig(String file) {
         c = new ConfigReader(file);
         registerMaterials();
+        registerLore();
     }
 
     public void registerMaterials() { //this one too
         ConfigurationSection configurationSection = c.getConfigurationSection("materials");
         for (String key : configurationSection.getKeys(false)) {
-            registerMaterial(Material.valueOf(key));
+            try {
+                registerMaterial(Material.valueOf(key));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+    public void registerLore() {
+        ConfigurationSection configurationSection = c.getConfigurationSection("core");
+        for (String key : configurationSection.getKeys(false)) {
+            ComponentRegistry.getDefaultLoreMap().put(Core.valueOf(key.toUpperCase()),configurationSection.getStringList(key + ".lore"));
         }
     }
 
-    public void registerMaterial(Material material) { //move these methods to the registry
+    public void registerMaterial(Material material) throws IOException { //move these methods to the registry
         WandBoost wandBoost = new WandBoost();
         ConfigurationSection configurationSection = c.getConfigurationSection("materials." + material.toString());
         ConfigurationSection modifiers = configurationSection.getConfigurationSection("modifiers");
@@ -35,9 +49,15 @@ public class WandConfig {
                 }
             }
         }
-        String component = configurationSection.getString("type");
-        ComponentRegistry.getMaterialComponentType().put(material,ComponentType.valueOf(component.toUpperCase().strip()));
+        String componentType = configurationSection.getString("type");
+        String string = configurationSection.getString("title");
+        if(componentType == null) {
+            throw new IOException("Invalid component type in config: materials");
+        }
+        ComponentType type = ComponentType.valueOf(componentType.toUpperCase().strip());
+        ComponentRegistry.getMaterialComponentType().put(material,type);
         ComponentRegistry.getMaterialBoostMap().put(material,wandBoost);
+        ComponentRegistry.getMaterialTitleMap().put(material,string);
     }
     public ConfigurationSection getConfigurationSection(String path) {
         return c.getConfigurationSection(path);
