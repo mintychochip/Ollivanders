@@ -3,7 +3,7 @@ package mintychochip.ollivanders.betterwand;
 public enum WandModifier {
     POWER,
     RANGE,
-    COST,
+    EFFICIENCY,
     HASTE,
     DURATION
 }

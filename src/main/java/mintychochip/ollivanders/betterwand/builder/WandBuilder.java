@@ -1,10 +1,7 @@
 package mintychochip.ollivanders.betterwand.builder;
 
 import mintychochip.ollivanders.Ollivanders;
-import mintychochip.ollivanders.betterwand.ComponentConfig;
-import mintychochip.ollivanders.betterwand.ComponentRegistry;
-import mintychochip.ollivanders.betterwand.ComponentType;
-import mintychochip.ollivanders.betterwand.WandBoost;
+import mintychochip.ollivanders.betterwand.*;
 import mintychochip.ollivanders.betterwand.container.ComponentData;
 import mintychochip.ollivanders.betterwand.container.WandData;
 import mintychochip.ollivanders.betterwand.core.Core;
@@ -91,10 +88,18 @@ public class WandBuilder extends ItemBuilder {
     }
 
     public WandBuilder getDefaultLore() {
-        if (coreType != null) {
-            Bukkit.broadcastMessage("here");
+        List<String> lore;
+        if (containsComponentData(coreItem)) {
+            try {
+                ComponentData componentData = Serializer.deserializeComponent(coreItem.getItemMeta().getPersistentDataContainer().get(Keys.getComponentData(), PersistentDataType.BYTE_ARRAY));
+                lore = componentData.getLore();
+            } catch (IOException | ClassNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+        } else {
+            lore = ComponentRegistry.getMaterialComponentData().get(coreItem.getType()).getLore();
         }
-        for (String string : ComponentRegistry.getMaterialComponentData().get(coreType).getLore()) { //add color to list function
+        for (String string : lore) { //add color to list function
             string = ChatColor.DARK_GRAY + string;
             addLore(string);
         }
@@ -137,6 +142,7 @@ public class WandBuilder extends ItemBuilder {
         }
         return null;
     }
+
     public WandBuilder getDefaultCustomModelData() {
         int model = config.getConfigurationSection("core." + coreType.toString()).getInt("model");
         setCustomModelData(model);
@@ -158,14 +164,25 @@ public class WandBuilder extends ItemBuilder {
     }
 
     public WandBuilder getDefaultDisplayName() {
-        String displayName = String.format("%s %s of the %s",
+        Rarity rarity;
+        if (containsComponentData(coreItem)) {
+            try {
+                rarity = Serializer.deserializeComponent(coreItem.getItemMeta().getPersistentDataContainer().get(Keys.getComponentData(), PersistentDataType.BYTE_ARRAY)).getRarity();
+            } catch (IOException | ClassNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+        } else {
+            rarity = ComponentRegistry.getMaterialComponentData().get(coreItem.getType()).getRarity();
+        }
+        ChatColor byChar = ChatColor.getByChar(rarity.getColorCode());
+        String displayName = byChar + String.format("%s %s of the %s",
                 getTitle(findComponent(ComponentType.CRYSTAL)), getTitle(findComponent(ComponentType.STICK)), getTitle(findComponent(ComponentType.CORE)));
         setDisplayName(displayName);
         return this;
     }
 
     public WandBuilder setDisplayName(String displayName) {
-        itemMeta.setDisplayName(ChatColor.GOLD + displayName);
+        itemMeta.setDisplayName(displayName);
         wandData.setWandName(displayName);
         return this;
     }
@@ -199,6 +216,11 @@ public class WandBuilder extends ItemBuilder {
                 }
             }
         }
+        return null;
+    }
+
+    public static boolean containsComponentData(ItemStack itemStack) {
+        return itemStack.getItemMeta().getPersistentDataContainer().has(Keys.getComponentData(), PersistentDataType.BYTE_ARRAY);
     }
 
     @Override

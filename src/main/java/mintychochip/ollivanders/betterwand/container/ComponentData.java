@@ -1,11 +1,14 @@
 package mintychochip.ollivanders.betterwand.container;
 
+import mintychochip.ollivanders.betterwand.ComponentConfig;
 import mintychochip.ollivanders.betterwand.ComponentType;
+import mintychochip.ollivanders.betterwand.Rarity;
 import mintychochip.ollivanders.betterwand.WandBoost;
 import mintychochip.ollivanders.betterwand.core.Core;
 import org.bukkit.Material;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class ComponentData implements Serializable { //holds all wand related objects
     private static final long serialVersionUID = 120594823L;
@@ -16,6 +19,27 @@ public class ComponentData implements Serializable { //holds all wand related ob
     private String name;
     private Core core;
     private String title;
+
+    private Rarity rarity;
+
+    private List<String> lore;
+
+    public List<String> getLore() {
+        return lore;
+    }
+
+    public ComponentData setLore(List<String> lore) {
+        this.lore = lore;
+        return this;
+    }
+
+    public Rarity getRarity() {
+        return rarity;
+    }
+
+    public void setRarity(Rarity rarity) {
+        this.rarity = rarity;
+    }
 
     public String getTitle() {
         return title;

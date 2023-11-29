@@ -4,12 +4,10 @@ import mintychochip.ollivanders.Ollivanders;
 import mintychochip.ollivanders.betterwand.builder.CustomComponentBuilder;
 import mintychochip.ollivanders.betterwand.builder.WandBuilder;
 import mintychochip.ollivanders.commands.SubCommand;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
 import java.util.ArrayList;
@@ -56,10 +54,10 @@ public class WandCommand extends SubCommand {
         for (String material : arg.split(",")) {
             if (material.contains("core:")) {
                 String[] split = material.split(":");
-                wandMaterials.add(new CustomComponentBuilder(Material.STONE, split[1]).defaultCoreBuild());
+                wandMaterials.add(new CustomComponentBuilder(Material.STONE, split[1]).defaultBuild(true));
             } else if (material.contains("construct:")) {
                 String[] split = material.split(":");
-                wandMaterials.add(new CustomComponentBuilder(Material.STONE, split[1]).defaultBuild());
+                wandMaterials.add(new CustomComponentBuilder(Material.STONE, split[1]).defaultBuild(false));
             } else {
                 wandMaterials.add(new ItemStack(Material.valueOf(material.toUpperCase())));
             }

@@ -26,13 +26,11 @@ public class BookReader { //avoid creating more instances of objects we do not n
         for (String page : bookMeta.getPages()) {
             content.put(count++,page);
         }
-        Bukkit.broadcastMessage(content.toString());
         return this;
     }
     public WizardSpell getMainSpell(String page) { //write this method better
         List<WizardSpell> spells = null;
         for (String s : page.split(",")) {
-            Bukkit.broadcastMessage(s);
             WizardSpell build = Ollivanders.getSequencer().setSpell(s).build();
             if(spells == null) {
                 spells = new ArrayList<>();

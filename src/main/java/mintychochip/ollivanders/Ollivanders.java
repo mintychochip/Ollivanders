@@ -1,6 +1,7 @@
 package mintychochip.ollivanders;
 
 import mintychochip.ollivanders.betterwand.ComponentConfig;
+import mintychochip.ollivanders.betterwand.ComponentRegistry;
 import mintychochip.ollivanders.commands.CommandManager;
 import mintychochip.ollivanders.config.KeywordConfig;
 import mintychochip.ollivanders.config.MechanicConfig;
@@ -58,6 +59,7 @@ public final class Ollivanders extends JavaPlugin {
         componentConfig = new ComponentConfig("components.yml");
         MechanicRegistry mechanicRegistry = new MechanicRegistry();
         WizardRegistry registry = new WizardRegistry();
+        ComponentRegistry componentRegistry = new ComponentRegistry();
         tokenizer = new BetterSpellTokenizer();
         sequencer = new BetterSpellSequencer();
         reader = new BookReader();

@@ -20,7 +20,6 @@ public class BetterSpellSequencer {
         this.spell = spell;
         try {
             Ollivanders.getTokenizer().setTokenizedSpell(spell);
-            Bukkit.broadcastMessage(Ollivanders.getTokenizer().getElement(Keyword.MECHANIC));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

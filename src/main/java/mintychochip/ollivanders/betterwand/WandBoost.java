@@ -94,4 +94,7 @@ public class WandBoost implements Serializable {
         this.duration += boost.duration;
         this.power += boost.power;
     }
+    public String toString() {
+        return String.format("%s %s %s %s %s",haste,cost,range,duration,power);
+    }
 }

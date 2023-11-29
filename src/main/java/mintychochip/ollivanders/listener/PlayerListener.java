@@ -94,9 +94,7 @@ public class PlayerListener implements Listener {
         if (WizardMechanic == null) {
             return;
         }
-        Bukkit.broadcastMessage("CAST");
         if (WizardMechanic.getTransition() != null) {
-            Bukkit.broadcastMessage("wrong block");
             WizardCaster caster = new WizardCaster(WizardMechanic.getTransition());
             caster.cast(new Context(WizardMechanic.getContext().getPlayer(), WizardMechanic.getContext().getHitLocation()), WizardMechanic.getWandBoost());
         }

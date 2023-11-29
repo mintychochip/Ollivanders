@@ -3,19 +3,19 @@ package mintychochip.ollivanders.betterwand.builder;
 import mintychochip.ollivanders.Ollivanders;
 import mintychochip.ollivanders.betterwand.ComponentConfig;
 import mintychochip.ollivanders.betterwand.ComponentType;
+import mintychochip.ollivanders.betterwand.Rarity;
 import mintychochip.ollivanders.betterwand.WandBoost;
 import mintychochip.ollivanders.betterwand.container.ComponentData;
 import mintychochip.ollivanders.betterwand.core.Core;
 import mintychochip.ollivanders.util.Keys;
 import mintychochip.ollivanders.util.Serializer;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
 
 import java.io.IOException;
+import java.util.List;
 
 public class CustomComponentBuilder extends ItemBuilder { //migrate all methods to the config because they shouldnt be fetching
 
@@ -28,6 +28,7 @@ public class CustomComponentBuilder extends ItemBuilder { //migrate all methods 
 
         this.mainPath = "custom-items." + itemPath;
         componentConfig = Ollivanders.getWandConfig();
+        componentConfig.setConfigurationPath(itemPath,false);
         componentData = new ComponentData();
         if (material == null) {
             String string = componentConfig.getConfigurationSection(mainPath).getString("material");
@@ -44,112 +45,89 @@ public class CustomComponentBuilder extends ItemBuilder { //migrate all methods 
         return this;
     }
 
-    public ItemStack defaultCoreBuild() {
-        try {
-            return this.getComponentType()
-                    .getDisplayName()
-                    .getDefaultLore()
-                    .getWandBoost()
-                    .getCore()
-                    .getTitle()
-                    .build();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+    public ItemStack defaultBuild(boolean isCore) {
+        CustomComponentBuilder customComponentBuilder = this.setDefaultComponentType()
+                .setDefaultWandBoost()
+                .setDefaultDisplayName()
+                .setDefaultWandLore()
+                .setDefaultItemLore();
+        if(isCore) {
+            customComponentBuilder.setDefaultTitle()
+                    .setDefaultCore()
+                    .setDefaultRarity();
         }
+        return customComponentBuilder.build();
     }
-
-    public ItemStack defaultBuild() {
-        try {
-            return this.getComponentType()
-                    .getDisplayName()
-                    .getDefaultLore()
-                    .getWandBoost()
-                    .build();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public CustomComponentBuilder getComponentType() {
-        componentData.setType(getComponent());
+    // could add a way to add rarity
+    public CustomComponentBuilder setDefaultWandBoost() {
+        setWandBoost(componentConfig.getWandBoost());
         return this;
     }
-
+    public CustomComponentBuilder setWandBoost(WandBoost wandBoost) {
+        componentData.setWandBoost(wandBoost);
+        return this;
+    }
+    public CustomComponentBuilder setDefaultComponentType() {
+        setComponentType(componentConfig.getComponentType());
+        return this;
+    }
     public CustomComponentBuilder setComponentType(ComponentType type) {
         componentData.setType(type);
         return this;
     }
-
-    public ComponentType getComponent() {
-        String string = componentConfig.getConfigurationSection(mainPath).getString("type");
-        ComponentType componentType = ComponentType.valueOf(string != null ? string.toUpperCase() : null);
-        return componentType;
-    }
-
-    public CustomComponentBuilder getTitle() {
-        String string = componentConfig.getConfigurationSection(mainPath).getString("title");
-        Bukkit.broadcastMessage(string);
-        componentData.setTitle(string);
+    public CustomComponentBuilder setDefaultDisplayName() {
+        setDisplayName(ChatColor.getByChar(componentConfig.getRarity().getColorCode()) + componentConfig.getComponentName());
         return this;
     }
-
-    public CustomComponentBuilder getWandBoost() {
-        WandBoost wandBoost = new WandBoost();
-        ConfigurationSection configurationSection = componentConfig.getConfigurationSection(mainPath + ".modifiers");
-        if (configurationSection != null) {
-            for (String key : configurationSection.getKeys(false)) {
-                switch (componentConfig.getWandModifier(key)) {
-                    case COST -> wandBoost.addCost(configurationSection.getDouble(key));
-                    case HASTE -> wandBoost.addHaste(configurationSection.getDouble(key));
-                    case POWER -> wandBoost.addPower(configurationSection.getDouble(key));
-                    case RANGE -> wandBoost.addRange(configurationSection.getDouble(key));
-                    case DURATION -> wandBoost.addDuration(configurationSection.getDouble(key));
-                }
-            }
-        }
-        componentData.setWandBoost(wandBoost);
-        return this;
-    }
-
-    public CustomComponentBuilder getDisplayName() {
-        String string = componentConfig.getConfigurationSection(mainPath).getString("name");
-        componentData.setName(string);
-        itemMeta.setDisplayName(string);
-        return this;
-    }
-
     public CustomComponentBuilder setDisplayName(String name) {
         componentData.setName(name);
         itemMeta.setDisplayName(name);
         return this;
     }
-
-    public CustomComponentBuilder addLore(String string) {
-        return (CustomComponentBuilder) super.addLore(string);
+    public CustomComponentBuilder setDefaultRarity() {
+        setRarity(componentConfig.getRarity());
+        return this;
     }
-
-    public CustomComponentBuilder getDefaultLore() {
-        for (String string : componentConfig.getConfigurationSection(mainPath).getStringList("lore")) { //add color to list function
-            string = ChatColor.DARK_GRAY + string;
-            addLore(string);
+    public CustomComponentBuilder setRarity(Rarity rarity) {
+        componentData.setRarity(rarity);
+        return this;
+    }
+    public CustomComponentBuilder setDefaultWandLore() {
+        componentData.setLore(componentConfig.getWandLore());
+        return this;
+    }
+    public CustomComponentBuilder setDefaultItemLore() {
+        setItemLore(componentConfig.getItemLore());
+        return this;
+    }
+    public CustomComponentBuilder setItemLore(List<String> lore) {
+        for (String s : lore) {
+            addLore(ChatColor.GRAY + s);
         }
         addLore("");
         return this;
     }
-
-    public CustomComponentBuilder getCore() throws IOException {
-        if (!isCore()) {
-            throw new IOException("Item path is missing a core component");
-        }
-        String string = componentConfig.getConfigurationSection(mainPath).getString("core");
-        if (string != null) {
-            componentData.setCore(Core.valueOf(string.toUpperCase()));
-        }
+    public CustomComponentBuilder addLore(String string) {
+        return (CustomComponentBuilder) super.addLore(string);
+    }
+    public CustomComponentBuilder addLore(List<String> string) {
+        return (CustomComponentBuilder) super.addLore(string);
+    }
+    public CustomComponentBuilder setDefaultCore() {
+        setCore(componentConfig.getCore());
         return this;
     }
-
-    public boolean isCore() {
-        return componentData.getType() == ComponentType.CORE || getComponent() == ComponentType.CORE;
+    public CustomComponentBuilder setCore(Core core) {
+        componentData.setCore(core);
+        return this;
+    }
+    public CustomComponentBuilder setDefaultTitle() {
+        setTitle(componentConfig.getComponentTitle());
+        return this;
+    }
+    public CustomComponentBuilder setTitle(String title) {
+        componentData.setTitle(title);
+        return this;
     }
 
     @Override

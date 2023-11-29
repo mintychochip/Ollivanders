@@ -25,14 +25,15 @@ public class ComponentRegistry {
     public void registerMaterialComponents() {
         ConfigurationSection materials = wc.getConfigurationSection("materials");
         for (String key : materials.getKeys(false)) {
-            wc.setMaterialConfigurationPath(Material.valueOf(key.toUpperCase()));
+            wc.setConfigurationPath(Material.valueOf(key.toUpperCase()));
             materialComponentData.put(Material.valueOf(key.toUpperCase()), new MaterialComponentData()
-                    .setWandBoost(wc.getMaterialWandBoost())
-                    .setType(wc.getMaterialComponentType())
+                    .setWandBoost(wc.getWandBoost())
+                    .setType(wc.getComponentType())
                     .setCore(wc.getCore())
-                    .setLore(wc.getMaterialCoreLore())
-                    .setLoreName(wc.getMaterialLoreName())
-                    .setTitle(wc.getMaterialTitle()));
+                    .setRarity(wc.getRarity())
+                    .setLore(wc.getWandLore())
+                    .setLoreName(wc.getComponentName())
+                    .setTitle(wc.getComponentTitle()));
         }
     }
 }

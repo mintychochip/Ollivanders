@@ -8,42 +8,69 @@ materials:
   LIGHTNING_ROD:
     type: STICK
     title: Baton
+    modifiers:
+      POWER: -0.2
+      RANGE: 0.2
   END_ROD:
     type: STICK
     title: Rod
+    modifiers:
+      POWER: 0.2
+      HASTE: -0.2
   BLAZE_ROD:
     type: STICK
     title: Wand
+    modifiers:
+      POWER: 0.2
+      DURATION: -0.2
   BONE:
     type: STICK
     title: Scepter
+    modifiers:
+      POWER: -0.2
+      EFFICIENCY: 0.2
   QUARTZ:
     type: CRYSTAL
     title: Lustrous
+    modifiers:
+      EFFICIENCY: 0.2
+      POWER: -0.2
   END_CRYSTAL:
     type: CRYSTAL
     title: Everlasting
+    modifiers:
+      EFFICIENCY: 0.2
+      HASTE: -0.2
   EMERALD:
     type: CRYSTAL
     title: Shiny
   NETHER_STAR:
     type: CRYSTAL
     title: Soul-Rending
+    modifiers:
+      EFFICIENCY: -0.2
+      POWER: 0.2
   AMETHYST_SHARD:
     type: CRYSTAL
     title: Clairvoyant
+    modifiers:
+      EFFICIENCY: 0.2
+      RANGE: -0.2
   HEART_OF_THE_SEA:
     type: CORE
     core: HEART_OF_THE_SEA
     title: Ocean
+    rarity: LEGENDARY
   ENDER_EYE:
     type: CORE
     core: ENDER_EYE
     title: Watcher
+    rarity: RARE
   DRAGON_EGG:
     type: CORE
     core: DRAGON_EGG
     title: Omelettebus
+    rarity: EPIC
   HONEY_BOTTLE:
     type: BINDING
   SLIME_BALL:
@@ -58,6 +85,7 @@ materials:
     type: CORE
     core: RESPAWN_ANCHOR
     title: Purgatory
+    rarity: UNCOMMON
 custom-items:
   phoenix-feather:
     name: 'Phoenix Feather'
@@ -70,21 +98,22 @@ custom-items:
       - possessing the power to resurrect and renew life.
     core: PHOENIX_FEATHER
     title: Phoenix
-  opaque-lens:
-    name: 'Opaque Lens'
-    material: GRAY_STAINED_GLASS_PANE
+    rarity: LEGENDARY
+  green-lens:
+    name: 'Green Lens'
+    material: GREEN_STAINED_GLASS_PANE
     type: LENS
     lore:
+      -
     modifiers:
-      - POWER: .1
-      - RANGE: .5
+      RANGE: -0.2
+      EFFICIENCY: 0.2
   lens:
     name: 'Lens'
     material: GLASS_PANE
     type: LENS
     lore:
-    modifiers:
-      - POWER: .1
+      -
   blue-lens:
     name: 'Blue Lens'
     material: BLUE_STAINED_GLASS_PANE
@@ -92,7 +121,8 @@ custom-items:
     lore:
       -
     modifiers:
-      - POWER:
+      RANGE: 0.2
+      HASTE: -0.2
   red-lens:
     name: 'Red Lens'
     material: RED_STAINED_GLASS_PANE
@@ -100,9 +130,17 @@ custom-items:
     lore:
       -
     modifiers:
-      - POWER:
-
-
+      RANGE: -0.2
+      POWER: 0.2
+  white-lens:
+    name: 'White Lens'
+    material: WHITE_STAINED_GLASS_PANE
+    type: LENS
+    lore:
+      -
+    modifiers:
+      RANGE: 0.2
+      POWER: -0.2
 #-----------------------------------
 core:
   HEART_OF_THE_SEA:
@@ -114,7 +152,7 @@ core:
     lore:
       - pp
   PHOENIX_FEATHER:
-    model: 1
+    model: 2
     lore:
       - Forged from the molten core of a long-extinct volcano,
       - the phoenix rod bore an intricately carved shaft adorned with runes that glowed like embers.
@@ -128,7 +166,7 @@ core:
       - offering the power to banish malevolent entities and unravel
       - the very fabric between existence and the mysterious unknown.
   DRAGON_EGG:
-    model: 2
+    model: 3
     lore:
       - Forged from the enchanted remnants of a fallen Ender Dragon,
       - the Dragon Egg emits a magical aura, allowing its possessor to manipulate and control the arcane energies within,
