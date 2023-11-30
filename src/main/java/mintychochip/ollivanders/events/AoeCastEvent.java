@@ -2,13 +2,13 @@ package mintychochip.ollivanders.events;
 
 import mintychochip.ollivanders.container.WizardMechanic;
 import mintychochip.ollivanders.container.WizardSpell;
-import mintychochip.ollivanders.shape.Shape;
+import mintychochip.ollivanders.spellcaster.WizardCaster;
 import org.bukkit.event.HandlerList;
 
 public class AoeCastEvent extends WizardEvent {
 
 
-    public AoeCastEvent(Shape shape, WizardMechanic mechanic, WizardSpell spell) {
+    public AoeCastEvent(WizardCaster.Shape shape, WizardMechanic mechanic, WizardSpell spell) {
         super(shape, mechanic, spell);
     }
 

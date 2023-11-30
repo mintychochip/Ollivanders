@@ -2,25 +2,25 @@ package mintychochip.ollivanders.events;
 
 import mintychochip.ollivanders.container.WizardMechanic;
 import mintychochip.ollivanders.container.WizardSpell;
-import mintychochip.ollivanders.shape.Shape;
+import mintychochip.ollivanders.spellcaster.WizardCaster;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
 public class WizardEvent extends Event {
     public static final HandlerList handlers = new HandlerList();
-    private final Shape shape;
+    private final WizardCaster.Shape shape;
     private final WizardMechanic mechanic;
 
     private final WizardSpell spell;
 
-    public WizardEvent(Shape shape, WizardMechanic mechanic, WizardSpell spell) {
+    public WizardEvent(WizardCaster.Shape shape, WizardMechanic mechanic, WizardSpell spell) {
         this.shape = shape;
         this.mechanic = mechanic;
         this.spell = spell;
     }
 
 
-    public Shape getShape() {
+    public WizardCaster.Shape getShape() {
         return shape;
     }
 

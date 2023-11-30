@@ -6,7 +6,7 @@ import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
-public class Blink extends WizardMechanic implements WizardSelf {
+public class Blink extends WizardMechanic implements WizardSelf { //recode
 
     int range = 64;
 

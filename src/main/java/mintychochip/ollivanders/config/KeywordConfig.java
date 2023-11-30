@@ -2,7 +2,7 @@ package mintychochip.ollivanders.config;
 
 import mintychochip.ollivanders.container.Keyword;
 import mintychochip.ollivanders.container.Modifier;
-import mintychochip.ollivanders.shape.Shape;
+import mintychochip.ollivanders.spellcaster.WizardCaster;
 import mintychochip.ollivanders.util.ConfigReader;
 import org.bukkit.configuration.ConfigurationSection;
 
@@ -41,11 +41,11 @@ public class KeywordConfig { //will add mechanics config,cost,haste, and project
         return keywords;
     }
 
-    public Map<String, Shape> shapes() {
+    public Map<String, WizardCaster.Shape> shapes() {
         ConfigurationSection configurationSection = getConfigurationSection("shape");
-        Map<String, Shape> shapes = new HashMap<>();
+        Map<String, WizardCaster.Shape> shapes = new HashMap<>();
         for (String key : configurationSection.getKeys(false)) {
-            Shape shape = Shape.valueOf(key.toUpperCase());
+            WizardCaster.Shape shape = WizardCaster.Shape.valueOf(key.toUpperCase());
             for (String s : configurationSection.getStringList(key)) {
                 shapes.put(s.toUpperCase(), shape);
             }

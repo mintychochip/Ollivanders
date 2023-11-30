@@ -4,7 +4,7 @@ import mintychochip.ollivanders.Ollivanders;
 import mintychochip.ollivanders.config.KeywordConfig;
 import mintychochip.ollivanders.container.Keyword;
 import mintychochip.ollivanders.container.Modifier;
-import mintychochip.ollivanders.shape.Shape;
+import mintychochip.ollivanders.spellcaster.WizardCaster;
 import org.bukkit.entity.EntityType;
 
 import java.util.HashMap;
@@ -16,7 +16,7 @@ public class WizardRegistry {
     private static Map<String, Keyword> keywordAlias;
     private static Map<String, Modifier> modifierAlias;
     private static final Map<String, String> numericalAlias = new HashMap<>();
-    private static Map<String, Shape> shapeAlias;
+    private static Map<String, WizardCaster.Shape> shapeAlias;
     public WizardRegistry() {
 
         KeywordConfig keywordConfig = Ollivanders.getKeywordConfig();
@@ -46,7 +46,7 @@ public class WizardRegistry {
         return numericalAlias;
     }
 
-    public static Map<String, Shape> getShapeAlias() {
+    public static Map<String, WizardCaster.Shape> getShapeAlias() {
         return shapeAlias;
     }
 

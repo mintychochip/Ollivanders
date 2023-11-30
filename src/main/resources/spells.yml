@@ -4,6 +4,7 @@ Fireball: #same as class name
   duration: 15
 Explosion:
   keywords: [explosion]
+  range: 5
 Blink:
   keywords: [blink]
   range: 50
@@ -11,6 +12,8 @@ Immolate:
   keywords: [immolate]
   range: 5
   duration: 100
+  persistent: true
+  interval: 5
 Fireblast:
   keywords: [fireblast]
   range: 5
@@ -20,3 +23,16 @@ Light:
   range: 5
 SummonSteed:
   keywords: [horse]
+FireShield:
+  keywords: [shield]
+  range: 15
+  duration: 5
+  persistent: true
+  interval: 5
+  damage: 2
+GravityWell:
+  keywords: [well]
+  range: 15
+  duration: 5
+  persistent: true
+  interval: 5

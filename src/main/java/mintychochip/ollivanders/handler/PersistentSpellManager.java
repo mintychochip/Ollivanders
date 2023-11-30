@@ -24,8 +24,6 @@ public class PersistentSpellManager {
     }
 
     public void run(WizardSpell spell, Context context, WandBoost wandBoost) {
-
-
         new BukkitRunnable() {
             final BukkitTask bukkitTask = startTimer(spell, context);
             @Override
@@ -37,11 +35,11 @@ public class PersistentSpellManager {
                     cancel();
                 }
             }
-        }.runTaskTimer(Ollivanders.getInstance(), spell.getMechanic().getMechanicSettings().getInterval(), spell.getMechanic().getMechanicSettings().getInterval());
+        }.runTaskTimerAsynchronously(Ollivanders.getInstance(), spell.getMechanic().getMechanicSettings().getInterval(), spell.getMechanic().getMechanicSettings().getInterval());
     }
 
     public BukkitTask startTimer(WizardSpell spell, Context context) {
-        BukkitTask bukkitTask = new BukkitRunnable() {
+        return new BukkitRunnable() {
             final ProgressBar progressBar = new ProgressBar(40, spell.getMechanic().getMechanicSettings().getDuration(), "|");
 
             @Override
@@ -58,6 +56,5 @@ public class PersistentSpellManager {
                 }
             }
         }.runTaskTimer(Ollivanders.getInstance(), 0L, 1L);
-        return bukkitTask;
     }
 }

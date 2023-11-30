@@ -5,5 +5,7 @@ public enum Core {
     ENDER_EYE,
     PHOENIX_FEATHER,
     DRAGON_EGG,
-    RESPAWN_ANCHOR
+    RESPAWN_ANCHOR,
+    BLUE_ICE,
+    LIVINGWOOD
 }

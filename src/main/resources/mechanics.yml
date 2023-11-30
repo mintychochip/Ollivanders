@@ -1,0 +1,39 @@
+
+keywords:
+  keyword:
+    START: [ start ]
+    MECHANIC: [ mechanic ]
+    END: [ end ]
+    SHAPE: [ shape ]
+    WAIT: [ wait ]
+    MODIFIER: [ modifier ]
+  shape:
+    PROJECTILE: [ projectile ]
+    AOE: [ aoe ]
+    SELF: [ self ]
+  modifier:
+    ENCHANTMENT: [ enchantment ]
+    MAGNITUDE: [ magnitude ]
+mechanics:
+  Fireball: #same as class name
+    keywords: [ fireball ]
+    range: 15
+    duration: 15
+  Explosion:
+    keywords: [ explosion ]
+  Blink:
+    keywords: [ blink ]
+    range: 50
+  Immolate:
+    keywords: [ immolate ]
+    range: 5
+    duration: 100
+  Fireblast:
+    keywords: [ fireblast ]
+    range: 5
+    damage: 5
+  Light:
+    keywords: [ light ]
+    range: 5
+  SummonSteed:
+    keywords: [ horse ]
