@@ -50,6 +50,11 @@ materials:
     modifiers:
       EFFICIENCY: -0.2
       POWER: 0.2
+  BLUE_ICE:
+    type: CORE
+    title: Frost
+    core: BLUE_ICE
+    rarity: UNCOMMON
   AMETHYST_SHARD:
     type: CRYSTAL
     title: Clairvoyant
@@ -87,6 +92,15 @@ materials:
     title: Purgatory
     rarity: UNCOMMON
 custom-items:
+  livingwood:
+    name: 'Living Wood'
+    material: OAK_LOG
+    type: CORE
+    lore:
+      - livign wood thing
+    core: LIVINGWOOD
+    title: Forest
+    rarity: UNCOMMON
   phoenix-feather:
     name: 'Phoenix Feather'
     material: FEATHER
@@ -144,7 +158,7 @@ custom-items:
 #-----------------------------------
 core:
   HEART_OF_THE_SEA:
-    model: 1
+    model: 2
     lore:
       - asdasd
   ENDER_EYE:
@@ -152,14 +166,14 @@ core:
     lore:
       - pp
   PHOENIX_FEATHER:
-    model: 2
+    model: 4
     lore:
       - Forged from the molten core of a long-extinct volcano,
       - the phoenix rod bore an intricately carved shaft adorned with runes that glowed like embers.
       - When wielded, it crackled with the rejuvenating energy of a phoenix,
       - capable of both destruction and rebirth at the conjurer's command.
   RESPAWN_ANCHOR:
-    model: 1
+    model: 6
     lore:
       - Forged from the nebulous essence of the in-between realms,
       - the Purgatory Wand beckons wielders to harness chaotic energies,
@@ -171,3 +185,11 @@ core:
       - Forged from the enchanted remnants of a fallen Ender Dragon,
       - the Dragon Egg emits a magical aura, allowing its possessor to manipulate and control the arcane energies within,
       - casting spells of otherworldly might and mystery.
+  BLUE_ICE:
+    model: 5
+    lore:
+      - asdasd
+  LIVINGWOOD:
+    model: 7
+    lore:
+      - LIVINGYAAAAAAAAAA

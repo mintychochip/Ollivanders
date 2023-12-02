@@ -3,6 +3,7 @@ package mintychochip.ollivanders.container;
 import Shape;
 import mintychochip.ollivanders.betterwand.WandBoost;
 import mintychochip.ollivanders.shape.implementation.Implementation;
+import mintychochip.ollivanders.spellcaster.WizardCaster;
 
 public abstract class WizardMechanic { //make all protected
 
@@ -12,7 +13,7 @@ public abstract class WizardMechanic { //make all protected
     protected WizardSpell Transition;
     protected Context context;
     protected WizardModifier wizardModifier;
-    protected Shape shape;
+    protected WizardCaster.Shape shape;
     protected long delay;
     protected String name;
 
@@ -48,11 +49,11 @@ public abstract class WizardMechanic { //make all protected
         this.wizardModifier = WizardModifier;
     }
 
-    public Shape getShape() {
+    public WizardCaster.Shape getShape() {
         return shape;
     }
 
-    public void setShape(Shape shape) {
+    public void setShape(WizardCaster.Shape shape) {
         this.shape = shape;
     }
 

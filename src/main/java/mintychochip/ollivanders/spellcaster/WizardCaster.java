@@ -115,4 +115,10 @@ public class WizardCaster {
     public void callEvent() {
 
     }
+    public enum Shape { //move this to the caster class
+        PROJECTILE,
+        AOE,
+        SELF,
+        LASER
+    }
 }

@@ -31,7 +31,7 @@ public abstract class Implementation {
             this.context = context;
             this.player = context.getPlayer();
         }
-        castLocation = context.getHitLocation() != null ? context.getHitLocation() : player.getLocation();
+        castLocation = context.getHitLocation() != null ? context.getHitLocation() : player.getLocation(); //fix the bug
         if (castLocation != null) {
             nearbyEntities = new ArrayList<>();
             double range = mechanic.getMechanicSettings().getRange() * mechanic.getWandBoost().getRange() / 2f;

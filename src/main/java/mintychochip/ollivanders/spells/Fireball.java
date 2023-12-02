@@ -14,11 +14,11 @@ public class Fireball extends WizardMechanic implements WizardProjectile {
 
     @Override
     public void effect() {
-
+        //lava impact whne it lands
     }
 
     @Override
     public void applyParticleProjectile() {
-
+        //add back the lava line projectile effect
     }
 }

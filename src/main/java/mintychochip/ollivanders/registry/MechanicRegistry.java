@@ -13,7 +13,7 @@ public class MechanicRegistry {
 
     private final MechanicsConfig mechanicConfig;
     private static Map<String, WizardMechanic> mechanics;
-    private static Map<WizardMechanic,WizardMechanicSettings> mechanicSettings;
+    private static Map<WizardMechanic,WizardMechanicSettings> mechanicSettings; //can serialize this
 
     public MechanicRegistry() {
         mechanicConfig = Ollivanders.getMechanicConfig();
