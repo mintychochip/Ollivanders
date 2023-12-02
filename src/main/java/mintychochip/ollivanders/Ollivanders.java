@@ -3,8 +3,7 @@ package mintychochip.ollivanders;
 import mintychochip.ollivanders.betterwand.ComponentConfig;
 import mintychochip.ollivanders.betterwand.ComponentRegistry;
 import mintychochip.ollivanders.commands.CommandManager;
-import mintychochip.ollivanders.config.KeywordConfig;
-import mintychochip.ollivanders.config.MechanicConfig;
+import mintychochip.ollivanders.config.MechanicsConfig;
 import mintychochip.ollivanders.handler.PersistentSpellManager;
 import mintychochip.ollivanders.handler.ProjectileHandler;
 import mintychochip.ollivanders.listener.PlayerListener;
@@ -18,8 +17,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public final class Ollivanders extends JavaPlugin {
 
-    private static KeywordConfig keywordConfig;
-    private static MechanicConfig mechanicConfig;
+    private static MechanicsConfig mechanicConfig;
     private static ComponentConfig componentConfig;
     private static BetterSpellSequencer sequencer;
     private static BetterSpellTokenizer tokenizer;
@@ -28,11 +26,7 @@ public final class Ollivanders extends JavaPlugin {
 
     private static PersistentSpellManager persistentSpellManager;
 
-    public static KeywordConfig getKeywordConfig() {
-        return keywordConfig;
-    }
-
-    public static MechanicConfig getMechanicConfig() {
+    public static MechanicsConfig getMechanicConfig() {
         return mechanicConfig;
     }
 
@@ -54,8 +48,7 @@ public final class Ollivanders extends JavaPlugin {
         instance = this;
         ProjectileHandler projectileHandler = new ProjectileHandler();
         Bukkit.getServer().getPluginManager().registerEvents(new PlayerListener(),this);
-        keywordConfig = new KeywordConfig("keywords.yml");
-        mechanicConfig = new MechanicConfig("spells.yml");
+        mechanicConfig = new MechanicsConfig("mechanics.yml");
         componentConfig = new ComponentConfig("components.yml");
         MechanicRegistry mechanicRegistry = new MechanicRegistry();
         WizardRegistry registry = new WizardRegistry();

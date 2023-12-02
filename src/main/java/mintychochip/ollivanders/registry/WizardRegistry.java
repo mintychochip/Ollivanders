@@ -1,7 +1,7 @@
 package mintychochip.ollivanders.registry;
 
 import mintychochip.ollivanders.Ollivanders;
-import mintychochip.ollivanders.config.KeywordConfig;
+import mintychochip.ollivanders.config.MechanicsConfig;
 import mintychochip.ollivanders.container.Keyword;
 import mintychochip.ollivanders.container.Modifier;
 import mintychochip.ollivanders.shape.Shape;
@@ -13,17 +13,17 @@ import java.util.Map;
 public class WizardRegistry {
 
     private static final Map<String, EntityType> projectileAlias = new HashMap<>(); //make this mutable, add way to register ints or floats
-    private static Map<String, Keyword> keywordAlias;
+    private static final Map<String, Keyword> keywordAlias = Ollivanders.getMechanicConfig().getMap("keyword", Keyword.class);
     private static Map<String, Modifier> modifierAlias;
     private static final Map<String, String> numericalAlias = new HashMap<>();
     private static Map<String, Shape> shapeAlias;
+
+    @SuppressWarnings("unchecked")
     public WizardRegistry() {
 
-        KeywordConfig keywordConfig = Ollivanders.getKeywordConfig();
-
-        keywordAlias = keywordConfig.keywords();
-        modifierAlias = keywordConfig.modifiers();
-        shapeAlias = keywordConfig.shapes();
+        MechanicsConfig mechanicsConfig = Ollivanders.getMechanicConfig();
+        modifierAlias = mechanicsConfig.getMap("modifier", Modifier.class);
+        shapeAlias = mechanicsConfig.getMap("shape", Shape.class);
         manual();
     }
 

@@ -19,39 +19,39 @@ import java.util.List;
 
 public class CustomComponentBuilder extends ItemBuilder { //migrate all methods to the config because they shouldnt be fetching
 
-    private final ComponentConfig componentConfig;
+    private final ComponentConfig componentConfig = Ollivanders.getWandConfig();
     private final ComponentData componentData;
     private final String mainPath;
+    private final Material defaultMaterial = componentConfig.getCustomComponentMaterial();
+    private boolean useDefaultMaterial = false;
 
     public CustomComponentBuilder(Material material, String itemPath) {
+
         super(material);
 
         this.mainPath = "custom-items." + itemPath;
-        componentConfig = Ollivanders.getWandConfig();
         componentConfig.setConfigurationPath(itemPath,false);
         componentData = new ComponentData();
-        if (material == null) {
-            String string = componentConfig.getConfigurationSection(mainPath).getString("material");
-            if (string != null) {
-                Material configMaterial = Material.valueOf(string.toUpperCase());
-                itemStack = new ItemStack(configMaterial);
-            }
+        if (useDefaultMaterial) {
+            itemStack.setType(defaultMaterial);
+            componentData.setMaterial(defaultMaterial);
+        } else {
+            componentData.setMaterial(material);
         }
     }
 
-
-    public CustomComponentBuilder setMaterial(Material material) {
-        componentData.setMaterial(material);
-        return this;
+    public CustomComponentBuilder(String itemPath) {
+        this(Material.STONE, itemPath);
+        useDefaultMaterial = true;
     }
 
-    public ItemStack defaultBuild(boolean isCore) {
+    public ItemStack defaultBuild() {
         CustomComponentBuilder customComponentBuilder = this.setDefaultComponentType()
                 .setDefaultWandBoost()
                 .setDefaultDisplayName()
                 .setDefaultWandLore()
                 .setDefaultItemLore();
-        if(isCore) {
+        if (componentData != null && componentData.hasCore()) {
             customComponentBuilder.setDefaultTitle()
                     .setDefaultCore()
                     .setDefaultRarity();

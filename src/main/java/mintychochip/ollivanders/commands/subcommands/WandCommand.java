@@ -54,10 +54,10 @@ public class WandCommand extends SubCommand {
         for (String material : arg.split(",")) {
             if (material.contains("core:")) {
                 String[] split = material.split(":");
-                wandMaterials.add(new CustomComponentBuilder(Material.STONE, split[1]).defaultBuild(true));
+                wandMaterials.add(new CustomComponentBuilder(Material.STONE, split[1]).defaultBuild());
             } else if (material.contains("construct:")) {
                 String[] split = material.split(":");
-                wandMaterials.add(new CustomComponentBuilder(Material.STONE, split[1]).defaultBuild(false));
+                wandMaterials.add(new CustomComponentBuilder(Material.STONE, split[1]).defaultBuild());
             } else {
                 wandMaterials.add(new ItemStack(Material.valueOf(material.toUpperCase())));
             }

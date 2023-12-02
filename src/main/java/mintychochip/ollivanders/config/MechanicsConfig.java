@@ -7,29 +7,20 @@ import org.bukkit.configuration.ConfigurationSection;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
-public class MechanicConfig {
-    enum MechanicSettings {
-        KEYWORDS,
-        RANGE,
-        DURATION,
-        COST,
-        haste,
-        DAMAGE,
-
-        PERSISTENT,
-        INTERVAL
-
-    }
-
+public class MechanicsConfig {
     private final ConfigReader c;
-
-    public MechanicConfig(String file) {
-        c = new ConfigReader(file); //make a manager to find all the yml files
+    private final String mechanicsMainPath = "mechanics";
+    private final String keywordsMainPath = "keywords";
+    public MechanicsConfig(String file) {
+        c = new ConfigReader(file);
     }
+
     public WizardMechanicSettings getMechanicSettings(String mechanic) {
-        ConfigurationSection configurationSection = c.getConfigurationSection(mechanic);
+        ConfigurationSection configurationSection = c.getConfigurationSection(mechanicsMainPath + "." + mechanic);
         if (configurationSection == null) {
             return null;
         }
@@ -39,7 +30,7 @@ public class MechanicConfig {
                 switch (MechanicSettings.valueOf(key.toUpperCase())) {
                     case COST -> WizardMechanicSettings.setCost(configurationSection.getInt(key));
                     case RANGE -> WizardMechanicSettings.setRange(configurationSection.getInt(key));
-                    case haste -> WizardMechanicSettings.sethaste(configurationSection.getDouble(key));
+                    case HASTE -> WizardMechanicSettings.sethaste(configurationSection.getDouble(key));
                     case DURATION -> WizardMechanicSettings.setDuration(configurationSection.getInt(key));
                     case KEYWORDS -> WizardMechanicSettings.setKeywords(configurationSection.getStringList(key));
                     case DAMAGE -> WizardMechanicSettings.setDamage(configurationSection.getInt(key));
@@ -56,7 +47,7 @@ public class MechanicConfig {
             Class<?> clazz = Class.forName("mintychochip.ollivanders.spells." + mechanic);
             Constructor<?> constructor = clazz.getConstructor();
             Object o = constructor.newInstance();
-            if(o instanceof WizardMechanic) {
+            if (o instanceof WizardMechanic) {
                 return (WizardMechanic) o;
             }
             return null;
@@ -72,9 +63,11 @@ public class MechanicConfig {
             throw new RuntimeException(e);
         }
     }
+
     public Set<String> getKeys() {
-        return c.getConfig().getKeys(false);
+        return c.getConfigurationSection(mechanicsMainPath).getKeys(false);
     }
+
     public boolean checkInSet(String value) {
         MechanicSettings mechanicSettings = MechanicSettings.valueOf(value.toUpperCase());
         for (MechanicSettings val : MechanicSettings.values()) {
@@ -83,5 +76,29 @@ public class MechanicConfig {
             }
         }
         return false;
+    }
+
+    public <E extends Enum<E>> Map<String, E> getMap(String path, Class<E> enumClass) {
+        ConfigurationSection configurationSection = c.getConfigurationSection(keywordsMainPath + "." + path);
+        Map<String, E> map = new HashMap<>();
+        for (String key : configurationSection.getKeys(false)) {
+            E e = Enum.valueOf(enumClass, key);
+            for (String s : configurationSection.getStringList(key)) {
+                map.put(s.toUpperCase(), e);
+            }
+        }
+        return map;
+    }
+
+    public enum MechanicSettings {
+        KEYWORDS,
+        RANGE,
+        DURATION,
+        COST,
+        HASTE,
+        DAMAGE,
+        PERSISTENT,
+        INTERVAL
+
     }
 }

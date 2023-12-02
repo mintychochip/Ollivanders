@@ -114,6 +114,20 @@ public class ComponentConfig {
         return null;
     }
 
+    public Material getCustomComponentMaterial() {
+        if (!currentIsMaterial) {
+            String string = currentConfigurationSection.getString("material");
+            if (string != null) {
+                try {
+                    return Material.valueOf(string.toUpperCase());
+                } catch (IllegalArgumentException e) {
+                    throw new IllegalArgumentException(e);
+                }
+            }
+        }
+        return null;
+    }
+
     //-------------------------------------------------------------------------------------
 
     public ConfigurationSection getConfigurationSection(String path) {

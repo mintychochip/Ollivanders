@@ -13,9 +13,9 @@ public class WizardMechanicSettings {
     private boolean bendable;
 
     private boolean persistent;
-   private int damage;
+    private int damage;
 
-   private long interval;
+    private long interval;
 
     public void setInterval(long interval) {
         this.interval = interval;

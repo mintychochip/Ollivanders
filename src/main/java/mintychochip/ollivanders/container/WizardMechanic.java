@@ -1,7 +1,7 @@
 package mintychochip.ollivanders.container;
 
+import Shape;
 import mintychochip.ollivanders.betterwand.WandBoost;
-import mintychochip.ollivanders.shape.Shape;
 import mintychochip.ollivanders.shape.implementation.Implementation;
 
 public abstract class WizardMechanic { //make all protected

@@ -9,7 +9,6 @@ import mintychochip.ollivanders.events.LaserCastEvent;
 import mintychochip.ollivanders.events.SelfCastEvent;
 import mintychochip.ollivanders.handler.ProjectileHandler;
 import mintychochip.ollivanders.shape.*;
-import mintychochip.ollivanders.shape.Shape;
 import mintychochip.ollivanders.shape.implementation.AoeImplementation;
 import mintychochip.ollivanders.shape.implementation.LaserImplementation;
 import mintychochip.ollivanders.shape.implementation.ProjectileImplementation;

@@ -1,7 +1,7 @@
 package mintychochip.ollivanders.registry;
 
 import mintychochip.ollivanders.Ollivanders;
-import mintychochip.ollivanders.config.MechanicConfig;
+import mintychochip.ollivanders.config.MechanicsConfig;
 import mintychochip.ollivanders.container.WizardMechanic;
 import mintychochip.ollivanders.container.WizardMechanicSettings;
 
@@ -11,7 +11,7 @@ import java.util.Map;
 
 public class MechanicRegistry {
 
-    private final MechanicConfig mechanicConfig;
+    private final MechanicsConfig mechanicConfig;
     private static Map<String, WizardMechanic> mechanics;
     private static Map<WizardMechanic,WizardMechanicSettings> mechanicSettings;
 
