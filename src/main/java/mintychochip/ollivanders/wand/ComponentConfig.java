@@ -1,28 +1,21 @@
 package mintychochip.ollivanders.wand;
 
-import mintychochip.ollivanders.ConfigReader;
+import mintychochip.ollivanders.GenericConfig;
 import mintychochip.ollivanders.wand.container.WandBoost;
 import mintychochip.ollivanders.wand.enums.WandModifier;
-import mintychochip.ollivanders.ConfigReader;
-import mintychochip.ollivanders.wand.container.WandBoost;
-import mintychochip.ollivanders.wand.enums.WandModifier;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 
 import java.io.Serializable;
-import java.util.List;
 
-public class ComponentConfig implements Serializable {
+public class ComponentConfig extends GenericConfig implements Serializable {
     private final String materialsPath = "materials";
     private final String customComponentPath = "custom-items";
-    private final String coreTypeMarker = "core-type"; //can be managed from general config
-    private final ConfigReader configReader;
     private Material defaultMaterial;
-    private ConfigurationSection main;
 
+    private String itemPath;
     public ComponentConfig(String fileName) {
-        configReader = new ConfigReader(fileName);
+        super(fileName);
     }
 
     public Material getDefaultMaterial() {
@@ -32,41 +25,12 @@ public class ComponentConfig implements Serializable {
     public void setMain(String itemPath, boolean material) {
         if (material) {
             main = configReader.getConfigurationSection(materialsPath + "." + itemPath);
-            defaultMaterial = Enum.valueOf(Material.class, itemPath);
+            defaultMaterial = Enum.valueOf(Material.class, itemPath.toUpperCase());
             return;
         }
-
+        this.itemPath = itemPath;
         main = configReader.getConfigurationSection(customComponentPath + "." + itemPath);
-        Bukkit.broadcastMessage("here");
-        defaultMaterial = getEnumFromSection(Material.class, "material");
-    }
-
-    public <E extends Enum<E>> E getEnumFromSection(Class<E> enumClass, String marker) {
-        String unknown = main.getString(marker);
-        if (unknown == null) {
-            return Enum.valueOf(enumClass,"DEFAULT");
-        }
-        if(!isInEnum(unknown.toUpperCase(),enumClass)) {
-            throw new IllegalArgumentException();
-        }
-        Bukkit.broadcastMessage("here");
-        return Enum.valueOf(enumClass, unknown.toUpperCase());
-    }
-
-    public List<String> getDefaultComponentLore(String marker) {
-        return main.getStringList(marker);
-    }
-
-    public ConfigurationSection getConfigurationSection(String path) {
-        return configReader.getConfigurationSection(path);
-    }
-
-    public int getDefaultCustomModelData(String marker) {
-        return main.getString(marker) != null ? main.getInt(marker) : -1;
-    }
-
-    public String getStringAtMarker(String marker) {
-        return main.getString(marker);
+        defaultMaterial = enumFromSection(Material.class, "material");
     }
 
     public WandBoost getDefaultWandBoost(String marker) {
@@ -75,7 +39,7 @@ public class ComponentConfig implements Serializable {
         ConfigurationSection modifiers = main.getConfigurationSection(marker);
         if (modifiers != null) {
             for (String key : modifiers.getKeys(false)) {
-                if (isInEnum(key.toUpperCase(), WandModifier.class)) {
+                if (isInEnum(WandModifier.class, key.toUpperCase())) {
                     switch (Enum.valueOf(WandModifier.class, key.toUpperCase())) {
                         case RANGE -> wandBoost.setRange(wandBoost.getRange() + modifiers.getDouble(key));
                         case EFFICIENCY ->
@@ -90,12 +54,7 @@ public class ComponentConfig implements Serializable {
         return wandBoost;
     }
 
-    public <E extends Enum<E>> boolean isInEnum(String value, Class<E> enumClass) {
-        for (E e : enumClass.getEnumConstants()) {
-            if (e.name().equals(value)) {
-                return true;
-            }
-        }
-        return false;
+    public String getItemPath() {
+        return itemPath;
     }
 }

@@ -1,54 +1,49 @@
 package mintychochip.ollivanders.wand.container;
 
-import mintychochip.ollivanders.wand.enums.ComponentType;
 import mintychochip.ollivanders.wand.enums.CoreType;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class WandData extends Data {
 
     private WandBoost wandBoost;
     private String wandName;
-    private CoreType CoreType;
-    private Map<WandBoost, ComponentType> wandBoostMap = new HashMap<>();
+    private CoreType coreType;
     private List<String> wandLore;
 
-    public void setWandBoostMap(Map<WandBoost, ComponentType> wandBoostMap) {
-        this.wandBoostMap = wandBoostMap;
+    public WandBoost getWandBoost() {
+        return wandBoost;
     }
 
     public void setWandBoost(WandBoost wandBoost) {
         this.wandBoost = wandBoost;
-    }
-    public void setWandName(String wandName) {
-        this.wandName = wandName;
-    }
-    public void setCoreType(CoreType CoreType) {
-        this.CoreType = CoreType;
-    }
-    public void setWandLore(List<String> wandLore) {
-        this.wandLore = wandLore;
-    }
-
-    public WandBoost getWandBoost() {
-        return wandBoost;
     }
 
     public String getWandName() {
         return wandName;
     }
 
-    public CoreType getCoreType() {
-        return CoreType;
+    public void setWandName(String wandName) {
+        this.wandName = wandName;
     }
 
-    public Map<WandBoost, ComponentType> getWandBoostMap() {
-        return wandBoostMap;
+    public CoreType getCoreType() {
+        return coreType;
+    }
+
+    public void setCoreType(CoreType CoreType) {
+        this.coreType = CoreType;
     }
 
     public List<String> getWandLore() {
         return wandLore;
+    }
+
+    public void setWandLore(List<String> wandLore) {
+        this.wandLore = wandLore;
+    }
+
+    public String toString() {
+        return String.format("%s %s %s %s", wandBoost.toString(), wandName, coreType.toString(), wandLore.toString());
     }
 }

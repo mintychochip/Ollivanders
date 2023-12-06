@@ -7,10 +7,11 @@ import java.io.File;
 
 public class ConfigReader {
 
-    private String currentPath;
     private final String fileName;
+    private String currentPath;
     private File file;
     private YamlConfiguration config;
+
     public ConfigReader(String fileName) {
         this.fileName = fileName;
         load();
@@ -60,11 +61,11 @@ public class ConfigReader {
         return config.getConfigurationSection(header);
     }
 
-    public void setCurrentPath(String currentPath) {
-        this.currentPath = currentPath;
-    }
-
     public String getCurrentPath() {
         return currentPath;
+    }
+
+    public void setCurrentPath(String currentPath) {
+        this.currentPath = currentPath;
     }
 }

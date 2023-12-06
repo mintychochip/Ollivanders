@@ -3,5 +3,8 @@ version: '${project.version}'
 main: mintychochip.ollivanders.Ollivanders
 api-version: '1.20'
 commands:
-  wand:
+  component:
     description: wadwd
+  wand:
+    description: spawns a wand
+depend: [Genesis]

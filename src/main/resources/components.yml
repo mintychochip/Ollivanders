@@ -15,7 +15,7 @@ materials:
     type: STICK
     title: Rod
     modifiers:
-      POWER: 0.2
+      POWER: 1.5
       HASTE: -0.2
   BLAZE_ROD:
     type: STICK
@@ -92,6 +92,36 @@ materials:
     title: Purgatory
     rarity: UNCOMMON
 custom-items:
+  slime:
+    name: "Slime Nucleus"
+    material: SLIME_BALL
+    type: CORE
+    lore:
+      - ASDASD
+    core: SLIME
+    title: Slippery
+    rarity: EPIC
+  amber:
+    name: "Crystallized Amber"
+    material: HONEY_COMB
+    type: COREt
+    lore:
+      - Crystalline amber, which appears to be from a prehistoric era,
+      - the creature trapped appears to be stuck for eternity.
+    core: AMBER
+    title: Extinct
+    rarity: EPIC
+  ice-tear:
+    name: "The Frost Queen's Tear"
+    material: GHAST_TEAR
+    type: CORE
+    lore:
+      - Forged from the crystallized tears of an ancient ice deity in the heart of Eldrathia,
+      - the Ice Queen Tear holds the power to command frost and shape the very essence of winter,
+      - granting its wielder dominion over the frozen realms.
+    core: ICE_TEAR
+    title: Sorrow
+    rarity: EPIC
   livingwood:
     name: 'Living Wood'
     material: OAK_LOG
@@ -101,7 +131,7 @@ custom-items:
     core: LIVINGWOOD
     title: Forest
     rarity: UNCOMMON
-  phoenix-feather:
+  phoenix_feather:
     name: 'Phoenix Feather'
     material: FEATHER
     type: CORE
@@ -156,40 +186,6 @@ custom-items:
       RANGE: 0.2
       POWER: -0.2
 #-----------------------------------
-core:
-  HEART_OF_THE_SEA:
-    model: 2
-    lore:
-      - asdasd
-  ENDER_EYE:
-    model: 1
-    lore:
-      - pp
-  PHOENIX_FEATHER:
-    model: 4
-    lore:
-      - Forged from the molten core of a long-extinct volcano,
-      - the phoenix rod bore an intricately carved shaft adorned with runes that glowed like embers.
-      - When wielded, it crackled with the rejuvenating energy of a phoenix,
-      - capable of both destruction and rebirth at the conjurer's command.
-  RESPAWN_ANCHOR:
-    model: 6
-    lore:
-      - Forged from the nebulous essence of the in-between realms,
-      - the Purgatory Wand beckons wielders to harness chaotic energies,
-      - offering the power to banish malevolent entities and unravel
-      - the very fabric between existence and the mysterious unknown.
-  DRAGON_EGG:
-    model: 3
-    lore:
-      - Forged from the enchanted remnants of a fallen Ender Dragon,
-      - the Dragon Egg emits a magical aura, allowing its possessor to manipulate and control the arcane energies within,
-      - casting spells of otherworldly might and mystery.
-  BLUE_ICE:
-    model: 5
-    lore:
-      - asdasd
-  LIVINGWOOD:
-    model: 7
-    lore:
-      - LIVINGYAAAAAAAAAA
+
+
+

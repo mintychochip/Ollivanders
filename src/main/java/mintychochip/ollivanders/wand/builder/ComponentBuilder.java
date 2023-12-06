@@ -7,8 +7,8 @@ import mintychochip.ollivanders.Ollivanders;
 import mintychochip.ollivanders.wand.ComponentConfig;
 import mintychochip.ollivanders.wand.Serializer;
 import mintychochip.ollivanders.wand.container.ComponentData;
-import mintychochip.ollivanders.wand.enums.ComponentType;
 import mintychochip.ollivanders.wand.container.WandBoost;
+import mintychochip.ollivanders.wand.enums.ComponentType;
 import mintychochip.ollivanders.wand.enums.CoreType;
 import mintychochip.ollivanders.wand.enums.Rarity;
 import org.bukkit.ChatColor;
@@ -21,25 +21,28 @@ import java.util.List;
 public class ComponentBuilder extends ItemBuilder {
     protected final ComponentData componentData = new ComponentData();
 
-    private ComponentConfig cc = Ollivanders.getComponentConfig();
+    private final ComponentConfig cc = Ollivanders.getComponentConfig();
 
     public ComponentBuilder(AbstractItem abstractItem) {
         super(abstractItem);
     }
+
     public ComponentBuilder setTitle(String title) {
         componentData.setTitle(title);
         return this;
     }
+
     public ComponentBuilder setDisplayName(String displayName, boolean useColorCodes) {
         String finalString = "";
-        if(useColorCodes) {
+        if (useColorCodes) {
             componentData.setDisplayName(finalString += ChatColor.getByChar(
-                    cc.getEnumFromSection(Rarity.class, "rarity").getColorCode()) + displayName);
+                    cc.enumFromSection(Rarity.class, "rarity").getColorCode()) + displayName);
         } else {
             componentData.setDisplayName(finalString = displayName);
         }
         return (ComponentBuilder) super.setDisplayName(finalString);
     }
+
     public ComponentBuilder setDisplayName(String displayName) {
         componentData.setDisplayName(displayName);
         return (ComponentBuilder) super.setDisplayName(displayName);
@@ -87,16 +90,16 @@ public class ComponentBuilder extends ItemBuilder {
 
     //-----------------------------------------------------------
     public ItemStack defaultBuild() {
-        ComponentType type = cc.getEnumFromSection(ComponentType.class, "type"); //should work
-        ComponentBuilder componentBuilder = this.setCustomModelData(cc.getDefaultCustomModelData("model"))
-                .setRarity(cc.getEnumFromSection(Rarity.class,"rarity"))
+        ComponentType type = cc.enumFromSection(ComponentType.class, "type"); //should work
+        ComponentBuilder componentBuilder = this.setCustomModelData(cc.getInt("model"))
+                .setRarity(cc.enumFromSection(Rarity.class, "rarity"))
                 .setComponentType(type)
-                .setDisplayName(cc.getStringAtMarker("display-name"),true)
-                .setTitle(cc.getStringAtMarker("title"))
+                .setDisplayName(cc.getString("name"), true)
+                .setTitle(cc.getString("title"))
                 .setWandBoost(cc.getDefaultWandBoost("modifiers"))
-                .addLore(cc.getDefaultComponentLore("lore"));
-        if(type == ComponentType.CORE) {
-            componentBuilder.setCoreType(cc.getEnumFromSection(CoreType.class,"core"));
+                .addLore(cc.getStringList("lore"));
+        if (type == ComponentType.CORE) {
+            componentBuilder.setCoreType(Enum.valueOf(CoreType.class,cc.getItemPath().toUpperCase()));
         }
         return componentBuilder.build();
     }
@@ -107,7 +110,7 @@ public class ComponentBuilder extends ItemBuilder {
         try {
             abstractItem.getItemMeta().getPersistentDataContainer().set(Genesis.getKeys()
                     .getMap()
-                    .get("items"), PersistentDataType.BYTE_ARRAY, Serializer.<ComponentData>serialize(componentData));
+                    .get("items"), PersistentDataType.BYTE_ARRAY, Serializer.serialize(componentData));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

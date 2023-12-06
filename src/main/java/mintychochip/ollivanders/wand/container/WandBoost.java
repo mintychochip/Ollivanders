@@ -18,6 +18,7 @@ public class WandBoost implements Serializable {
         efficiency = 0;
         duration = 0;
     }
+
     public WandBoost addAll(double v) {
         efficiency += v;
         range += v;
@@ -26,6 +27,7 @@ public class WandBoost implements Serializable {
         haste += v;
         return this;
     }
+
     public WandBoost multiplyAllIf(double w, double y) {
         efficiency *= (efficiency < 0 ? w : y);
         range *= (range < 0 ? w : y);

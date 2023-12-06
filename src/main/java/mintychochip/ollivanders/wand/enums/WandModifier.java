@@ -6,5 +6,5 @@ public enum WandModifier {
     EFFICIENCY,
     HASTE,
     DURATION,
-    DEFAULT;
+    DEFAULT
 }

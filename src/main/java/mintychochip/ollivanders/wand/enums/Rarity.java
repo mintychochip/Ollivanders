@@ -9,9 +9,11 @@ public enum Rarity {
     DEFAULT('f');
 
     public final char colorCode;
+
     Rarity(char colorCode) {
         this.colorCode = colorCode;
     }
+
     public char getColorCode() {
         return colorCode;
     }

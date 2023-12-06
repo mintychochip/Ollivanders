@@ -1,7 +1,6 @@
 package mintychochip.ollivanders.wand;
 
 import mintychochip.ollivanders.wand.container.Data;
-import mintychochip.ollivanders.wand.container.Data;
 
 import java.io.*;
 
@@ -16,6 +15,7 @@ public class Serializer {
             throw new RuntimeException(e);
         }
     }
+
     public static Object deserialize(byte[] data) throws IOException {
         try {
             ByteArrayInputStream bis = new ByteArrayInputStream(data);

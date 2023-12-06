@@ -1,0 +1,51 @@
+HEART_OF_THE_SEA:
+  model: 2
+  lore:
+    - asdasd
+ENDER_EYE:
+  model: 1
+  lore:
+    - pp
+PHOENIX_FEATHER:
+  model: 29
+  lore:
+    - Forged from the molten core of a long-extinct volcano,
+    - the phoenix rod bore an intricately carved shaft adorned with runes that glowed like embers.
+    - When wielded, it crackled with the rejuvenating energy of a phoenix,
+    - capable of both destruction and rebirth at the conjurer's command.
+RESPAWN_ANCHOR:
+  model: 6
+  lore:
+    - Forged from the nebulous essence of the in-between realms,
+    - the Purgatory Wand beckons wielders to harness chaotic energies,
+    - offering the power to banish malevolent entities and unravel
+    - the very fabric between existence and the mysterious unknown.
+DRAGON_EGG:
+  model: 3
+  lore:
+    - Forged from the enchanted remnants of a fallen Ender Dragon,
+    - the Dragon Egg emits a magical aura, allowing its possessor to manipulate and control the arcane energies within,
+    - casting spells of otherworldly might and mystery.
+BLUE_ICE:
+  model: 5
+  lore:
+    - asdasd
+LIVINGWOOD:
+  model: 7
+  lore:
+    - LIVINGYAAAAAAAAAA
+ICE_TEAR:
+  model: 19
+  lore:
+    - Crafted from the enchanted branches of the Whispering Grove,
+    - the wand channels the chilling whispers of ancient spirits,
+    - allowing its wielder to weave frosty spells that dance with the ethereal magic of winter.
+AMBER:
+  model: 31
+  lore:
+    - Forged from the resilient branches of the Whispering Grove and crowned
+    - with a crystallized amber core, the wand empowers its wielder.
+SLIME:
+  model: 34
+  lore:
+    - slime slime slimy
