@@ -2,7 +2,7 @@ package mintychochip.ollivanders.commands;
 
 import mintychochip.genesis.container.AbstractItem;
 import mintychochip.ollivanders.Ollivanders;
-import mintychochip.ollivanders.wand.ComponentConfig;
+import mintychochip.ollivanders.wand.config.ComponentConfig;
 import mintychochip.ollivanders.wand.builder.ComponentBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;

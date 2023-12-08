@@ -1,4 +1,4 @@
-package mintychochip.ollivanders.wand;
+package mintychochip.ollivanders.wand.config;
 
 import mintychochip.ollivanders.GenericConfig;
 import mintychochip.ollivanders.wand.container.WandBoost;

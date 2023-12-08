@@ -1,6 +1,7 @@
-package mintychochip.ollivanders.wand;
+package mintychochip.ollivanders.wand.config;
 
 import mintychochip.ollivanders.Ollivanders;
+import mintychochip.ollivanders.wand.config.ComponentConfig;
 import mintychochip.ollivanders.wand.container.ComponentData;
 import mintychochip.ollivanders.wand.enums.ComponentType;
 import mintychochip.ollivanders.wand.enums.CoreType;

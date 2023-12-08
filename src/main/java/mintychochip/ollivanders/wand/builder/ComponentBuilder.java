@@ -4,7 +4,7 @@ import mintychochip.genesis.Genesis;
 import mintychochip.genesis.builder.ItemBuilder;
 import mintychochip.genesis.container.AbstractItem;
 import mintychochip.ollivanders.Ollivanders;
-import mintychochip.ollivanders.wand.ComponentConfig;
+import mintychochip.ollivanders.wand.config.ComponentConfig;
 import mintychochip.ollivanders.wand.Serializer;
 import mintychochip.ollivanders.wand.container.ComponentData;
 import mintychochip.ollivanders.wand.container.WandBoost;

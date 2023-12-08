@@ -1,4 +1,6 @@
-package mintychochip.ollivanders;
+package mintychochip.ollivanders.wand.config;
+
+import mintychochip.ollivanders.GenericConfig;
 
 public class WandConfig extends GenericConfig {
     public WandConfig(String fileName) {

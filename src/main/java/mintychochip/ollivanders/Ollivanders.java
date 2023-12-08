@@ -3,8 +3,9 @@ package mintychochip.ollivanders;
 import mintychochip.genesis.Genesis;
 import mintychochip.ollivanders.commands.CommandManager;
 import mintychochip.ollivanders.commands.TestingWandCommand;
-import mintychochip.ollivanders.wand.ComponentConfig;
-import mintychochip.ollivanders.wand.ComponentRegistry;
+import mintychochip.ollivanders.wand.config.ComponentConfig;
+import mintychochip.ollivanders.wand.config.ComponentRegistry;
+import mintychochip.ollivanders.wand.config.WandConfig;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class Ollivanders extends JavaPlugin {
