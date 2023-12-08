@@ -1,17 +1,30 @@
 package mintychochip.ollivanders.container;
 
-import java.util.List;
+import mintychochip.ollivanders.enums.Shape;
 
-public class SpellMechanic {
+public abstract class SpellMechanic implements Cloneable {
 
     protected Context context;
-    protected List<String> alias;
     protected MechanicSettings mechanicSettings;
     protected MechanicModifier mechanicModifier;
     protected Spell transition;
 
-    public SpellMechanic(MechanicSettings mechanicSettings) {
+    protected Shape shape;
+
+    public void setShape(Shape shape) {
+        this.shape = shape;
+    }
+
+    public Shape getShape() {
+        return shape;
+    }
+
+    public void setMechanicSettings(MechanicSettings mechanicSettings) {
         this.mechanicSettings = mechanicSettings;
+    }
+
+    public MechanicSettings getMechanicSettings() {
+        return mechanicSettings;
     }
 
     public Context getContext() {
@@ -20,14 +33,6 @@ public class SpellMechanic {
 
     public void setContext(Context context) {
         this.context = context;
-    }
-
-    public List<String> getAlias() {
-        return alias;
-    }
-
-    public void setAlias(List<String> alias) {
-        this.alias = alias;
     }
 
     public MechanicModifier getMechanicModifier() {
@@ -44,5 +49,10 @@ public class SpellMechanic {
 
     public void setTransition(Spell transition) {
         this.transition = transition;
+    }
+
+    @Override
+    public SpellMechanic clone() throws CloneNotSupportedException {
+        return (SpellMechanic) super.clone();
     }
 }

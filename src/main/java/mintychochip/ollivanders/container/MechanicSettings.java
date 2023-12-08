@@ -1,13 +1,44 @@
 package mintychochip.ollivanders.container;
 
+import org.bukkit.entity.EntityType;
+
+import java.util.List;
+
 public class MechanicSettings {
 
+    private List<String> keywords;
     private double duration;
     private double cooldown;
     private double cost;
-    private float magnitude;
-    private float range;
+    private double magnitude;
+    private double range;
     private boolean persistent;
+    private EntityType entityType;
+
+    public double getMagnitude() {
+        return magnitude;
+    }
+
+    public List<String> getKeywords() {
+        return keywords;
+    }
+
+    public void setKeywords(List<String> keywords) {
+        this.keywords = keywords;
+    }
+
+    public void setMagnitude(double magnitude) {
+        this.magnitude = magnitude;
+    }
+
+    public double getRange() {
+        return range;
+    }
+
+    public void setRange(double range) {
+        this.range = range;
+    }
+
     private double damage;
     private long interval;
     public double getDuration() {
@@ -32,22 +63,6 @@ public class MechanicSettings {
 
     public void setCost(double cost) {
         this.cost = cost;
-    }
-
-    public float getMagnitude() {
-        return magnitude;
-    }
-
-    public void setMagnitude(float magnitude) {
-        this.magnitude = magnitude;
-    }
-
-    public float getRange() {
-        return range;
-    }
-
-    public void setRange(float range) {
-        this.range = range;
     }
 
     public boolean isPersistent() {

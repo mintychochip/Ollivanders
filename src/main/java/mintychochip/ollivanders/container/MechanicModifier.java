@@ -12,6 +12,11 @@ public class MechanicModifier {
 
     private List<Enchantment> enchantmentList;
 
+    public MechanicModifier() {
+        velocity = 1;
+        magnitude = 1;
+    }
+
     public float getVelocity() {
         return velocity;
     }

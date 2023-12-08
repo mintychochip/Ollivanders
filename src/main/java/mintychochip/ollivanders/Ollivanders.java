@@ -3,16 +3,27 @@ package mintychochip.ollivanders;
 import mintychochip.genesis.Genesis;
 import mintychochip.ollivanders.commands.CommandManager;
 import mintychochip.ollivanders.commands.TestingWandCommand;
+import mintychochip.ollivanders.config.SpellConfig;
+import mintychochip.ollivanders.listener.PlayerListener;
+import mintychochip.ollivanders.util.SpellTokenizer;
 import mintychochip.ollivanders.wand.config.ComponentConfig;
 import mintychochip.ollivanders.wand.config.ComponentRegistry;
 import mintychochip.ollivanders.wand.config.WandConfig;
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.io.IOException;
 
 public final class Ollivanders extends JavaPlugin {
 
     private static ComponentConfig componentConfig;
     private static WandConfig wandConfig;
+
+    private static SpellConfig spellConfig;
+
+    private static SpellTokenizer tokenizer;
     private static Ollivanders instance;
+
 
     public static WandConfig getWandConfig() {
         return wandConfig;
@@ -26,17 +37,32 @@ public final class Ollivanders extends JavaPlugin {
         return instance;
     }
 
+    public static SpellTokenizer getTokenizer() {
+        return tokenizer;
+    }
+
+    public static SpellConfig getSpellConfig() {
+        return spellConfig;
+    }
+
     @Override
     public void onEnable() {
         instance = this;
         // Plugin startup logic
         Genesis.getKeys().generateKey(this, "items");
         Genesis.getKeys().generateKey(this, "wand");
+        tokenizer = new SpellTokenizer();
         componentConfig = new ComponentConfig("components.yml");
         wandConfig = new WandConfig("wand.yml");
+        try {
+            spellConfig = new SpellConfig("spells.yml");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         enableRegistries();
         getCommand("component").setExecutor(new CommandManager());
         getCommand("wand").setExecutor(new TestingWandCommand());
+        Bukkit.getPluginManager().registerEvents(new PlayerListener(),this);
     }
 
     public void enableRegistries() {
