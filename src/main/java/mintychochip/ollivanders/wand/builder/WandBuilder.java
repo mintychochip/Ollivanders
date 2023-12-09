@@ -13,6 +13,7 @@ import mintychochip.ollivanders.wand.container.WandData;
 import mintychochip.ollivanders.wand.enums.ComponentType;
 import mintychochip.ollivanders.wand.enums.CoreType;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
 
@@ -69,10 +70,15 @@ public class WandBuilder extends ItemBuilder {
         wandData.setCoreType(coreType);
         return this;
     }
-
-    public WandBuilder setWandLore(List<String> wandLore) {
+    public WandBuilder addWandLore(String wandLore) {
+        List<String> oldWandLore = wandData.getWandLore();
+        oldWandLore.add(wandLore);
+        wandData.setWandLore(oldWandLore);
+        return (WandBuilder) super.addLore(wandLore, ChatColor.GRAY);
+    }
+    public WandBuilder addWandLore(List<String> wandLore) {
         wandData.setWandLore(wandLore);
-        return (WandBuilder) super.addLore(wandLore);
+        return (WandBuilder) super.addLore(wandLore,ChatColor.GRAY);
     }
 
     public WandBoost sumWandBoostCore(boolean withCore) {
@@ -85,7 +91,16 @@ public class WandBuilder extends ItemBuilder {
                 result.addAll(componentData.getWandBoost());
             }
         }
-        return result;
+        return result.addAll(1);
+    }
+    public WandBuilder addStatLore() {
+        WandBoost wandBoost = wandData.getWandBoost();
+        addWandLore("Magnitude: " + wandBoost.getMagnitude());
+        addWandLore("Duration: " + wandBoost.getDuration());
+        addWandLore("Range: " + wandBoost.getRange());
+        addWandLore("Efficiency: " + wandBoost.getEfficiency());
+        addWandLore("Haste: " + wandBoost.getHaste());
+        return this;
     }
 
     public WandBuilder setUnstackable(boolean unstackable) {
@@ -94,7 +109,8 @@ public class WandBuilder extends ItemBuilder {
 
     public ItemStack defaultBuild() {
         return this.setWandBoost(sumWandBoostCore(true))
-                .setWandLore(wc.getStringList("lore"))
+                .addWandLore(wc.getStringList("lore"))
+                .addStatLore()
                 .setCoreType(Enum.valueOf(CoreType.class, wc.getPath().toUpperCase()))
                 .setCustomModelData(wc.getInt("model"))
                 .setDisplayName(generateWandName())

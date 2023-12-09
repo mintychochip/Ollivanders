@@ -10,25 +10,33 @@ public class MechanicSettings {
     private double duration;
     private double cooldown;
     private double cost;
-    private double magnitude;
     private double range;
     private boolean persistent;
+
+    private double magnitude;
     private EntityType entityType;
 
     public double getMagnitude() {
         return magnitude;
     }
 
+    public void setMagnitude(double magnitude) {
+        this.magnitude = magnitude;
+    }
+
+    public EntityType getEntityType() {
+        return entityType;
+    }
+
+    public void setEntityType(EntityType entityType) {
+        this.entityType = entityType;
+    }
     public List<String> getKeywords() {
         return keywords;
     }
 
     public void setKeywords(List<String> keywords) {
         this.keywords = keywords;
-    }
-
-    public void setMagnitude(double magnitude) {
-        this.magnitude = magnitude;
     }
 
     public double getRange() {

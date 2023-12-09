@@ -1,7 +1,33 @@
+default:
+  mechanic:
+    range: 1
+    duration: 5
+    magnitude: 5
+    entity_type: fireball
 mechanics:
-  Fireball:
-    keywords:
-      - Fireball
+  Fireball: #same as class name
+    keywords: [ fireball ]
+    range: 15
+    duration: 15
+    magnitude: 5
+    entity_type: fireball
+  Explosion:
+    keywords: [ explosion ]
+    range: 15
+    duration: 15
+    magnitude: 5
 keywords:
   keyword:
-    START:
+    START: [ start ]
+    MECHANIC: [ mechanic ]
+    END: [ end ]
+    SHAPE: [ shape ]
+    WAIT: [ wait ]
+    MODIFIER: [ modifier ]
+  shape:
+    PROJECTILE: [ projectile ]
+    AREA: [area]
+    SELF: [ self ]
+  modifier:
+    ENCHANTMENT: [ enchantment ]
+    MAGNITUDE: [ magnitude ]

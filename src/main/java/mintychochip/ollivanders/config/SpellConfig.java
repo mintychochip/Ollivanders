@@ -10,6 +10,7 @@ import mintychochip.ollivanders.enums.Shape;
 import mintychochip.ollivanders.util.EnumUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.entity.EntityType;
 
 import java.io.IOException;
 import java.lang.reflect.Constructor;
@@ -20,7 +21,7 @@ import java.util.Map;
 import java.util.Set;
 
 public class SpellConfig extends GenericConfig {
-
+    //add default for mechanics
     private final String mechanicsMainPath = "mechanics";
 
     private final String keywordsMainPath = "keywords";
@@ -83,6 +84,8 @@ public class SpellConfig extends GenericConfig {
                     case INTERVAL -> mechanicSettings.setInterval(configurationSection.getLong(key));
                     case PERSISTENT -> mechanicSettings.setPersistent(configurationSection.getBoolean(key));
                     case KEYWORDS -> mechanicSettings.setKeywords(configurationSection.getStringList(key));
+                    case ENTITY_TYPE -> mechanicSettings.setEntityType(Enum.valueOf(EntityType.class,configurationSection.getString(key).toUpperCase()));
+                    case MAGNITUDE -> mechanicSettings.setMagnitude(configurationSection.getDouble(key));
                 }
             }
         }
@@ -117,7 +120,8 @@ public class SpellConfig extends GenericConfig {
         COST,
         DAMAGE,
         PERSISTENT,
-        INTERVAL
-
+        INTERVAL,
+        ENTITY_TYPE,
+        MAGNITUDE
     }
 }

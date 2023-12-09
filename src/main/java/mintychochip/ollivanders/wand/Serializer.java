@@ -1,6 +1,7 @@
 package mintychochip.ollivanders.wand;
 
 import mintychochip.ollivanders.wand.container.Data;
+import mintychochip.ollivanders.wand.container.WandData;
 
 import java.io.*;
 
@@ -21,6 +22,15 @@ public class Serializer {
             ByteArrayInputStream bis = new ByteArrayInputStream(data);
             ObjectInputStream ois = new ObjectInputStream(bis);
             return ois.readObject();
+        } catch (IOException | ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    public static WandData deserializeWand(byte[] data) throws IOException {
+        try {
+            ByteArrayInputStream bis = new ByteArrayInputStream(data);
+            ObjectInputStream ois = new ObjectInputStream(bis);
+            return (WandData) ois.readObject();
         } catch (IOException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }

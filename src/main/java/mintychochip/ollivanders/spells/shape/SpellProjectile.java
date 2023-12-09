@@ -14,7 +14,7 @@ public interface SpellProjectile {
         Location playerLocation = player.getLocation();
         //injection
         if(playerLocation.getWorld() != null && entityType != null) {
-            Projectile spawnedProjectile = (Projectile) playerLocation.getWorld().spawnEntity(playerLocation.add(playerLocation.getDirection().getX(),1f,playerLocation.getDirection().getZ()), EntityType.FIREBALL);
+            Projectile spawnedProjectile = (Projectile) playerLocation.getWorld().spawnEntity(playerLocation.add(playerLocation.getDirection().getX(),1f,playerLocation.getDirection().getZ()), entityType);
 
             spawnedProjectile.setVelocity(playerLocation.getDirection().multiply(modifier.getVelocity()));
             return spawnedProjectile.getEntityId();

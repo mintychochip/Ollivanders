@@ -1,6 +1,7 @@
 package mintychochip.ollivanders.container;
 
 import mintychochip.ollivanders.Ollivanders;
+import org.bukkit.Bukkit;
 import org.bukkit.inventory.meta.BookMeta;
 
 import java.io.IOException;
@@ -30,6 +31,7 @@ public class SpellBook {
             Spell spell = Ollivanders.getTokenizer().defaultBuild(s);
             spell.getMechanic().setTransition(null);
             spellList.add(spell);
+            Bukkit.broadcastMessage(spell.getMechanic().getShape().toString());
         }
         Collections.reverse(spellList);
         int index = spellList.size() - 1;
