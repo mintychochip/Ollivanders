@@ -27,6 +27,15 @@ public class SpellCaster {
                     }
                 }
             }
+            case AREA -> {
+
+            }
+            case SELF -> {
+
+            }
+            case SIGHT -> {
+                
+            }
         }
     }
 }
