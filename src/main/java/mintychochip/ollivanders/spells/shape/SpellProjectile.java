@@ -8,6 +8,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 
 public interface SpellProjectile {
+
+    abstract void effectOnHit();
     default int launchProjectile(EntityType entityType, Player player, MechanicModifier modifier) {
         Location playerLocation = player.getLocation();
         //injection

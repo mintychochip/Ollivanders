@@ -5,6 +5,7 @@ import mintychochip.ollivanders.GenericConfig;
 import mintychochip.ollivanders.container.MechanicSettings;
 import mintychochip.ollivanders.container.SpellMechanic;
 import mintychochip.ollivanders.enums.Keyword;
+import mintychochip.ollivanders.enums.Modifier;
 import mintychochip.ollivanders.enums.Shape;
 import mintychochip.ollivanders.util.EnumUtil;
 import org.bukkit.Bukkit;
@@ -31,11 +32,12 @@ public class SpellConfig extends GenericConfig {
         }
         Registry.setKeywordAlias(generateRegistry(Keyword.class,"keyword"));
         Registry.setShapeAlias(generateRegistry(Shape.class,"shape"));
+        Registry.setModifierAlias(generateRegistry(Modifier.class,"modifier"));
     }
     public<E extends Enum<E>> Map<String,E> generateRegistry(Class<E> enumClass,String section) throws IOException {
         ConfigurationSection configurationSection = configReader.getConfigurationSection(keywordsMainPath + "." + section);
         if(configurationSection == null) {
-            throw new IOException("Failed to register: " + enumClass.getName() + " at " + section);
+            throw new IOException("Failed to generate registry: " + enumClass.getName() + " at " + section);
         }
         Map<String,E> map = new HashMap<>();
         for (String key : configurationSection.getKeys(false)) {

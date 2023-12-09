@@ -5,6 +5,7 @@ import mintychochip.ollivanders.config.Registry;
 import mintychochip.ollivanders.container.Context;
 import mintychochip.ollivanders.container.MechanicModifier;
 import mintychochip.ollivanders.container.Spell;
+import mintychochip.ollivanders.container.SpellBook;
 import mintychochip.ollivanders.enums.Keyword;
 import mintychochip.ollivanders.enums.Shape;
 import mintychochip.ollivanders.util.SpellCaster;
@@ -27,16 +28,20 @@ public class PlayerListener implements Listener {
             Bukkit.broadcastMessage("hello");
             ItemMeta itemMeta = event.getPlayer().getInventory().getItemInMainHand().getItemMeta();
             if(itemMeta instanceof BookMeta bookMeta) {
-                String page = bookMeta.getPage(1);
-                Spell spell = new SpellTokenizer().defaultBuild(page);
-                spell.getMechanic().setMechanicModifier(new MechanicModifier());
-                spell.getMechanic().setContext(new Context(event.getPlayer()));
-                double range = spell.getMechanic().getMechanicSettings().getRange();
-                Bukkit.broadcastMessage(range+"");
-                SpellCaster.cast(spell, Shape.PROJECTILE);
-                String string = Registry.getShapeAlias().toString();
-                Bukkit.broadcastMessage(string);
+                if (!bookMeta.hasPages()) {
+                    return;
+                }
+                try {
+                    SpellBook spellBook = new SpellBook(bookMeta);
+                    Spell spell = spellBook.mainSpell(0);
+                    SpellCaster.cast(spell);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
             }
         }
     }
+
+    @EventHandler
+
 }

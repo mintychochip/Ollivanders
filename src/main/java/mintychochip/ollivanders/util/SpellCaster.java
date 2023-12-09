@@ -13,14 +13,17 @@ import org.bukkit.entity.Player;
 import java.io.IOException;
 
 public class SpellCaster {
-    public static void cast(Spell spell, Shape shape) {
+    public static void cast(Spell spell) {
+        if(spell == null) {
+            return;
+        }
         Player player = spell.getMechanic().getContext().getPlayer();
-        switch(shape) {
+        switch(spell.getMechanic().getShape()) {
             case PROJECTILE -> {
                 if(spell.getMechanic() instanceof SpellProjectile spellProjectile) {
                     int i = spellProjectile.launchProjectile(EntityType.FIREBALL, player, spell.getMechanic().getMechanicModifier());
                     if(i > 0) {
-
+                        //generate a random number here, can just use genesis rand
                     }
                 }
             }
