@@ -1,5 +1,6 @@
 package mintychochip.ollivanders.commands;
 
+import mintychochip.genesis.config.GenesisRegistry;
 import mintychochip.genesis.container.AbstractItem;
 import mintychochip.ollivanders.Ollivanders;
 import mintychochip.ollivanders.wand.config.ComponentConfig;
@@ -16,10 +17,9 @@ public class CommandManager implements CommandExecutor {
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
         if (commandSender instanceof Player player) {
             ComponentConfig componentConfig = Ollivanders.getComponentConfig();
-            Bukkit.broadcastMessage(strings[0]);
             componentConfig.setMain(strings[0], false);
             ItemStack itemStack = new ComponentBuilder(new AbstractItem(Ollivanders.getInstance(),
-                    Ollivanders.getComponentConfig().getDefaultMaterial())).defaultBuild();
+                    Ollivanders.getComponentConfig().getDefaultMaterial()), GenesisRegistry.getThemes().get("CLASSIC")).defaultBuild();
             player.getInventory().addItem(itemStack);
         }
         return true;

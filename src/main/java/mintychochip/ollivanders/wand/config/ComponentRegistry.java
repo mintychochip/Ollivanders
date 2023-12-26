@@ -1,6 +1,7 @@
 package mintychochip.ollivanders.wand.config;
 
 import mintychochip.ollivanders.Ollivanders;
+import mintychochip.ollivanders.util.EnumUtil;
 import mintychochip.ollivanders.wand.config.ComponentConfig;
 import mintychochip.ollivanders.wand.container.ComponentData;
 import mintychochip.ollivanders.wand.enums.ComponentType;
@@ -19,7 +20,7 @@ public class ComponentRegistry {
         ComponentConfig cc = Ollivanders.getComponentConfig();
 
         for (String key : cc.getConfigurationSection("materials").getKeys(false)) {
-            if (cc.isInEnum(Material.class, key)) {
+            if (EnumUtil.isInEnum(Material.class, key)) {
                 Material material = Enum.valueOf(Material.class, key);
                 cc.setMain(material.toString(), true);
                 componentData.put(material, new ComponentData()

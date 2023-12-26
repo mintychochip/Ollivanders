@@ -2,16 +2,28 @@ package mintychochip.ollivanders.spells;
 
 import mintychochip.ollivanders.container.SpellMechanic;
 import mintychochip.ollivanders.spells.shape.SpellArea;
+import mintychochip.ollivanders.spells.shape.SpellSelf;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 
-public class Explosion extends SpellMechanic implements SpellArea {
+public class Explosion extends SpellMechanic implements SpellArea, SpellSelf {
     @Override
     public boolean castArea() {
+        return genericCastMethod(null);
+    }
+
+    @Override
+    public boolean castSelf() {
+        return genericCastMethod(context.getPlayer().getLocation());
+    }
+    public boolean genericCastMethod(Location location) {
         Location castLocation = getCastLocation();
-        double effectiveMagnitude = getEffectiveMagnitude();
-        Bukkit.broadcastMessage(effectiveMagnitude + "");
-        castLocation.getWorld().createExplosion(castLocation, (float) effectiveMagnitude);
-        return true;
+        if(location != null) {
+            castLocation = location;
+        }
+        if(castLocation == null) {
+            return false;
+        }
+        return castLocation.getWorld().createExplosion(castLocation, (float) getEffectiveMagnitude());
     }
 }

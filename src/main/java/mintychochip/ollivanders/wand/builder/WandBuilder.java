@@ -2,11 +2,13 @@ package mintychochip.ollivanders.wand.builder;
 
 import mintychochip.genesis.Genesis;
 import mintychochip.genesis.builder.ItemBuilder;
+import mintychochip.genesis.color.GenesisTheme;
 import mintychochip.genesis.container.AbstractItem;
+import mintychochip.genesis.util.Serializer;
 import mintychochip.ollivanders.Ollivanders;
 import mintychochip.ollivanders.wand.config.WandConfig;
+import mintychochip.ollivanders.wand.enums.Rarity;
 import mintychochip.ollivanders.wand.util.ComponentUtil;
-import mintychochip.ollivanders.wand.Serializer;
 import mintychochip.ollivanders.wand.container.ComponentData;
 import mintychochip.ollivanders.wand.container.WandBoost;
 import mintychochip.ollivanders.wand.container.WandData;
@@ -25,8 +27,8 @@ public class WandBuilder extends ItemBuilder {
     private final List<ItemStack> materials;
     private final WandData wandData;
 
-    public WandBuilder(AbstractItem abstractItem, List<ItemStack> materials) throws IOException {
-        super(abstractItem);
+    public WandBuilder(AbstractItem abstractItem, GenesisTheme genesisTheme, List<ItemStack> materials) throws IOException {
+        super(abstractItem,genesisTheme);
         if (materials == null) {
             throw new IOException("Wand builder materials cannot be null!");
         }
@@ -57,28 +59,21 @@ public class WandBuilder extends ItemBuilder {
     }
 
     public WandBuilder setCustomModelData(int model) {
-        Bukkit.broadcastMessage(model + "");
         return (WandBuilder) super.setCustomModelData(model);
     }
 
-    public WandBuilder setDisplayName(String displayName) {
-        wandData.setWandName(displayName);
-        return (WandBuilder) super.setDisplayName(displayName);
+    public WandBuilder setDisplayName(String displayName, ChatColor color) {
+        wandData.setDisplayName(displayName);
+        return (WandBuilder) super.setDisplayName(displayName,color);
     }
 
     public WandBuilder setCoreType(CoreType coreType) {
         wandData.setCoreType(coreType);
         return this;
     }
-    public WandBuilder addWandLore(String wandLore) {
-        List<String> oldWandLore = wandData.getWandLore();
-        oldWandLore.add(wandLore);
-        wandData.setWandLore(oldWandLore);
-        return (WandBuilder) super.addLore(wandLore, ChatColor.GRAY);
-    }
     public WandBuilder addWandLore(List<String> wandLore) {
         wandData.setWandLore(wandLore);
-        return (WandBuilder) super.addLore(wandLore,ChatColor.GRAY);
+        return (WandBuilder) super.addLore(wandLore);
     }
 
     public WandBoost sumWandBoostCore(boolean withCore) {
@@ -93,13 +88,16 @@ public class WandBuilder extends ItemBuilder {
         }
         return result.addAll(1);
     }
+    public WandBuilder addBulletedLore(String term, String text) {
+        return (WandBuilder) super.addBulletedLore(term,text);
+    }
     public WandBuilder addStatLore() {
         WandBoost wandBoost = wandData.getWandBoost();
-        addWandLore("Magnitude: " + wandBoost.getMagnitude());
-        addWandLore("Duration: " + wandBoost.getDuration());
-        addWandLore("Range: " + wandBoost.getRange());
-        addWandLore("Efficiency: " + wandBoost.getEfficiency());
-        addWandLore("Haste: " + wandBoost.getHaste());
+        addBulletedLore("Magnitude:",wandBoost.getMagnitude() + "");
+        addBulletedLore("Duration:",wandBoost.getDuration() + "");
+        addBulletedLore("Range:",wandBoost.getRange() + "");
+        addBulletedLore("Efficiency:",wandBoost.getEfficiency() + "");
+        addBulletedLore("Haste:",wandBoost.getHaste() + "");
         return this;
     }
 
@@ -113,7 +111,7 @@ public class WandBuilder extends ItemBuilder {
                 .addStatLore()
                 .setCoreType(Enum.valueOf(CoreType.class, wc.getPath().toUpperCase()))
                 .setCustomModelData(wc.getInt("model"))
-                .setDisplayName(generateWandName())
+                .setDisplayName(generateWandName(),ChatColor.getByChar(findComponentData(ComponentType.CORE).getRarity().colorCode))
                 .setUnstackable(true).build();
     }
 

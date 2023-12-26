@@ -1,5 +1,7 @@
 package mintychochip.ollivanders.container;
 
+import mintychochip.genesis.particle.GenesisShape;
+import org.bukkit.Particle;
 import org.bukkit.entity.EntityType;
 
 import java.util.List;
@@ -15,85 +17,131 @@ public class MechanicSettings {
 
     private double magnitude;
     private EntityType entityType;
+    private double damage;
+    private long interval;
+    private GenesisShape genesisShape;
+    private List<Particle> particleList;
 
-    public double getMagnitude() {
-        return magnitude;
+    public List<Particle> getParticleList() {
+        return particleList;
     }
 
-    public void setMagnitude(double magnitude) {
-        this.magnitude = magnitude;
+    public MechanicSettings setParticleList(List<Particle> particleList) {
+        this.particleList = particleList;
+        return this;
     }
 
-    public EntityType getEntityType() {
-        return entityType;
+    public GenesisShape getGenesisShape() {
+        return genesisShape;
     }
 
-    public void setEntityType(EntityType entityType) {
-        this.entityType = entityType;
+    public MechanicSettings setGenesisShape(GenesisShape genesisShape) {
+        this.genesisShape = genesisShape;
+        return this;
     }
+
     public List<String> getKeywords() {
         return keywords;
     }
 
-    public void setKeywords(List<String> keywords) {
+    public MechanicSettings setKeywords(List<String> keywords) {
         this.keywords = keywords;
+        return this;
     }
 
-    public double getRange() {
-        return range;
-    }
-
-    public void setRange(double range) {
-        this.range = range;
-    }
-
-    private double damage;
-    private long interval;
     public double getDuration() {
         return duration;
     }
 
-    public void setDuration(double duration) {
+    public MechanicSettings setDuration(double duration) {
         this.duration = duration;
+        return this;
     }
 
     public double getCooldown() {
         return cooldown;
     }
 
-    public void setCooldown(double cooldown) {
+    public MechanicSettings setCooldown(double cooldown) {
         this.cooldown = cooldown;
+        return this;
     }
 
     public double getCost() {
         return cost;
     }
 
-    public void setCost(double cost) {
+    public MechanicSettings setCost(double cost) {
         this.cost = cost;
+        return this;
+    }
+
+    public double getRange() {
+        return range;
+    }
+
+    public MechanicSettings setRange(double range) {
+        this.range = range;
+        return this;
     }
 
     public boolean isPersistent() {
         return persistent;
     }
 
-    public void setPersistent(boolean persistent) {
+    public MechanicSettings setPersistent(boolean persistent) {
         this.persistent = persistent;
+        return this;
+    }
+
+    public double getMagnitude() {
+        return magnitude;
+    }
+
+    public MechanicSettings setMagnitude(double magnitude) {
+        this.magnitude = magnitude;
+        return this;
+    }
+
+    public EntityType getEntityType() {
+        return entityType;
+    }
+
+    public MechanicSettings setEntityType(EntityType entityType) {
+        this.entityType = entityType;
+        return this;
     }
 
     public double getDamage() {
         return damage;
     }
 
-    public void setDamage(double damage) {
+    public MechanicSettings setDamage(double damage) {
         this.damage = damage;
+        return this;
     }
 
     public long getInterval() {
         return interval;
     }
 
-    public void setInterval(long interval) {
+    public MechanicSettings setInterval(long interval) {
         this.interval = interval;
+        return this;
+    }
+
+    public void copyTo(MechanicSettings settings) {
+        settings.setRange(range)
+                .setDuration(duration)
+                .setPersistent(persistent)
+                .setMagnitude(magnitude)
+                .setCooldown(cooldown)
+                .setCost(cost)
+                .setDamage(damage)
+                .setEntityType(entityType);
+    }
+
+    public String toString() {
+        return String.format("duration%s cooldown%s cost%s range%s persistent%s magnitude%s damage%s entityType%s", duration, cooldown, cost, range, persistent, magnitude, damage, entityType.toString());
     }
 }

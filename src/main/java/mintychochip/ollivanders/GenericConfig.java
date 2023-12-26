@@ -1,10 +1,11 @@
 package mintychochip.ollivanders;
 
+import mintychochip.ollivanders.util.EnumUtil;
 import org.bukkit.configuration.ConfigurationSection;
 
 import java.util.List;
 
-public class GenericConfig {
+public class GenericConfig { //port to genesis
 
     protected final ConfigReader configReader;
 
@@ -25,19 +26,10 @@ public class GenericConfig {
         if (unknown == null) {
             return Enum.valueOf(enumClass, "DEFAULT");
         }
-        if (!isInEnum(enumClass, unknown.toUpperCase())) {
+        if (!EnumUtil.isInEnum(enumClass, unknown.toUpperCase())) {
             throw new IllegalArgumentException();
         }
         return Enum.valueOf(enumClass, unknown.toUpperCase());
-    }
-
-    public <E extends Enum<E>> boolean isInEnum(Class<E> enumClass, String value) {
-        for (E e : enumClass.getEnumConstants()) {
-            if (e.name().equals(value)) {
-                return true;
-            }
-        }
-        return false;
     }
 
     public int getInt(String marker) {

@@ -9,7 +9,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Registry { //eventually allows to do lang files
-
     private static Map<String, Modifier> modifierAlias = new HashMap<>();
 
     private static Map<String, Keyword> keywordAlias = new HashMap<>();

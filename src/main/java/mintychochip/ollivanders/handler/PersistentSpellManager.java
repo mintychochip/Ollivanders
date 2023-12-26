@@ -1,20 +1,19 @@
 package mintychochip.ollivanders.handler;
 
-import mintychochip.genesis.util.Timer;
+import mintychochip.genesis.Genesis;
+import mintychochip.genesis.util.MathUtil;
 import mintychochip.ollivanders.Ollivanders;
 import mintychochip.ollivanders.container.Context;
 import mintychochip.ollivanders.container.Spell;
 import mintychochip.ollivanders.util.SpellCaster;
-import mintychochip.ollivanders.wand.container.WandBoost;
 import mintychochip.ollivanders.wand.container.WandData;
-import org.bukkit.ChatColor;
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class PersistentSpellManager {
@@ -22,15 +21,16 @@ public class PersistentSpellManager {
 
     public void add(Spell spell, Context context, WandData wandData) {
         run(spell, context);
-        currentCastingSpells.put(spell,context.getPlayer());
+        currentCastingSpells.put(spell, context.getPlayer());
     }
 
     private void run(Spell spell, Context context) {
         new BukkitRunnable() {
             final BukkitTask bukkitTask = startTimer(spell, context);
+
             @Override
             public void run() {
-                SpellCaster.persistentCast(spell,context);
+                SpellCaster.persistentCast(spell, context);
                 if (bukkitTask.isCancelled()) {
                     currentCastingSpells.remove(spell);
                     cancel();
@@ -40,12 +40,16 @@ public class PersistentSpellManager {
     }
 
     private BukkitTask startTimer(Spell spell, Context context) {
+
+        double duration = spell.getMechanic().getEffectiveDuration();
+        long start = System.currentTimeMillis();
         return new BukkitRunnable() {
 
-            Timer timer = new Timer(spell.getMechanic().getEffectiveDuration());
             @Override
             public void run() {
-                if(timer.remainingSeconds() <= 0) {
+                double v = (double) (System.currentTimeMillis() - start) / 1000;
+                context.getPlayer().spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText("Remaining " + MathUtil.roundToDecimals(duration - v, 1)));
+                if (v >= duration) {
                     cancel();
                 }
             }

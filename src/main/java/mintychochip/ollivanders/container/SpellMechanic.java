@@ -1,5 +1,6 @@
 package mintychochip.ollivanders.container;
 
+import mintychochip.genesis.particle.GenesisShape;
 import mintychochip.ollivanders.enums.Shape;
 import mintychochip.ollivanders.wand.container.WandBoost;
 import mintychochip.ollivanders.wand.container.WandData;
@@ -8,6 +9,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,7 +22,6 @@ public abstract class SpellMechanic implements Cloneable {
     protected Spell transition;
 
     protected Shape shape;
-
     public double effectiveFieldCalculation(double base, double modifier, double wandBoost) {
         if(base > modifier) {
             return base * wandBoost;
@@ -91,9 +92,10 @@ public abstract class SpellMechanic implements Cloneable {
 
     public List<Entity> getNearbyEntities() {
         Location castLocation = getCastLocation();
-        double effectiveRange = mechanicSettings.getRange() * wandData.getWandBoost().getRange() / 2.0; //diameter / 2
+        double effectiveRange = (mechanicSettings.getRange() * wandData.getWandBoost().getRange()) / 2; //diameter / 2
         if(castLocation != null && castLocation.getWorld() != null) {
-            castLocation.getWorld().getNearbyEntities(castLocation, effectiveRange,effectiveRange,effectiveRange);
+            Collection<Entity> nearbyEntities = castLocation.getWorld().getNearbyEntities(castLocation, effectiveRange, effectiveRange, effectiveRange);
+            return new ArrayList<>(nearbyEntities);
         }
         return null;
     }

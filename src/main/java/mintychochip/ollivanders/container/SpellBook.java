@@ -31,7 +31,6 @@ public class SpellBook {
             Spell spell = Ollivanders.getTokenizer().defaultBuild(s);
             spell.getMechanic().setTransition(null);
             spellList.add(spell);
-            Bukkit.broadcastMessage(spell.getMechanic().getShape().toString());
         }
         Collections.reverse(spellList);
         int index = spellList.size() - 1;

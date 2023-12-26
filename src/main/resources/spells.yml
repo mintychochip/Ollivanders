@@ -1,21 +1,43 @@
 default:
   mechanic:
-    range: 1
+    range: 15
     duration: 5
-    magnitude: 5
+    magnitude: 1
+    interval: 5
+    persistent: false
+    damage: 2
     entity_type: fireball
+    cooldown: 15
+    cost: 15
 mechanics:
   Fireball: #same as class name
-    keywords: [ fireball ]
-    range: 15
-    duration: 15
-    magnitude: 5
-    entity_type: fireball
+    class: Fireball
+    settings:
+      magnitude: 7
+      keywords: [ fireball ]
+      genesis_shape: LINE
   Explosion:
-    keywords: [ explosion ]
-    range: 15
-    duration: 15
-    magnitude: 5
+    class: Explosion
+    settings:
+      keywords: [ explosion ]
+      range: 15
+      duration: 15
+      persistent: true
+      interval: 5
+  Blink:
+    class: Blink
+    settings:
+      keywords: [ blink ]
+  immolate:
+    class: Immolate
+    inherits: Explosion
+    settings:
+      keywords: [ immolate ]
+      duration: 5
+  accelerate:
+    class: Accelerate
+    settings:
+      keywords: [ accelerate ]
 keywords:
   keyword:
     START: [ start ]

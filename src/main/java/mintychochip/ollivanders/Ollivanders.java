@@ -6,7 +6,9 @@ import mintychochip.ollivanders.commands.TestingWandCommand;
 import mintychochip.ollivanders.config.SpellConfig;
 import mintychochip.ollivanders.handler.PersistentSpellManager;
 import mintychochip.ollivanders.handler.ProjectileHandler;
-import mintychochip.ollivanders.listener.PlayerListener;
+import mintychochip.ollivanders.listener.OllivandersItemListener;
+import mintychochip.ollivanders.listener.ParticleListener;
+import mintychochip.ollivanders.listener.SpellListener;
 import mintychochip.ollivanders.util.SpellTokenizer;
 import mintychochip.ollivanders.wand.config.ComponentConfig;
 import mintychochip.ollivanders.wand.config.ComponentRegistry;
@@ -77,7 +79,9 @@ public final class Ollivanders extends JavaPlugin {
         enableRegistries();
         getCommand("component").setExecutor(new CommandManager());
         getCommand("wand").setExecutor(new TestingWandCommand());
-        Bukkit.getPluginManager().registerEvents(new PlayerListener(),this);
+        Bukkit.getPluginManager().registerEvents(new ParticleListener(),this);
+        Bukkit.getPluginManager().registerEvents(new SpellListener(),this);
+        Bukkit.getPluginManager().registerEvents(new OllivandersItemListener(),this);
     }
 
     public void enableRegistries() {

@@ -10,15 +10,15 @@ import org.bukkit.entity.Projectile;
 public interface SpellProjectile {
 
     abstract void effectOnHit();
-    default int launchProjectile(EntityType entityType, Player player, MechanicModifier modifier) {
+    default Entity launchProjectile(EntityType entityType, Player player, MechanicModifier modifier) {
         Location playerLocation = player.getLocation();
         //injection
         if(playerLocation.getWorld() != null && entityType != null) {
             Projectile spawnedProjectile = (Projectile) playerLocation.getWorld().spawnEntity(playerLocation.add(playerLocation.getDirection().getX(),1f,playerLocation.getDirection().getZ()), entityType);
 
             spawnedProjectile.setVelocity(playerLocation.getDirection().multiply(modifier.getVelocity()));
-            return spawnedProjectile.getEntityId();
+            return spawnedProjectile;
         }
-        return -1;
+        return null;
     }
 }

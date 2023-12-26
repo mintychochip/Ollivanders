@@ -2,10 +2,12 @@ package mintychochip.ollivanders.wand.builder;
 
 import mintychochip.genesis.Genesis;
 import mintychochip.genesis.builder.ItemBuilder;
+import mintychochip.genesis.color.GenesisTheme;
+import mintychochip.genesis.config.GenesisRegistry;
 import mintychochip.genesis.container.AbstractItem;
+import mintychochip.genesis.util.Serializer;
 import mintychochip.ollivanders.Ollivanders;
 import mintychochip.ollivanders.wand.config.ComponentConfig;
-import mintychochip.ollivanders.wand.Serializer;
 import mintychochip.ollivanders.wand.container.ComponentData;
 import mintychochip.ollivanders.wand.container.WandBoost;
 import mintychochip.ollivanders.wand.enums.ComponentType;
@@ -23,31 +25,22 @@ public class ComponentBuilder extends ItemBuilder {
 
     private final ComponentConfig cc = Ollivanders.getComponentConfig();
 
-    public ComponentBuilder(AbstractItem abstractItem) {
-        super(abstractItem);
+    public ComponentBuilder(AbstractItem abstractItem, GenesisTheme genesisTheme) {
+        super(abstractItem, genesisTheme);
     }
+
 
     public ComponentBuilder setTitle(String title) {
         componentData.setTitle(title);
         return this;
     }
 
-    public ComponentBuilder setDisplayName(String displayName, boolean useColorCodes) {
-        String finalString = "";
-        if (useColorCodes) {
-            componentData.setDisplayName(finalString += ChatColor.getByChar(
-                    cc.enumFromSection(Rarity.class, "rarity").getColorCode()) + displayName);
-        } else {
-            componentData.setDisplayName(finalString = displayName);
-        }
-        return (ComponentBuilder) super.setDisplayName(finalString);
+    public ComponentBuilder setDisplayName(String displayName, char color) {
+        return (ComponentBuilder) super.setDisplayName(displayName,color);
     }
-
     public ComponentBuilder setDisplayName(String displayName) {
-        componentData.setDisplayName(displayName);
-        return (ComponentBuilder) super.setDisplayName(displayName);
+        return (ComponentBuilder) super.setDisplayName(displayName,ChatColor.getByChar(componentData.getRarity().getColorCode()));
     }
-
     public ComponentBuilder setComponentType(ComponentType type) {
         componentData.setComponentType(type);
         return this;
@@ -77,7 +70,9 @@ public class ComponentBuilder extends ItemBuilder {
     public ComponentBuilder setCustomModelData(int model) {
         return (ComponentBuilder) super.setCustomModelData(model);
     }
-
+    public ComponentBuilder addBulletedLore(String term,String text) {
+        return (ComponentBuilder) super.addBulletedLore(term,text);
+    }
     public ComponentBuilder setCoreType(CoreType type) {
         componentData.setCoreType(type);
         return this;
@@ -87,14 +82,13 @@ public class ComponentBuilder extends ItemBuilder {
         componentData.setRarity(rarity);
         return this;
     }
-
     //-----------------------------------------------------------
     public ItemStack defaultBuild() {
         ComponentType type = cc.enumFromSection(ComponentType.class, "type"); //should work
         ComponentBuilder componentBuilder = this.setCustomModelData(cc.getInt("model"))
                 .setRarity(cc.enumFromSection(Rarity.class, "rarity"))
                 .setComponentType(type)
-                .setDisplayName(cc.getString("name"), true)
+                .setDisplayName(cc.getString("name"))
                 .setTitle(cc.getString("title"))
                 .setWandBoost(cc.getDefaultWandBoost("modifiers"))
                 .addLore(cc.getStringList("lore"));

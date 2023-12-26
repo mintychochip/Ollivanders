@@ -1,6 +1,7 @@
 package mintychochip.ollivanders.wand.config;
 
 import mintychochip.ollivanders.GenericConfig;
+import mintychochip.ollivanders.util.EnumUtil;
 import mintychochip.ollivanders.wand.container.WandBoost;
 import mintychochip.ollivanders.wand.enums.WandModifier;
 import org.bukkit.Material;
@@ -39,11 +40,10 @@ public class ComponentConfig extends GenericConfig implements Serializable {
         ConfigurationSection modifiers = main.getConfigurationSection(marker);
         if (modifiers != null) {
             for (String key : modifiers.getKeys(false)) {
-                if (isInEnum(WandModifier.class, key.toUpperCase())) {
+                if (EnumUtil.isInEnum(WandModifier.class, key.toUpperCase())) {
                     switch (Enum.valueOf(WandModifier.class, key.toUpperCase())) {
                         case RANGE -> wandBoost.setRange(wandBoost.getRange() + modifiers.getDouble(key));
-                        case EFFICIENCY ->
-                                wandBoost.setEfficiency(wandBoost.getEfficiency() + modifiers.getDouble(key));
+                        case EFFICIENCY -> wandBoost.setEfficiency(wandBoost.getEfficiency() + modifiers.getDouble(key));
                         case DURATION -> wandBoost.setDuration(wandBoost.getDuration() + modifiers.getDouble(key));
                         case MAGNITUDE -> wandBoost.setMagnitude(wandBoost.getMagnitude() + modifiers.getDouble(key));
                         case HASTE -> wandBoost.setHaste(wandBoost.getHaste() + modifiers.getDouble(key));

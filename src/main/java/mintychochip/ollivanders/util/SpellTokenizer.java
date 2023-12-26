@@ -69,8 +69,8 @@ public class SpellTokenizer {
     }
 
     public SpellTokenizer setShape(String shape) {
-        if (EnumUtil.isInEnum(Shape.class, shape)) {
-            spell.getMechanic().setShape(Enum.valueOf(Shape.class, shape));
+        if(Registry.getShapeAlias().containsKey(shape)) {
+            spell.getMechanic().setShape(Registry.getShapeAlias().get(shape));
         }
         return this;
     }
@@ -119,8 +119,6 @@ public class SpellTokenizer {
             }
             allInstances.set(index++, stringBuild());
         }
-
-        Bukkit.broadcastMessage(allInstances.toString());
         return allInstances;
     }
 

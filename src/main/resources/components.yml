@@ -104,7 +104,7 @@ custom-items:
   amber:
     name: "Crystallized Amber"
     material: HONEY_COMB
-    type: COREt
+    type: CORE
     lore:
       - Crystalline amber, which appears to be from a prehistoric era,
       - the creature trapped appears to be stuck for eternity.
