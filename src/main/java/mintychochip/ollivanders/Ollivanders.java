@@ -6,6 +6,7 @@ import mintychochip.ollivanders.commands.TestingWandCommand;
 import mintychochip.ollivanders.config.SpellConfig;
 import mintychochip.ollivanders.handler.PersistentSpellManager;
 import mintychochip.ollivanders.handler.ProjectileHandler;
+import mintychochip.ollivanders.handler.SpellDamageHandler;
 import mintychochip.ollivanders.listener.OllivandersItemListener;
 import mintychochip.ollivanders.listener.SpellListener;
 import mintychochip.ollivanders.util.SpellTokenizer;
@@ -14,6 +15,7 @@ import mintychochip.ollivanders.wand.config.ComponentRegistry;
 import mintychochip.ollivanders.wand.config.WandConfig;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.IOException;
 
@@ -29,6 +31,8 @@ public final class Ollivanders extends JavaPlugin {
     private static ProjectileHandler projectileHandler;
 
     private static PersistentSpellManager persistentSpellManager;
+
+    private static SpellDamageHandler spellDamageHandler;
     private static Ollivanders instance;
 
     public static PersistentSpellManager getPersistentSpellManager() {
@@ -59,14 +63,20 @@ public final class Ollivanders extends JavaPlugin {
         return projectileHandler;
     }
 
+    public static SpellDamageHandler getSpellDamageHandler() {
+        return spellDamageHandler;
+    }
+
     @Override
     public void onEnable() {
         instance = this;
         // Plugin startup logic
+        Genesis.getKeys().generateKey(this,"fire");
         Genesis.getKeys().generateKey(this, "items");
         Genesis.getKeys().generateKey(this, "wand");
         persistentSpellManager = new PersistentSpellManager();
         projectileHandler = new ProjectileHandler();
+        spellDamageHandler = new SpellDamageHandler();
         tokenizer = new SpellTokenizer();
         componentConfig = new ComponentConfig("components.yml");
         wandConfig = new WandConfig("wand.yml");

@@ -3,6 +3,7 @@ package mintychochip.ollivanders.spells;
 import mintychochip.ollivanders.container.SpellMechanic;
 import mintychochip.ollivanders.spells.shape.SpellArea;
 import mintychochip.ollivanders.spells.shape.SpellSelf;
+import org.bukkit.Location;
 
 public class GravityWell extends SpellMechanic implements SpellArea, SpellSelf {
     @Override

@@ -9,6 +9,7 @@ import mintychochip.ollivanders.util.SpellCaster;
 import mintychochip.ollivanders.wand.container.WandData;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
@@ -16,7 +17,7 @@ import org.bukkit.scheduler.BukkitTask;
 import java.util.HashMap;
 import java.util.Map;
 
-public class PersistentSpellManager {
+public class PersistentSpellManager { //gotta revise this class
     private final Map<Spell, Player> currentCastingSpells = new HashMap<>();
 
     public void add(Spell spell, WandData wandData, Context context) {
@@ -30,7 +31,7 @@ public class PersistentSpellManager {
 
             @Override
             public void run() {
-                SpellCaster.cast(spell, wandData, context, true);
+                SpellCaster.persistentCast(spell);
                 if (bukkitTask.isCancelled()) {
                     currentCastingSpells.remove(spell);
                     cancel();

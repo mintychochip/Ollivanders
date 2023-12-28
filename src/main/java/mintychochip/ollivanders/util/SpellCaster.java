@@ -15,17 +15,22 @@ import org.bukkit.entity.Projectile;
 
 public class SpellCaster { //only casts and calls event, need to check if effects hit, write the listeners for damageevents
     public static boolean cast(Spell spell, WandData wandData, Context context) {
-        if (spell == null) return false; //dont even try if the spell is empty
+        if (spell == null) {
+            return false;
+        }
         SpellMechanic mechanic = spell.getMechanic() //setup
                 .setContext(context)
                 .setWandData(wandData);
 
-        if (!mechanic.isValidShape()) return false; //check if the book shape is applicable to the spell
+        if (!mechanic.isValidShape()) {
+            return false;//check if the book shape is applicable to the spell
+        }
         boolean b = genericCastMethod(mechanic); //was the mechanic able to be casted
         if (b) { //call initially, enter block if the cast was successful else return false
-            Bukkit.getPluginManager().callEvent(new SpellCastEvent(spell, wandData, context)); //call event
-            if (mechanic.getMechanicSettings().isPersistent())
+            Bukkit.getPluginManager().callEvent(new SpellCastEvent(spell,wandData,context)); //call event
+            if (mechanic.getMechanicSettings().isPersistent()) {
                 Ollivanders.getPersistentSpellManager().add(spell, wandData, context); //if cast was persistent, then we can continue to cast
+            }
             return true;
         }
         return false;
@@ -37,7 +42,6 @@ public class SpellCaster { //only casts and calls event, need to check if effect
 
     public static boolean genericCastMethod(SpellMechanic mechanic) {
         Player player = mechanic.getContext().getPlayer();
-
         boolean b = false;
         switch (mechanic.getShape()) {
             case PROJECTILE -> {

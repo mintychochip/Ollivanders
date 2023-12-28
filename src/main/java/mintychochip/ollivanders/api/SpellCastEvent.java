@@ -20,13 +20,6 @@ public class SpellCastEvent extends Event {
         this.wandData = wandData;
 
     }
-    @NotNull
-    @Override
-    public HandlerList getHandlers() {
-        return handlers;
-    }
-
-
     public Spell getSpell() {
         return spell;
     }
@@ -55,6 +48,12 @@ public class SpellCastEvent extends Event {
         return context.getPlayer();
     }
     public static HandlerList getHandlerList() {
+        return handlers;
+    }
+
+    @NotNull
+    @Override
+    public HandlerList getHandlers() {
         return handlers;
     }
 }
