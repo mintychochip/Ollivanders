@@ -7,7 +7,6 @@ import mintychochip.ollivanders.config.SpellConfig;
 import mintychochip.ollivanders.handler.PersistentSpellManager;
 import mintychochip.ollivanders.handler.ProjectileHandler;
 import mintychochip.ollivanders.listener.OllivandersItemListener;
-import mintychochip.ollivanders.listener.ParticleListener;
 import mintychochip.ollivanders.listener.SpellListener;
 import mintychochip.ollivanders.util.SpellTokenizer;
 import mintychochip.ollivanders.wand.config.ComponentConfig;
@@ -79,7 +78,6 @@ public final class Ollivanders extends JavaPlugin {
         enableRegistries();
         getCommand("component").setExecutor(new CommandManager());
         getCommand("wand").setExecutor(new TestingWandCommand());
-        Bukkit.getPluginManager().registerEvents(new ParticleListener(),this);
         Bukkit.getPluginManager().registerEvents(new SpellListener(),this);
         Bukkit.getPluginManager().registerEvents(new OllivandersItemListener(),this);
     }

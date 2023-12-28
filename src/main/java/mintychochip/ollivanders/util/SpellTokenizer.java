@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class SpellTokenizer {
+public class SpellTokenizer { //can make this binary
 
     private Map<String, Keyword> tokenizedSpell;
 

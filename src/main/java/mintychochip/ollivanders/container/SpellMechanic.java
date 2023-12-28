@@ -2,6 +2,9 @@ package mintychochip.ollivanders.container;
 
 import mintychochip.genesis.particle.GenesisShape;
 import mintychochip.ollivanders.enums.Shape;
+import mintychochip.ollivanders.spells.shape.SpellArea;
+import mintychochip.ollivanders.spells.shape.SpellProjectile;
+import mintychochip.ollivanders.spells.shape.SpellSelf;
 import mintychochip.ollivanders.wand.container.WandBoost;
 import mintychochip.ollivanders.wand.container.WandData;
 import org.bukkit.Location;
@@ -10,6 +13,7 @@ import org.bukkit.entity.LivingEntity;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,7 +26,7 @@ public abstract class SpellMechanic implements Cloneable {
     protected Spell transition;
 
     protected Shape shape;
-    public double effectiveFieldCalculation(double base, double modifier, double wandBoost) {
+    public static double effectiveFieldCalculation(double base, double modifier, double wandBoost) {
         if(base > modifier) {
             return base * wandBoost;
         }
@@ -41,20 +45,8 @@ public abstract class SpellMechanic implements Cloneable {
         return wandData;
     }
 
-    public void setWandData(WandData wandData) {
-        this.wandData = wandData;
-    }
-
-    public void setShape(Shape shape) {
-        this.shape = shape;
-    }
-
     public Shape getShape() {
         return shape;
-    }
-
-    public void setMechanicSettings(MechanicSettings mechanicSettings) {
-        this.mechanicSettings = mechanicSettings;
     }
 
     public MechanicSettings getMechanicSettings() {
@@ -65,24 +57,13 @@ public abstract class SpellMechanic implements Cloneable {
         return context;
     }
 
-    public void setContext(Context context) {
-        this.context = context;
-    }
-
     public MechanicModifier getMechanicModifier() {
         return mechanicModifier;
     }
 
-    public void setMechanicModifier(MechanicModifier mechanicModifier) {
-        this.mechanicModifier = mechanicModifier;
-    }
 
     public Spell getTransition() {
         return transition;
-    }
-
-    public void setTransition(Spell transition) {
-        this.transition = transition;
     }
 
 
@@ -90,24 +71,56 @@ public abstract class SpellMechanic implements Cloneable {
         return context.getHitLocation() == null ? context.getPlayer().getLocation() : context.getHitLocation();
     }
 
-    public List<Entity> getNearbyEntities() {
+    public List<Entity> getNearbyEntities() { //can probably make this better
         Location castLocation = getCastLocation();
         double effectiveRange = (mechanicSettings.getRange() * wandData.getWandBoost().getRange()) / 2; //diameter / 2
         if(castLocation != null && castLocation.getWorld() != null) {
-            Collection<Entity> nearbyEntities = castLocation.getWorld().getNearbyEntities(castLocation, effectiveRange, effectiveRange, effectiveRange);
-            return new ArrayList<>(nearbyEntities);
+            return new ArrayList<>(castLocation.getWorld().getNearbyEntities(castLocation, effectiveRange, effectiveRange, effectiveRange));
         }
         return null;
     }
     public List<LivingEntity> getNearbyLivingEntities() {
-        List<LivingEntity> list = new ArrayList<>();
-        for (Entity entity : getNearbyEntities()) {
-            if (entity instanceof LivingEntity livingEntity) {
-                list.add(livingEntity);
-            }
-        }
-        return list;
+        return getNearbyEntities().stream()
+                .filter(entity -> (entity instanceof LivingEntity && entity != context.getPlayer()))
+                .map(e -> (LivingEntity) e)
+                .collect(Collectors.toList());
+    }
+    public SpellMechanic setWandData(WandData wandData) {
+        this.wandData = wandData;
+        return this;
+    }
 
+    public SpellMechanic setContext(Context context) {
+        this.context = context;
+        return this;
+    }
+
+    public SpellMechanic setMechanicSettings(MechanicSettings mechanicSettings) {
+        this.mechanicSettings = mechanicSettings;
+        return this;
+    }
+
+    public SpellMechanic setMechanicModifier(MechanicModifier mechanicModifier) {
+        this.mechanicModifier = mechanicModifier;
+        return this;
+    }
+
+    public SpellMechanic setTransition(Spell transition) {
+        this.transition = transition;
+        return this;
+    }
+
+    public SpellMechanic setShape(Shape shape) {
+        this.shape = shape;
+        return this;
+    }
+    public boolean isValidShape() {
+        switch (shape) {
+            case AREA: return this instanceof SpellArea;
+            case PROJECTILE: return this instanceof SpellProjectile;
+            case SELF: return this instanceof SpellSelf;
+        }
+        return false;
     }
     @Override
     public SpellMechanic clone() throws CloneNotSupportedException {

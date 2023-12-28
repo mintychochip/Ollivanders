@@ -11,19 +11,21 @@ import org.jetbrains.annotations.NotNull;
 public class SpellCastEvent extends Event {
     private static final HandlerList handlers = new HandlerList();
 
-    protected Spell spell;
-    protected Context context;
-    protected WandData wandData;
-    public SpellCastEvent(Spell spell, Context context, WandData wandData) {
+    private Spell spell;
+    private Context context;
+    private WandData wandData;
+    public SpellCastEvent(Spell spell, WandData wandData, Context context) {
         this.spell = spell;
         this.context = context;
         this.wandData = wandData;
+
     }
     @NotNull
     @Override
     public HandlerList getHandlers() {
         return handlers;
     }
+
 
     public Spell getSpell() {
         return spell;

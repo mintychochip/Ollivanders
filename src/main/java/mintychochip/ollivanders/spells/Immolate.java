@@ -4,9 +4,11 @@ import mintychochip.genesis.Genesis;
 import mintychochip.ollivanders.container.SpellMechanic;
 import mintychochip.ollivanders.spells.shape.SpellArea;
 import mintychochip.ollivanders.spells.shape.SpellSelf;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.event.entity.EntityDamageEvent;
 
 import java.util.List;
 
@@ -32,26 +34,12 @@ public class Immolate extends SpellMechanic implements SpellArea, SpellSelf {
         if (nearbyLivingEntities == null) {
             return false;
         }
-        for (LivingEntity nearbyLivingEntity : nearbyLivingEntities) {
-            if (nearbyLivingEntity != context.getPlayer()) {
-                int ceil = (int) Math.ceil(getEffectiveDuration());
-                if (ceil < 20) {
-                    ceil = 20;
-                }
-                addFireTicks(nearbyLivingEntity, ceil);
-                Location location = nearbyLivingEntity.getLocation();
-                double random = 0.5;
-                if (location.getWorld() == null) {
-                    return false;
-                }
-                location.getWorld().spawnParticle(Particle.SMOKE_LARGE, location.add(0f, 2f, 0f), 1, random, random, random, 0, null, true);
-            }
+        for (LivingEntity nearbyLivingEntity : nearbyLivingEntities) { //should just remove the player originally anyway
+            int ceil = (int) Math.ceil(getEffectiveDuration());
+            if (ceil < 20) {
+                ceil = 20;
+            } //custom firetick method
         }
         return true;
-    }
-
-
-    public void addFireTicks(LivingEntity entity, int i) {
-        entity.setFireTicks(entity.getFireTicks() + i);
     }
 }

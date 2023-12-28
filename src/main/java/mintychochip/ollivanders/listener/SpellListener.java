@@ -4,8 +4,6 @@ import mintychochip.genesis.Genesis;
 import mintychochip.genesis.container.ItemData;
 import mintychochip.genesis.util.Serializer;
 import mintychochip.ollivanders.Ollivanders;
-import mintychochip.ollivanders.api.AoeCastEvent;
-import mintychochip.ollivanders.api.SelfCastEvent;
 import mintychochip.ollivanders.api.SpellCastEvent;
 import mintychochip.ollivanders.container.*;
 import mintychochip.ollivanders.util.SpellCaster;
@@ -14,15 +12,12 @@ import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BookMeta;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.IOException;
 import java.io.Serial;
@@ -63,59 +58,42 @@ public class SpellListener implements Listener {
             }
 
             Context context = new Context(player, hitLocation);
-
-            SpellCaster.castEffect(spellMechanic, context);
             if (spellMechanic.getTransition() != null) {
 
-                SpellCaster.cast(spellMechanic.getTransition(), spellMechanic.getWandData(), context);
+                SpellCaster.cast(spellMechanic.getTransition(), spellMechanic.getWandData(), context, ); //can add delay in the future
             }
         }
     }
-
     @EventHandler
     public void onSpellCastEvent(final SpellCastEvent event) {
         SpellMechanic mechanic = event.getSpell().getMechanic();
-
-        if (mechanic.getMechanicSettings().isPersistent()) {
-            Ollivanders.getPersistentSpellManager().add(event.getSpell(), mechanic.getContext(), mechanic.getWandData());
-        }
-    }
-
-    @EventHandler
-    public void onAoeCastEvent(final AoeCastEvent event) {
-        SpellMechanic mechanic = event.getSpell().getMechanic();
         Player player = event.getPlayer();
         if (mechanic.getTransition() != null) {
-            SpellCaster.cast(mechanic.getTransition(), mechanic.getWandData(), new Context(player, event.getContext().getHitLocation()));
+            Context passingContext = null;
+            switch (mechanic.getShape()) {
+                case AREA -> {
+                    passingContext = new Context(player, event.getContext().getHitLocation());
+                }
+                case SELF -> {
+                    passingContext = new Context(player, player.getLocation());
+                }
+            }
+            Spell transition = mechanic.getTransition();
+            SpellCaster.cast(transition,mechanic.getWandData(),passingContext,transition.getMechanic().getMechanicSettings().isPersistent());
         }
     }
-
-    @EventHandler
-    public void onSelfCastEvent(final SelfCastEvent event) {
-        SpellMechanic mechanic = event.getSpell().getMechanic();
-        Player player = event.getPlayer();
-        if (mechanic.getTransition() != null) {
-            SpellCaster.cast(mechanic.getTransition(), mechanic.getWandData(), new Context(player, player.getLocation()));
-        }
-    }
-
     public WandData extractWandData(ItemStack itemStack) {
         if (itemStack.getItemMeta() == null) {
             return null;
         }
         try {
             byte[] bytes = itemStack.getItemMeta().getPersistentDataContainer().get(Genesis.getKeys().getMap().get("wand"), PersistentDataType.BYTE_ARRAY);
-            if(bytes != null) {
+            if (bytes != null) {
                 return (WandData) Serializer.deserialize(bytes);
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
         return null;
-    }
-
-    @EventHandler
-    public void onPlayerClick(final PlayerInteractEvent event) {
-
     }
 }
