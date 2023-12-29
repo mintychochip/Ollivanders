@@ -59,7 +59,7 @@ public class SpellListener implements Listener {
                 try {
                     SpellBook spellBook = new SpellBook(bookMeta);
                     Spell spell = spellBook.mainSpell(0);
-                    SpellCaster.cast(spell, extractWandData(inventory.getItemInMainHand()), new Context(player));
+                    boolean cast = SpellCaster.cast(spell, extractWandData(inventory.getItemInMainHand()), new Context(player));
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
@@ -89,11 +89,10 @@ public class SpellListener implements Listener {
         }
     }
 
-   // @EventHandler
+    @EventHandler
     public void onSpellCastEvent(final SpellCastEvent event) {
         SpellMechanic mechanic = event.getSpell().getMechanic();
         Player player = event.getPlayer();
-        Bukkit.broadcastMessage("hello");
         if (mechanic.getTransition() != null) {
             Context passingContext = null;
             switch (mechanic.getShape()) {

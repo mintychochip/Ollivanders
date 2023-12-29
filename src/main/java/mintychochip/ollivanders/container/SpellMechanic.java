@@ -5,15 +5,12 @@ import mintychochip.ollivanders.enums.Shape;
 import mintychochip.ollivanders.spells.shape.SpellArea;
 import mintychochip.ollivanders.spells.shape.SpellProjectile;
 import mintychochip.ollivanders.spells.shape.SpellSelf;
-import mintychochip.ollivanders.wand.container.WandBoost;
 import mintychochip.ollivanders.wand.container.WandData;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -32,13 +29,13 @@ public abstract class SpellMechanic implements Cloneable {
         }
         return modifier * wandBoost;
     }
-    public double getEffectiveMagnitude() {
+    public double effectiveMagnitude() {
         return effectiveFieldCalculation(mechanicSettings.getMagnitude(),mechanicModifier.getMagnitude(),wandData.getWandBoost().getMagnitude());
     }
-    public double getEffectiveRange() {
+    public double effectiveRange() {
         return effectiveFieldCalculation(mechanicSettings.getRange(),-1,wandData.getWandBoost().getRange());
     }
-    public double getEffectiveDuration() {
+    public double effectiveDuration() {
         return effectiveFieldCalculation(mechanicSettings.getDuration(),-1,wandData.getWandBoost().getDuration());
     }
     public WandData getWandData() {
@@ -79,7 +76,7 @@ public abstract class SpellMechanic implements Cloneable {
         }
         return null;
     }
-    public List<LivingEntity> getNearbyLivingEntities() {
+    public List<LivingEntity> nearbyLivingEntities() {
         return getNearbyEntities().stream()
                 .filter(entity -> (entity instanceof LivingEntity && entity != context.getPlayer()))
                 .map(e -> (LivingEntity) e)

@@ -6,7 +6,6 @@ import mintychochip.ollivanders.commands.TestingWandCommand;
 import mintychochip.ollivanders.config.SpellConfig;
 import mintychochip.ollivanders.handler.PersistentSpellManager;
 import mintychochip.ollivanders.handler.ProjectileHandler;
-import mintychochip.ollivanders.handler.SpellDamageHandler;
 import mintychochip.ollivanders.listener.OllivandersItemListener;
 import mintychochip.ollivanders.listener.SpellListener;
 import mintychochip.ollivanders.util.SpellTokenizer;
@@ -15,7 +14,6 @@ import mintychochip.ollivanders.wand.config.ComponentRegistry;
 import mintychochip.ollivanders.wand.config.WandConfig;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.IOException;
 

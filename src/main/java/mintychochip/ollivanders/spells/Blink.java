@@ -15,7 +15,7 @@ public class Blink extends SpellMechanic implements SpellArea, SpellSelf {
             return false;
         }
         double v = player.getLocation().distance(getCastLocation());
-        if(v > getEffectiveRange()) {
+        if(v > effectiveRange()) {
             return false;
         }
         player.teleport(setYawPitch(getCastLocation(),player));
@@ -26,7 +26,7 @@ public class Blink extends SpellMechanic implements SpellArea, SpellSelf {
     public boolean castSelf() {
         Player player = context.getPlayer();
 
-        Block targetBlockExact = player.getTargetBlockExact((int) Math.ceil(getEffectiveRange()));
+        Block targetBlockExact = player.getTargetBlockExact((int) Math.ceil(effectiveRange()));
         if(targetBlockExact == null) {
             return false;
         }

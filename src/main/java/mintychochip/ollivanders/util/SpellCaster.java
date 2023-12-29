@@ -29,11 +29,10 @@ public class SpellCaster { //only casts and calls event, need to check if effect
         if (b) { //call initially, enter block if the cast was successful else return false
             Bukkit.getPluginManager().callEvent(new SpellCastEvent(spell,wandData,context)); //call event
             if (mechanic.getMechanicSettings().isPersistent()) {
-                Ollivanders.getPersistentSpellManager().add(spell, wandData, context); //if cast was persistent, then we can continue to cast
+                Ollivanders.getPersistentSpellManager().add(spell, context.getPlayer()); //if cast was persistent, then we can continue to cast
             }
-            return true;
         }
-        return false;
+        return b;
     }
 
     public static boolean persistentCast(Spell spell) {

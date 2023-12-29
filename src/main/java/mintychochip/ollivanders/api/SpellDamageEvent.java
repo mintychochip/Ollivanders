@@ -1,6 +1,7 @@
 package mintychochip.ollivanders.api;
 
 import mintychochip.ollivanders.container.SpellMechanic;
+import mintychochip.ollivanders.enums.DamageType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
@@ -13,11 +14,13 @@ public class SpellDamageEvent extends Event {
     private final LivingEntity inflicted;
     private final SpellMechanic spellMechanic;
 
+    private final DamageType damageType;
     private final double damage;
 
-    public SpellDamageEvent(LivingEntity inflicted, SpellMechanic spellMechanic, double damage) {
+    public SpellDamageEvent(LivingEntity inflicted, SpellMechanic spellMechanic, DamageType damageType, double damage) {
         this.spellMechanic = spellMechanic;
         this.inflicted = inflicted;
+        this.damageType = damageType;
         this.damage = damage;
     }
 
@@ -40,5 +43,9 @@ public class SpellDamageEvent extends Event {
 
     public SpellMechanic getSpellMechanic() {
         return spellMechanic;
+    }
+
+    public DamageType getDamageType() {
+        return damageType;
     }
 }

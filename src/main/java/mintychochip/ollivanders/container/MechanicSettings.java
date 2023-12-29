@@ -22,6 +22,16 @@ public class MechanicSettings {
     private GenesisShape genesisShape;
     private List<Particle> particleList;
 
+    private boolean dot;
+
+    public void setDot(boolean dot) {
+        this.dot = dot;
+    }
+
+    public boolean isDot() {
+        return dot;
+    }
+
     public List<Particle> getParticleList() {
         return particleList;
     }
