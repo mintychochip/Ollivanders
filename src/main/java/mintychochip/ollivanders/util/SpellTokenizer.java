@@ -11,6 +11,7 @@ import mintychochip.ollivanders.enums.Shape;
 import org.bukkit.Bukkit;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -21,7 +22,6 @@ public class SpellTokenizer { //can make this binary
     private Spell spell;
 
     private final StringBuilder stringBuilder = new StringBuilder();
-
     public SpellTokenizer setTokenizedSpell(String spell) throws IOException {
         if (spell == null) {
             throw new IOException();
@@ -42,15 +42,16 @@ public class SpellTokenizer { //can make this binary
         tokenizedSpell.put(stringBuild().toUpperCase(), keyword);
         return this;
     }
-
-    public SpellTokenizer setSpellMechanic(String mechanic) throws IOException {
-        SpellMechanic spellMechanic = Registry.getMechanicAlias().get(mechanic);
+    public SpellTokenizer setSpellMechanic(String mechanicName) throws IOException {
+        SpellMechanic spellMechanic = Registry.getMechanicAlias().get(mechanicName);
         if (spellMechanic == null) {
             throw new IOException("Not a valid mechanic");
         }
         try {
-            spell.setMechanic(spellMechanic.clone());
-        } catch (CloneNotSupportedException e) {
+            spell.setMechanic(spellMechanic.getClass().getConstructor().newInstance()
+                    .setMechanicSettings(spellMechanic.getMechanicSettings())
+                    .setMechanicName(mechanicName));
+        } catch (InvocationTargetException | InstantiationException | IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
         return this;

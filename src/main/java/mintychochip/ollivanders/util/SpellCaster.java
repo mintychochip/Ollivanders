@@ -27,6 +27,7 @@ public class SpellCaster { //only casts and calls event, need to check if effect
         }
         boolean b = genericCastMethod(mechanic); //was the mechanic able to be casted
         if (b) { //call initially, enter block if the cast was successful else return false
+            spell.getSpellMeta().setCastingStartTime(System.currentTimeMillis());
             Bukkit.getPluginManager().callEvent(new SpellCastEvent(spell,wandData,context)); //call event
             if (mechanic.getMechanicSettings().isPersistent()) {
                 Ollivanders.getPersistentSpellManager().add(spell, context.getPlayer()); //if cast was persistent, then we can continue to cast

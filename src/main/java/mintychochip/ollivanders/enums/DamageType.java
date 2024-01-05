@@ -1,5 +1,6 @@
 package mintychochip.ollivanders.enums;
 
+import mintychochip.genesis.Genesis;
 import mintychochip.ollivanders.Ollivanders;
 import org.bukkit.NamespacedKey;
 
@@ -27,7 +28,7 @@ public enum DamageType {
         this.delay = delay;
         this.interval = interval;
         this.visualFire = visualFire;
-        this.genesisKey = Genesis.generateKey(Ollivanders.getInstance(),key);
+        this.genesisKey = Genesis.getKeys().generateKey(Ollivanders.getInstance(),key);
         //can use this for mythic hook
         this.ignoresArmor = ignoresArmor;
         this.ignoresResistance = ignoresResistance;

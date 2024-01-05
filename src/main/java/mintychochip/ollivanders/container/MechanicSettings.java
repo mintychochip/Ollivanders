@@ -6,22 +6,19 @@ import org.bukkit.entity.EntityType;
 
 import java.util.List;
 
-public class MechanicSettings {
-
+public class MechanicSettings { //list of settings set by config
     private List<String> keywords;
     private double duration;
     private double cooldown;
     private double cost;
     private double range;
     private boolean persistent;
-
     private double magnitude;
     private EntityType entityType;
     private double damage;
     private long interval;
     private GenesisShape genesisShape;
     private List<Particle> particleList;
-
     private boolean dot;
 
     public void setDot(boolean dot) {

@@ -29,8 +29,6 @@ public final class Ollivanders extends JavaPlugin {
     private static ProjectileHandler projectileHandler;
 
     private static PersistentSpellManager persistentSpellManager;
-
-    private static SpellDamageHandler spellDamageHandler;
     private static Ollivanders instance;
 
     public static PersistentSpellManager getPersistentSpellManager() {
@@ -60,11 +58,6 @@ public final class Ollivanders extends JavaPlugin {
     public static ProjectileHandler getProjectileHandler() {
         return projectileHandler;
     }
-
-    public static SpellDamageHandler getSpellDamageHandler() {
-        return spellDamageHandler;
-    }
-
     @Override
     public void onEnable() {
         instance = this;
@@ -74,7 +67,6 @@ public final class Ollivanders extends JavaPlugin {
         Genesis.getKeys().generateKey(this, "wand");
         persistentSpellManager = new PersistentSpellManager();
         projectileHandler = new ProjectileHandler();
-        spellDamageHandler = new SpellDamageHandler();
         tokenizer = new SpellTokenizer();
         componentConfig = new ComponentConfig("components.yml");
         wandConfig = new WandConfig("wand.yml");

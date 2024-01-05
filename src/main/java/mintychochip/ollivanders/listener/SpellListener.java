@@ -1,21 +1,22 @@
 package mintychochip.ollivanders.listener;
 
 import mintychochip.genesis.Genesis;
-import mintychochip.genesis.container.ItemData;
 import mintychochip.genesis.util.Serializer;
 import mintychochip.ollivanders.Ollivanders;
 import mintychochip.ollivanders.api.SpellCastEvent;
+import mintychochip.ollivanders.api.SpellDamageEvent;
 import mintychochip.ollivanders.container.*;
+import mintychochip.ollivanders.enums.DamageType;
 import mintychochip.ollivanders.util.SpellCaster;
 import mintychochip.ollivanders.wand.container.WandData;
 import org.bukkit.*;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.ProjectileHitEvent;
-import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.*;
 import org.bukkit.inventory.meta.BookMeta;
@@ -23,7 +24,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 
 import java.io.IOException;
-import java.io.Serial;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -72,7 +72,6 @@ public class SpellListener implements Listener {
         int entityId = event.getEntity().getEntityId();
         if (Ollivanders.getProjectileHandler().getProjectileMap().containsKey(entityId)) {
             SpellMechanic spellMechanic = Ollivanders.getProjectileHandler().getProjectileMap().get(entityId);
-
             Player player = spellMechanic.getContext().getPlayer();
             Location hitLocation;
             if (event.getHitEntity() != null) {
@@ -80,15 +79,22 @@ public class SpellListener implements Listener {
             } else {
                 hitLocation = event.getHitBlock().getLocation();
             }
-
             Context context = new Context(player, hitLocation);
             if (spellMechanic.getTransition() != null) {
-
                 SpellCaster.cast(spellMechanic.getTransition(), spellMechanic.getWandData(), context); //can add delay in the future
             }
         }
     }
-
+    @EventHandler
+    public void onSpellDamageEvent(final SpellDamageEvent event) {
+        LivingEntity inflicted = event.getInflicted();
+        Bukkit.broadcastMessage(inflicted.toString() + event.getDamage());
+        if(event.getDamageType() == DamageType.CURSE) {
+            Location location = inflicted.getLocation();
+            double velocity = 0.5;
+            location.getWorld().spawnParticle(Particle.SPELL,location,5,velocity,velocity,velocity,velocity,null,true);
+        }
+    }
     @EventHandler
     public void onSpellCastEvent(final SpellCastEvent event) {
         SpellMechanic mechanic = event.getSpell().getMechanic();
