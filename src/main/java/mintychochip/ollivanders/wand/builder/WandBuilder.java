@@ -9,79 +9,48 @@ import mintychochip.ollivanders.wand.container.ComponentData;
 import mintychochip.ollivanders.wand.container.WandBoost;
 import mintychochip.ollivanders.wand.container.WandData;
 import mintychochip.ollivanders.wand.enums.ComponentType;
-import mintychochip.ollivanders.wand.enums.CoreType;
 import mintychochip.ollivanders.wand.util.ComponentUtil;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class WandBuilder extends ItemBuilder {
-    private final List<ItemStack> materials;
     private final WandData wandData;
-
     private final GenesisConfigurationSection main;
+
     public WandBuilder(AbstractItem abstractItem, String theme, GenesisConfigurationSection main, List<ItemStack> materials) throws IOException {
         super(abstractItem, theme);
         if (materials == null) {
             throw new IOException("Wand builder materials cannot be null!");
         }
-        wandData = new WandData(main);
-        this.materials = materials;
+        this.wandData = new WandData(main,materials);
         this.main = main;
     }
 
-    public ComponentData findComponentData(ComponentType componentType) {
-        for (ItemStack material : materials) {
-            ComponentData componentData = ComponentUtil.componentDataFromItemStack(material);
-            if (componentData.getComponentType() == componentType) {
-                return componentData;
-            }
-        }
-        return null;
+    public ComponentData dataFromType(ComponentType componentType) {
+        return (ComponentData) wandData.getMappedMaterials().keySet().stream().filter(x -> x.getComponentType() == componentType);
     }
 
     public String generateWandName() {
         return String.format("%s %s of the %s",
-                findComponentData(ComponentType.CRYSTAL).getTitle(),
-                findComponentData(ComponentType.STICK).getTitle(),
-                findComponentData(ComponentType.CORE).getTitle());
-    }
-
-    public WandBuilder setWandBoost(WandBoost wandBoost) {
-        wandData.setWandBoost(wandBoost);
-        return this;
+                dataFromType(ComponentType.CRYSTAL).getTitle(),
+                dataFromType(ComponentType.STICK).getTitle(),
+                dataFromType(ComponentType.CORE).getTitle());
     }
 
     public WandBuilder setCustomModelData(int model) {
         return (WandBuilder) super.setCustomModelData(model);
     }
-
     public WandBuilder setDisplayName(String displayName, ChatColor color) {
         wandData.setDisplayName(displayName);
         return (WandBuilder) super.setDisplayName(displayName, color);
     }
-
-
     public WandBuilder addWandLore(List<String> wandLore) {
         return (WandBuilder) super.addLore(wandLore);
-    }
-
-    public WandBoost sumWandBoostCore(boolean withCore) {
-        WandBoost result = new WandBoost();
-        for (ItemStack material : materials) {
-            ComponentData componentData = ComponentUtil.componentDataFromItemStack(material);
-            Bukkit.broadcastMessage(componentData.toString());
-            if (withCore && ComponentType.CORE == componentData.getComponentType()) {
-                result.addAll(componentData.getWandBoost());
-            } else {
-                result.addAll(componentData.getWandBoost());
-            }
-        }
-        return result.addAll(1);
     }
 
     public WandBuilder addBulletedLore(String term, String text) {
@@ -103,11 +72,10 @@ public class WandBuilder extends ItemBuilder {
     }
 
     public ItemStack defaultBuild() {
-        return this.setWandBoost(sumWandBoostCore(true))
-                .addWandLore(main.getStringList("lore"))
+        return this.addWandLore(main.getStringList("lore"))
                 .addStatLore()
                 .setCustomModelData(main.getInt("model"))
-                .setDisplayName(generateWandName(), ChatColor.getByChar(findComponentData(ComponentType.CORE).getRarity().colorCode))
+                .setDisplayName(generateWandName(), ChatColor.getByChar(dataFromType(ComponentType.CORE).getRarity().colorCode))
                 .setUnstackable(true).build();
     }
 

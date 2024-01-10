@@ -14,11 +14,6 @@ public class ComponentData extends ItemData { //holds all wand related objects
     private ComponentType componentType;
     private CoreType coreType;
     private Rarity rarity;
-
-    public ComponentData(String itemPath, boolean material) {
-        ComponentConfigurationSection main = Ollivanders.getComponentConfig().getMainConfigurationSection(itemPath, material);
-
-    }
     public ComponentData(ComponentConfigurationSection main) {
         this.setComponentType(main.enumFromSection(ComponentType.class,"type"))
                 .setRarity(main.enumFromSection(Rarity.class,"rarity"))

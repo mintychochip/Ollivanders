@@ -31,7 +31,7 @@ public class SpellConfig extends GenericConfig {
 
     public SpellConfig(String fileName, JavaPlugin plugin) throws IOException {
         super(fileName, plugin);
-        if(!registerMechanics()) {
+        if (!registerMechanics()) {
             //something
         }
         Registry.setKeywordAlias(generateRegistry(Keyword.class, "keyword"));
@@ -60,30 +60,32 @@ public class SpellConfig extends GenericConfig {
     public boolean registerMechanics() {
         for (String key : mechanics.getKeys(false)) {
             GenesisConfigurationSection mechanicSection = mechanics.getConfigurationSection(key);
-            if(mechanicSection == null) {
+            if (mechanicSection == null) {
                 return false;
             }
-            if (!registerMechanic(mechanicSection,key) || !registerSettings(mechanicSection,key)) {
+            if (!registerMechanic(mechanicSection) || !registerSettings(mechanicSection, key)) {
                 return false;
             }
         }
         return true;
     }
+
     public MechanicSettings createMechanicSettings(GenesisConfigurationSection settings, String key) {
         GenesisConfigurationSection keySection = settings.getConfigurationSection(key);
         if (keySection != null) {
-            MechanicSettings mechanicsSettings = copyMechanicSettingsFromSection(defaults,new MechanicSettings());
+            MechanicSettings mechanicsSettings = copyMechanicSettingsFromSection(defaults, new MechanicSettings());
             String inherits = keySection.getString("inherits");
             if (inherits != null) {
                 Registry.getSettingsMap().get(inherits.toUpperCase()).copyTo(mechanicsSettings);
             }
             GenesisConfigurationSection configurationSection = keySection.getConfigurationSection("modifiers");
-            if(configurationSection != null) {
+            if (configurationSection != null) {
                 return copyMechanicSettingsFromSection(configurationSection, mechanicsSettings);
             }
         }
         return null;
     }
+
     public boolean registerSettings(GenesisConfigurationSection mechanicConfiguration, String mechanic) {
         GenesisConfigurationSection settings = mechanicConfiguration.getConfigurationSection("settings");
         if (settings == null) {
@@ -97,51 +99,41 @@ public class SpellConfig extends GenericConfig {
         return true;
     }
 
-    public boolean registerMechanic(GenesisConfigurationSection mechanicSection, String mechanic) {
+    public boolean registerMechanic(GenesisConfigurationSection mechanicSection) {
         SpellMechanic spellMechanic = getMechanic(mechanicSection.getString("class"));
         if (spellMechanic == null) {
             return false;
         }
-        MechanicSettings mechanicSettings = copyMechanicSettingsFromSection(defaults,new MechanicSettings());
-        String key = mechanicSection.getString("inherits");
-        if (key != null) {
-            Registry.getMechanicAlias().get(key.toUpperCase()).getMechanicSettings().copyTo(mechanicSettings);
-        }
-        mechanicSettings = copyMechanicSettingsFromSection(mechanicSection.getConfigurationSection("settings.main.modifiers"), mechanicSettings);
-
-        spellMechanic.setMechanicSettings(mechanicSettings);
-
         List<String> keywords = spellMechanic.getMechanicSettings().getKeywords();
         if (keywords != null) {
             for (String keyword : keywords) {
                 Registry.getMechanicAlias().put(keyword.toUpperCase(), spellMechanic);
             }
-        } else {
-            return false;
+            return true;
         }
-        return true;
+        return false;
     }
 
-    public MechanicSettings copyMechanicSettingsFromSection(GenesisConfigurationSection configurationSection, MechanicSettings mechanicSettings) {
-        for (String key : configurationSection.getKeys(false)) {
+    public MechanicSettings copyMechanicSettingsFromSection(GenesisConfigurationSection mechanicSection, MechanicSettings mechanicSettings) {
+        for (String key : mechanicSection.getKeys(false)) {
             if (EnumUtil.isInEnum(Settings.class, key.toUpperCase())) {
                 switch (Enum.valueOf(Settings.class, key.toUpperCase())) {
-                    case COST -> mechanicSettings.setCost(configurationSection.getDouble(key));
-                    case RANGE -> mechanicSettings.setRange(configurationSection.getDouble(key));
-                    case DAMAGE -> mechanicSettings.setDamage(configurationSection.getDouble(key));
-                    case DURATION -> mechanicSettings.setDuration(configurationSection.getDouble(key));
-                    case INTERVAL -> mechanicSettings.setInterval(configurationSection.getLong(key));
-                    case PERSISTENT -> mechanicSettings.setPersistent(configurationSection.getBoolean(key));
-                    case KEYWORDS -> mechanicSettings.setKeywords(configurationSection.getStringList(key));
+                    case COST -> mechanicSettings.setCost(mechanicSection.getDouble(key));
+                    case RANGE -> mechanicSettings.setRange(mechanicSection.getDouble(key));
+                    case DAMAGE -> mechanicSettings.setDamage(mechanicSection.getDouble(key));
+                    case DURATION -> mechanicSettings.setDuration(mechanicSection.getDouble(key));
+                    case INTERVAL -> mechanicSettings.setInterval(mechanicSection.getLong(key));
+                    case PERSISTENT -> mechanicSettings.setPersistent(mechanicSection.getBoolean(key));
+                    case KEYWORDS -> mechanicSettings.setKeywords(mechanicSection.getStringList(key));
                     case ENTITY_TYPE ->
-                            mechanicSettings.setEntityType(Enum.valueOf(EntityType.class, configurationSection.getString(key).toUpperCase()));
-                    case MAGNITUDE -> mechanicSettings.setMagnitude(configurationSection.getDouble(key));
-                    case COOLDOWN -> mechanicSettings.setCooldown(configurationSection.getDouble(key));
+                            mechanicSettings.setEntityType(Enum.valueOf(EntityType.class, mechanicSection.getString(key).toUpperCase()));
+                    case MAGNITUDE -> mechanicSettings.setMagnitude(mechanicSection.getDouble(key));
+                    case COOLDOWN -> mechanicSettings.setCooldown(mechanicSection.getDouble(key));
                     case GENESIS_SHAPE ->
-                            mechanicSettings.setGenesisShape(Enum.valueOf(GenesisShape.class, configurationSection.getString(key).toUpperCase()));
+                            mechanicSettings.setGenesisShape(Enum.valueOf(GenesisShape.class, mechanicSection.getString(key).toUpperCase()));
                     case PARTICLES -> {
                         List<Particle> particleList = new ArrayList<>();
-                        for (String s : configurationSection.getStringList(key)) {
+                        for (String s : mechanicSection.getStringList(key)) {
                             particleList.add(Enum.valueOf(Particle.class, s.toUpperCase()));
                         }
                         mechanicSettings.setParticleList(particleList);
@@ -155,8 +147,7 @@ public class SpellConfig extends GenericConfig {
     public SpellMechanic getMechanic(String mechanic) {
         try {
             Class<?> clazz = Class.forName("mintychochip.ollivanders.spells." + mechanic);
-            Constructor<?> constructor = clazz.getConstructor();
-            return (SpellMechanic) constructor.newInstance();
+            return (SpellMechanic) clazz.getConstructor().newInstance();
         } catch (ClassNotFoundException | NoSuchMethodException | InvocationTargetException | InstantiationException |
                  IllegalAccessException e) {
             throw new RuntimeException(e);
