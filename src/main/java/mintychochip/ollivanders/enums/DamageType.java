@@ -28,7 +28,7 @@ public enum DamageType {
         this.delay = delay;
         this.interval = interval;
         this.visualFire = visualFire;
-        this.genesisKey = Genesis.getKeys().generateKey(Ollivanders.getInstance(),key);
+        this.genesisKey = Genesis.getKeys().addKey(Ollivanders.getInstance(),key);
         //can use this for mythic hook
         this.ignoresArmor = ignoresArmor;
         this.ignoresResistance = ignoresResistance;

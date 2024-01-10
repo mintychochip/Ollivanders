@@ -1,19 +1,16 @@
 package mintychochip.ollivanders.util;
 
 import mintychochip.ollivanders.config.Registry;
-import mintychochip.ollivanders.container.MechanicModifier;
-import mintychochip.ollivanders.container.PackagedModifier;
-import mintychochip.ollivanders.container.Spell;
-import mintychochip.ollivanders.container.SpellMechanic;
+import mintychochip.ollivanders.container.*;
 import mintychochip.ollivanders.enums.Keyword;
 import mintychochip.ollivanders.enums.Modifier;
-import mintychochip.ollivanders.enums.Shape;
-import org.bukkit.Bukkit;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class SpellTokenizer { //can make this binary
 
@@ -44,19 +41,30 @@ public class SpellTokenizer { //can make this binary
     }
     public SpellTokenizer setSpellMechanic(String mechanicName) throws IOException {
         SpellMechanic spellMechanic = Registry.getMechanicAlias().get(mechanicName);
+        MechanicSettings settings = Registry.getSettingsMap().get(mechanicName.toUpperCase());
+        if(settings == null) {
+            settings = Registry.getSettingsMap().get(mechanicName.toUpperCase());
+        }
         if (spellMechanic == null) {
             throw new IOException("Not a valid mechanic");
         }
         try {
             spell.setMechanic(spellMechanic.getClass().getConstructor().newInstance()
-                    .setMechanicSettings(spellMechanic.getMechanicSettings())
                     .setMechanicName(mechanicName));
         } catch (InvocationTargetException | InstantiationException | IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
         return this;
     }
-
+    public SpellTokenizer setSpellMechanicSettings(String mechanicName) {
+        String key = mechanicName + "-" + spell.getMechanic().getShape().toString();
+        MechanicSettings settings = Registry.getSettingsMap().get(key.toUpperCase());
+        if(settings == null) {
+            settings = Registry.getSettingsMap().get(mechanicName.toUpperCase());
+        }
+        spell.setMechanic(spell.getMechanic().setMechanicSettings(settings));
+        return this;
+    }
     public SpellTokenizer setModifiers(List<PackagedModifier> packagedModifiers) throws IOException { //can generalize this function
         MechanicModifier mechanicModifier = new MechanicModifier();
         for (PackagedModifier packagedModifier : packagedModifiers) {
@@ -144,6 +152,7 @@ public class SpellTokenizer { //can make this binary
             return this.setTokenizedSpell(spell)
                     .setSpellMechanic(firstInstanceOfKeyword(Keyword.MECHANIC))
                     .setShape(firstInstanceOfKeyword(Keyword.SHAPE))
+                    .setSpellMechanicSettings(firstInstanceOfKeyword(Keyword.MECHANIC))
                     .setModifiers(getPackagedModifiers(allInstancesofKeyword(Keyword.MODIFIER)))
                     .build();
         } catch (IOException e) {

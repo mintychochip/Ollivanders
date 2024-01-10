@@ -14,11 +14,11 @@ public class Blink extends SpellMechanic implements SpellArea, SpellSelf {
         if(context.getHitLocation() == null) {
             return false;
         }
-        double v = player.getLocation().distance(getCastLocation());
+        double v = player.getLocation().distance(getOriginalCastLocation());
         if(v > effectiveRange()) {
             return false;
         }
-        player.teleport(setYawPitch(getCastLocation(),player));
+        player.teleport(setYawPitch(getOriginalCastLocation(),player));
         return true;
     }
 

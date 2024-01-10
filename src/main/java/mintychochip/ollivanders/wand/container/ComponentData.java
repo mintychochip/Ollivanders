@@ -2,6 +2,7 @@ package mintychochip.ollivanders.wand.container;
 
 
 import mintychochip.genesis.container.ItemData;
+import mintychochip.ollivanders.Ollivanders;
 import mintychochip.ollivanders.wand.enums.ComponentType;
 import mintychochip.ollivanders.wand.enums.CoreType;
 import mintychochip.ollivanders.wand.enums.Rarity;
@@ -14,6 +15,16 @@ public class ComponentData extends ItemData { //holds all wand related objects
     private CoreType coreType;
     private Rarity rarity;
 
+    public ComponentData(String itemPath, boolean material) {
+        ComponentConfigurationSection main = Ollivanders.getComponentConfig().getMainConfigurationSection(itemPath, material);
+
+    }
+    public ComponentData(ComponentConfigurationSection main) {
+        this.setComponentType(main.enumFromSection(ComponentType.class,"type"))
+                .setRarity(main.enumFromSection(Rarity.class,"rarity"))
+                .setWandBoost(main.getDefaultWandBoost("modifiers"))
+                .setTitle(main.getString("title"));
+    }
     public String getTitle() {
         return title;
     }
@@ -60,6 +71,9 @@ public class ComponentData extends ItemData { //holds all wand related objects
     public ComponentData setRarity(Rarity rarity) {
         this.rarity = rarity;
         return this;
+    }
+    public String toString() {
+        return String.format("%s %s %s %s", title,wandBoost.toString(),componentType.toString(),rarity.toString());
     }
 
 }

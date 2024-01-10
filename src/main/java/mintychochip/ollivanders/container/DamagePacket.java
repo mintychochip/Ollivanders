@@ -1,11 +1,10 @@
 package mintychochip.ollivanders.container;
 
-import mintychochip.ollivanders.enums.DamageType;
 import org.bukkit.entity.LivingEntity;
 
 public class DamagePacket {
 
-    private final double damage;
+    private double damage;
 
     private final LivingEntity inflicted;
 
@@ -16,6 +15,12 @@ public class DamagePacket {
     public double getDamage() {
         return damage;
     }
+
+    public DamagePacket setDamage(double damage) {
+        this.damage = damage;
+        return this;
+    }
+
     public LivingEntity getInflicted() {
         return inflicted;
     }

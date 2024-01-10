@@ -14,21 +14,32 @@ import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 
 public class SpellCaster { //only casts and calls event, need to check if effects hit, write the listeners for damageevents
+
+
     public static boolean cast(Spell spell, WandData wandData, Context context) {
+        boolean debug = false;
         if (spell == null) {
             return false;
         }
         SpellMechanic mechanic = spell.getMechanic() //setup
                 .setContext(context)
                 .setWandData(wandData);
-
+        Player player = context.getPlayer();
         if (!mechanic.isValidShape()) {
             return false;//check if the book shape is applicable to the spell
         }
+
+        if (player.getTotalExperience() < mechanic.getMechanicSettings().getCost()) {
+            Bukkit.broadcastMessage("out of xp");
+            return false;
+        }
+        if(Ollivanders.getCooldownManager().hasCooldown(mechanic.getName() + "-" + mechanic.getShape(), mechanic.getMechanicSettings().getCooldown(), player.getUniqueId())) {
+            Bukkit.broadcastMessage(mechanic.getName() + " " + Ollivanders.getCooldownManager().cooldownRemaining(mechanic.getName() + "-" + mechanic.getShape(),mechanic.getMechanicSettings().getCooldown(),player.getUniqueId()));
+            return false;
+        }
         boolean b = genericCastMethod(mechanic); //was the mechanic able to be casted
         if (b) { //call initially, enter block if the cast was successful else return false
-            spell.getSpellMeta().setCastingStartTime(System.currentTimeMillis());
-            Bukkit.getPluginManager().callEvent(new SpellCastEvent(spell,wandData,context)); //call event
+            Bukkit.getPluginManager().callEvent(new SpellCastEvent(spell, wandData, context)); //call event
             if (mechanic.getMechanicSettings().isPersistent()) {
                 Ollivanders.getPersistentSpellManager().add(spell, context.getPlayer()); //if cast was persistent, then we can continue to cast
             }
@@ -51,6 +62,7 @@ public class SpellCaster { //only casts and calls event, need to check if effect
                         Ollivanders.getProjectileHandler().getProjectileMap().put(entity.getEntityId(), mechanic);
                     }
                 }
+                b = true;
             }
             case AREA -> b = ((SpellArea) mechanic).castArea();
             case SELF -> b = ((SpellSelf) mechanic).castSelf();

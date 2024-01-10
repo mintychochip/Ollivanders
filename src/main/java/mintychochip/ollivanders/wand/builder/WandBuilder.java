@@ -2,18 +2,15 @@ package mintychochip.ollivanders.wand.builder;
 
 import mintychochip.genesis.Genesis;
 import mintychochip.genesis.builder.ItemBuilder;
-import mintychochip.genesis.color.GenesisTheme;
+import mintychochip.genesis.config.GenesisConfigurationSection;
 import mintychochip.genesis.container.AbstractItem;
 import mintychochip.genesis.util.Serializer;
-import mintychochip.ollivanders.Ollivanders;
-import mintychochip.ollivanders.wand.config.WandConfig;
-import mintychochip.ollivanders.wand.enums.Rarity;
-import mintychochip.ollivanders.wand.util.ComponentUtil;
 import mintychochip.ollivanders.wand.container.ComponentData;
 import mintychochip.ollivanders.wand.container.WandBoost;
 import mintychochip.ollivanders.wand.container.WandData;
 import mintychochip.ollivanders.wand.enums.ComponentType;
 import mintychochip.ollivanders.wand.enums.CoreType;
+import mintychochip.ollivanders.wand.util.ComponentUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.inventory.ItemStack;
@@ -23,17 +20,18 @@ import java.io.IOException;
 import java.util.List;
 
 public class WandBuilder extends ItemBuilder {
-    private final WandConfig wc = Ollivanders.getWandConfig();
     private final List<ItemStack> materials;
     private final WandData wandData;
 
-    public WandBuilder(AbstractItem abstractItem, GenesisTheme genesisTheme, List<ItemStack> materials) throws IOException {
-        super(abstractItem,genesisTheme);
+    private final GenesisConfigurationSection main;
+    public WandBuilder(AbstractItem abstractItem, String theme, GenesisConfigurationSection main, List<ItemStack> materials) throws IOException {
+        super(abstractItem, theme);
         if (materials == null) {
             throw new IOException("Wand builder materials cannot be null!");
         }
-        wandData = new WandData();
+        wandData = new WandData(main);
         this.materials = materials;
+        this.main = main;
     }
 
     public ComponentData findComponentData(ComponentType componentType) {
@@ -64,15 +62,11 @@ public class WandBuilder extends ItemBuilder {
 
     public WandBuilder setDisplayName(String displayName, ChatColor color) {
         wandData.setDisplayName(displayName);
-        return (WandBuilder) super.setDisplayName(displayName,color);
+        return (WandBuilder) super.setDisplayName(displayName, color);
     }
 
-    public WandBuilder setCoreType(CoreType coreType) {
-        wandData.setCoreType(coreType);
-        return this;
-    }
+
     public WandBuilder addWandLore(List<String> wandLore) {
-        wandData.setWandLore(wandLore);
         return (WandBuilder) super.addLore(wandLore);
     }
 
@@ -80,6 +74,7 @@ public class WandBuilder extends ItemBuilder {
         WandBoost result = new WandBoost();
         for (ItemStack material : materials) {
             ComponentData componentData = ComponentUtil.componentDataFromItemStack(material);
+            Bukkit.broadcastMessage(componentData.toString());
             if (withCore && ComponentType.CORE == componentData.getComponentType()) {
                 result.addAll(componentData.getWandBoost());
             } else {
@@ -88,16 +83,18 @@ public class WandBuilder extends ItemBuilder {
         }
         return result.addAll(1);
     }
+
     public WandBuilder addBulletedLore(String term, String text) {
-        return (WandBuilder) super.addBulletedLore(term,text);
+        return (WandBuilder) super.addBulletedLore(term, text);
     }
+
     public WandBuilder addStatLore() {
         WandBoost wandBoost = wandData.getWandBoost();
-        addBulletedLore("Magnitude:",wandBoost.getMagnitude() + "");
-        addBulletedLore("Duration:",wandBoost.getDuration() + "");
-        addBulletedLore("Range:",wandBoost.getRange() + "");
-        addBulletedLore("Efficiency:",wandBoost.getEfficiency() + "");
-        addBulletedLore("Haste:",wandBoost.getHaste() + "");
+        addBulletedLore("Magnitude:", wandBoost.getMagnitude() + "");
+        addBulletedLore("Duration:", wandBoost.getDuration() + "");
+        addBulletedLore("Range:", wandBoost.getRange() + "");
+        addBulletedLore("Efficiency:", wandBoost.getEfficiency() + "");
+        addBulletedLore("Haste:", wandBoost.getHaste() + "");
         return this;
     }
 
@@ -107,11 +104,10 @@ public class WandBuilder extends ItemBuilder {
 
     public ItemStack defaultBuild() {
         return this.setWandBoost(sumWandBoostCore(true))
-                .addWandLore(wc.getStringList("lore"))
+                .addWandLore(main.getStringList("lore"))
                 .addStatLore()
-                .setCoreType(Enum.valueOf(CoreType.class, wc.getPath().toUpperCase()))
-                .setCustomModelData(wc.getInt("model"))
-                .setDisplayName(generateWandName(),ChatColor.getByChar(findComponentData(ComponentType.CORE).getRarity().colorCode))
+                .setCustomModelData(main.getInt("model"))
+                .setDisplayName(generateWandName(), ChatColor.getByChar(findComponentData(ComponentType.CORE).getRarity().colorCode))
                 .setUnstackable(true).build();
     }
 

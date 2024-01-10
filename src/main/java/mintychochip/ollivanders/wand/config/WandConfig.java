@@ -1,15 +1,11 @@
 package mintychochip.ollivanders.wand.config;
 
-import mintychochip.ollivanders.GenericConfig;
+import mintychochip.genesis.config.GenericConfig;
+import org.bukkit.plugin.java.JavaPlugin;
 
 public class WandConfig extends GenericConfig {
-    public WandConfig(String fileName) {
-        super(fileName);
+    public WandConfig(String fileName, JavaPlugin plugin) {
+        super(fileName, plugin);
     }
 
-    @Override
-    public void setMain(String path) {
-        super.path = path;
-        super.main = configReader.getConfigurationSection(path.toUpperCase());
-    }
 }

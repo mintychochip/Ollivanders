@@ -2,11 +2,7 @@ package mintychochip.ollivanders.wand.config;
 
 import mintychochip.ollivanders.Ollivanders;
 import mintychochip.ollivanders.util.EnumUtil;
-import mintychochip.ollivanders.wand.config.ComponentConfig;
 import mintychochip.ollivanders.wand.container.ComponentData;
-import mintychochip.ollivanders.wand.enums.ComponentType;
-import mintychochip.ollivanders.wand.enums.CoreType;
-import mintychochip.ollivanders.wand.enums.Rarity;
 import org.bukkit.Material;
 
 import java.util.HashMap;
@@ -18,18 +14,10 @@ public class ComponentRegistry {
 
     public ComponentRegistry() {
         ComponentConfig cc = Ollivanders.getComponentConfig();
-
-        for (String key : cc.getConfigurationSection("materials").getKeys(false)) {
-            if (EnumUtil.isInEnum(Material.class, key)) {
-                Material material = Enum.valueOf(Material.class, key);
-                cc.setMain(material.toString(), true);
-                componentData.put(material, new ComponentData()
-                        .setComponentType(cc.enumFromSection(ComponentType.class, "type"))
-                        .setCoreType(cc.enumFromSection(CoreType.class, "core"))
-                        .setDisplayName(cc.getString("name"))
-                        .setTitle(cc.getString("title"))
-                        .setWandBoost(cc.getDefaultWandBoost("modifiers"))
-                        .setRarity(cc.enumFromSection(Rarity.class, "rarity")));
+        for (String key : cc.getConfigReader().getConfigurationSection("materials").getKeys(false)) {
+            if(EnumUtil.isInEnum(Material.class,key)) {
+                Material material = Enum.valueOf(Material.class,key);
+                componentData.put(material, new ComponentData(cc.getMainConfigurationSection(key,true)));
             }
         }
     }

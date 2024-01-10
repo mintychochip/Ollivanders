@@ -7,37 +7,15 @@ default:
     persistent: false
     damage: 2
     entity_type: fireball
-    cooldown: 15
-    cost: 15
+    cooldown: 2
+    cost: 20
 mechanics:
   Fireball: #same as class name
     class: Fireball
     settings:
+      cooldown: .5
       magnitude: 7
       keywords: [ fireball ]
-      genesis_shape: LINE
-  Explosion:
-    class: Explosion
-    settings:
-      keywords: [ explosion ]
-      range: 15
-      duration: 15
-      persistent: true
-      interval: 5
-  Blink:
-    class: Blink
-    settings:
-      keywords: [ blink ]
-  immolate:
-    class: Immolate
-    inherits: Explosion
-    settings:
-      keywords: [ immolate ]
-      duration: 5
-  accelerate:
-    class: Accelerate
-    settings:
-      keywords: [ accelerate ]
 keywords:
   keyword:
     START: [ start ]
@@ -48,7 +26,7 @@ keywords:
     MODIFIER: [ modifier ]
   shape:
     PROJECTILE: [ projectile ]
-    AREA: [area]
+    AREA: [ area ]
     SELF: [ self ]
   modifier:
     ENCHANTMENT: [ enchantment ]

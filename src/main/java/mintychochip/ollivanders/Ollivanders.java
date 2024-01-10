@@ -2,11 +2,13 @@ package mintychochip.ollivanders;
 
 import mintychochip.genesis.Genesis;
 import mintychochip.ollivanders.commands.CommandManager;
-import mintychochip.ollivanders.commands.TestingWandCommand;
+import mintychochip.ollivanders.commands.WandCommand;
 import mintychochip.ollivanders.config.SpellConfig;
+import mintychochip.ollivanders.handler.CooldownManager;
 import mintychochip.ollivanders.handler.PersistentSpellManager;
 import mintychochip.ollivanders.handler.ProjectileHandler;
 import mintychochip.ollivanders.listener.OllivandersItemListener;
+import mintychochip.ollivanders.listener.SpellDamageListener;
 import mintychochip.ollivanders.listener.SpellListener;
 import mintychochip.ollivanders.util.SpellTokenizer;
 import mintychochip.ollivanders.wand.config.ComponentConfig;
@@ -29,6 +31,8 @@ public final class Ollivanders extends JavaPlugin {
     private static ProjectileHandler projectileHandler;
 
     private static PersistentSpellManager persistentSpellManager;
+
+    private static CooldownManager cooldownManager;
     private static Ollivanders instance;
 
     public static PersistentSpellManager getPersistentSpellManager() {
@@ -58,28 +62,34 @@ public final class Ollivanders extends JavaPlugin {
     public static ProjectileHandler getProjectileHandler() {
         return projectileHandler;
     }
+
+    public static CooldownManager getCooldownManager() {
+        return cooldownManager;
+    }
+
     @Override
     public void onEnable() {
         instance = this;
         // Plugin startup logic
-        Genesis.getKeys().generateKey(this,"fire");
-        Genesis.getKeys().generateKey(this, "items");
-        Genesis.getKeys().generateKey(this, "wand");
+        String[] keySet = {"fire","items","wand"};
+        Genesis.getKeys().generateKeys(this,keySet);
         persistentSpellManager = new PersistentSpellManager();
         projectileHandler = new ProjectileHandler();
         tokenizer = new SpellTokenizer();
-        componentConfig = new ComponentConfig("components.yml");
-        wandConfig = new WandConfig("wand.yml");
+        cooldownManager = new CooldownManager();
+        componentConfig = new ComponentConfig("components.yml",this);
+        wandConfig = new WandConfig("wand.yml",this);
         try {
-            spellConfig = new SpellConfig("spells.yml");
+            spellConfig = new SpellConfig("spells.yml",this);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
         enableRegistries();
+        getCommand("wand").setExecutor(new WandCommand());
         getCommand("component").setExecutor(new CommandManager());
-        getCommand("wand").setExecutor(new TestingWandCommand());
         Bukkit.getPluginManager().registerEvents(new SpellListener(),this);
         Bukkit.getPluginManager().registerEvents(new OllivandersItemListener(),this);
+        Bukkit.getPluginManager().registerEvents(new SpellDamageListener(),this);
     }
 
     public void enableRegistries() {

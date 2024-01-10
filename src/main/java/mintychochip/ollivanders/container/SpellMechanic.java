@@ -24,8 +24,9 @@ public abstract class SpellMechanic {
     protected List<GenesisHandler> handlers;
 
     protected Shape shape;
-
     protected String name;
+
+    protected Location originalCastLocation;
 
     public static double effectiveFieldCalculation(double base, double modifier, double wandBoost) {
         if (base > modifier) {
@@ -66,18 +67,19 @@ public abstract class SpellMechanic {
         return mechanicModifier;
     }
 
+    public String getName() {
+        return name;
+    }
 
     public Spell getTransition() {
         return transition;
     }
 
-
-    public Location getCastLocation() {
-        return context.getHitLocation() == null ? context.getPlayer().getLocation() : context.getHitLocation();
-    }
-
-    public List<Entity> getNearbyEntities() { //can probably make this better
-        Location castLocation = getCastLocation();
+    public List<Entity> getNearbyEntities(boolean useOrigin) { //can probably make this better
+        Location castLocation = getCurrentCastLocation();
+        if(useOrigin) {
+            castLocation = originalCastLocation;
+        }
         double effectiveRange = (mechanicSettings.getRange() * wandData.getWandBoost().getRange()) / 2; //diameter / 2
         if (castLocation != null && castLocation.getWorld() != null) {
             return new ArrayList<>(castLocation.getWorld().getNearbyEntities(castLocation, effectiveRange, effectiveRange, effectiveRange));
@@ -85,8 +87,8 @@ public abstract class SpellMechanic {
         return null;
     }
 
-    public List<LivingEntity> nearbyLivingEntities() {
-        return getNearbyEntities().stream()
+    public List<LivingEntity> nearbyLivingEntities(boolean useOrigin) {
+        return getNearbyEntities(useOrigin).stream()
                 .filter(entity -> (entity instanceof LivingEntity && entity != context.getPlayer()))
                 .map(e -> (LivingEntity) e)
                 .collect(Collectors.toList());
@@ -98,7 +100,10 @@ public abstract class SpellMechanic {
     }
 
     public SpellMechanic setContext(Context context) {
-        this.context = context;
+        if(context != null) {
+            this.context = context;
+            originalCastLocation = getCurrentCastLocation();
+        }
         return this;
     }
 
@@ -136,6 +141,13 @@ public abstract class SpellMechanic {
                 return this instanceof SpellSelf;
         }
         return false;
+    }
+
+    public Location getOriginalCastLocation() {
+        return originalCastLocation;
+    }
+    public Location getCurrentCastLocation() {
+        return context.getHitLocation() == null ? context.getPlayer().getLocation() : context.getHitLocation();
     }
 
     public void cancelHandlers() {

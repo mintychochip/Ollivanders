@@ -1,5 +1,6 @@
 package mintychochip.ollivanders.wand.container;
 
+import mintychochip.genesis.config.GenesisConfigurationSection;
 import mintychochip.genesis.container.ItemData;
 import mintychochip.ollivanders.wand.enums.CoreType;
 
@@ -10,7 +11,9 @@ public class WandData extends ItemData {
     public static final long serialVersionUID = 1234567L;
     private WandBoost wandBoost;
     private CoreType coreType;
-    private List<String> wandLore;
+    public WandData(GenesisConfigurationSection main) {
+        this.setCoreType(Enum.valueOf(CoreType.class,main.getPath().toUpperCase()));
+    }
 
     public WandData setDisplayName(String displayName) {
         return (WandData) super.setDisplayName(displayName);
@@ -30,16 +33,7 @@ public class WandData extends ItemData {
     public void setCoreType(CoreType CoreType) {
         this.coreType = CoreType;
     }
-
-    public List<String> getWandLore() {
-        return wandLore;
-    }
-
-    public void setWandLore(List<String> wandLore) {
-        this.wandLore = wandLore;
-    }
-
     public String toString() {
-        return String.format("%s %s %s %s", wandBoost.toString(),displayName, coreType.toString(), wandLore.toString());
+        return String.format("%s %s %s", wandBoost.toString(),displayName, coreType.toString());
     }
 }

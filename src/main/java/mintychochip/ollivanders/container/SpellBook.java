@@ -1,7 +1,6 @@
 package mintychochip.ollivanders.container;
 
 import mintychochip.ollivanders.Ollivanders;
-import org.bukkit.Bukkit;
 import org.bukkit.inventory.meta.BookMeta;
 
 import java.io.IOException;
@@ -10,6 +9,8 @@ import java.util.*;
 public class SpellBook {
 
     private Map<Integer,String> content;
+
+    private int currentPage = 0;
 
     public SpellBook(BookMeta bookMeta) throws IOException {
         if(!bookMeta.hasPages()) {
@@ -43,5 +44,9 @@ public class SpellBook {
 
     public Spell mainSpell(int page) {
         return mainSpell(content.get(page));
+    }
+
+    public int getCurrentPage() {
+        return currentPage;
     }
 }

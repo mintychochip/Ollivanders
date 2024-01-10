@@ -16,13 +16,12 @@ public class Explosion extends SpellMechanic implements SpellArea, SpellSelf {
         return genericCastMethod(context.getPlayer().getLocation());
     }
     public boolean genericCastMethod(Location location) {
-        Location castLocation = getCastLocation();
         if(location != null) {
-            castLocation = location;
+            originalCastLocation = location;
         }
-        if(castLocation == null) {
+        if(originalCastLocation == null) {
             return false;
         }
-        return castLocation.getWorld().createExplosion(castLocation, (float) effectiveMagnitude());
+        return originalCastLocation.getWorld().createExplosion(originalCastLocation, (float) effectiveMagnitude());
     }
 }

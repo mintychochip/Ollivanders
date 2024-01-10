@@ -1,9 +1,8 @@
 package mintychochip.ollivanders.api;
 
-import mintychochip.ollivanders.container.SpellMechanic;
+import mintychochip.genesis.manager.GenesisHandler;
 import mintychochip.ollivanders.enums.DamageType;
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import org.jetbrains.annotations.NotNull;
@@ -12,16 +11,19 @@ public class SpellDamageEvent extends Event {
 
     private static final HandlerList handlers = new HandlerList();
     private final LivingEntity inflicted;
-    private final SpellMechanic spellMechanic;
-
+    private final GenesisHandler process;
     private final DamageType damageType;
     private final double damage;
 
-    public SpellDamageEvent(LivingEntity inflicted, SpellMechanic spellMechanic, DamageType damageType, double damage) {
-        this.spellMechanic = spellMechanic;
+    public SpellDamageEvent(LivingEntity inflicted, GenesisHandler process, DamageType damageType, double damage) {
         this.inflicted = inflicted;
+        this.process = process;
         this.damageType = damageType;
         this.damage = damage;
+    }
+
+    public GenesisHandler getProcess() {
+        return process;
     }
 
     @NotNull
@@ -41,9 +43,6 @@ public class SpellDamageEvent extends Event {
         return damage;
     }
 
-    public SpellMechanic getSpellMechanic() {
-        return spellMechanic;
-    }
 
     public DamageType getDamageType() {
         return damageType;
