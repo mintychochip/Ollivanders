@@ -2,7 +2,6 @@ package mintychochip.ollivanders.wand.container;
 
 
 import mintychochip.genesis.container.ItemData;
-import mintychochip.ollivanders.Ollivanders;
 import mintychochip.ollivanders.wand.enums.ComponentType;
 import mintychochip.ollivanders.wand.enums.CoreType;
 import mintychochip.ollivanders.wand.enums.Rarity;
@@ -15,6 +14,7 @@ public class ComponentData extends ItemData { //holds all wand related objects
     private CoreType coreType;
     private Rarity rarity;
     public ComponentData(ComponentConfigurationSection main) {
+        super("items");
         this.setComponentType(main.enumFromSection(ComponentType.class,"type"))
                 .setRarity(main.enumFromSection(Rarity.class,"rarity"))
                 .setWandBoost(main.getDefaultWandBoost("modifiers"))

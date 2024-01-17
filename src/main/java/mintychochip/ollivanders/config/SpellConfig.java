@@ -1,20 +1,23 @@
 package mintychochip.ollivanders.config;
 
+import mintychochip.genesis.Genesis;
 import mintychochip.genesis.config.GenericConfig;
 import mintychochip.genesis.config.GenesisConfigurationSection;
 import mintychochip.genesis.particle.GenesisShape;
+import mintychochip.genesis.util.ConfigMarker;
+import mintychochip.ollivanders.Ollivanders;
 import mintychochip.ollivanders.container.MechanicSettings;
 import mintychochip.ollivanders.container.SpellMechanic;
 import mintychochip.ollivanders.enums.Keyword;
 import mintychochip.ollivanders.enums.Modifier;
 import mintychochip.ollivanders.enums.Shape;
 import mintychochip.ollivanders.util.EnumUtil;
+import mintychochip.ollivanders.util.OllivandersConfigMarker;
 import org.bukkit.Particle;
 import org.bukkit.entity.EntityType;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.IOException;
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,15 +34,19 @@ public class SpellConfig extends GenericConfig {
 
     public SpellConfig(String fileName, JavaPlugin plugin) throws IOException {
         super(fileName, plugin);
+        Genesis.getKeys().generateKeys(Ollivanders.getInstance(), getMainConfigurationSection(OllivandersConfigMarker.global_settings).getStringList(OllivandersConfigMarker.keys));
         if (!registerMechanics()) {
             //something
         }
-        Registry.setKeywordAlias(generateRegistry(Keyword.class, "keyword"));
-        Registry.setShapeAlias(generateRegistry(Shape.class, "shape"));
-        Registry.setModifierAlias(generateRegistry(Modifier.class, "modifier"));
+        Registry.setKeywordAlias(generateKeywordRegistry(Keyword.class, "keyword"));
+        Registry.setShapeAlias(generateKeywordRegistry(Shape.class, "shape"));
+        Registry.setModifierAlias(generateKeywordRegistry(Modifier.class, "modifier"));
     }
 
-    public <E extends Enum<E>> Map<String, E> generateRegistry(Class<E> enumClass, String section) throws IOException {
+    public void loadGenesisKeys(GenesisConfigurationSection serverSettings) { //beginning of using config marker
+    }
+
+    public <E extends Enum<E>> Map<String, E> generateKeywordRegistry(Class<E> enumClass, String section) throws IOException {
 
         GenesisConfigurationSection configurationSection = keywords.getConfigurationSection(section);
         if (configurationSection == null) {
@@ -93,7 +100,7 @@ public class SpellConfig extends GenericConfig {
         }
         for (String key : settings.getKeys(false)) {
             MechanicSettings mechanicSettings = createMechanicSettings(settings, key);
-            String registryKey = key.equals("main") ? mechanic : mechanic + "-" + key;
+            String registryKey = mechanic + "-" + key;
             Registry.getSettingsMap().put(registryKey.toUpperCase(), mechanicSettings);
         }
         return true;
@@ -104,7 +111,7 @@ public class SpellConfig extends GenericConfig {
         if (spellMechanic == null) {
             return false;
         }
-        List<String> keywords = spellMechanic.getMechanicSettings().getKeywords();
+        List<String> keywords = mechanicSection.getStringList("keywords");
         if (keywords != null) {
             for (String keyword : keywords) {
                 Registry.getMechanicAlias().put(keyword.toUpperCase(), spellMechanic);
@@ -116,8 +123,8 @@ public class SpellConfig extends GenericConfig {
 
     public MechanicSettings copyMechanicSettingsFromSection(GenesisConfigurationSection mechanicSection, MechanicSettings mechanicSettings) {
         for (String key : mechanicSection.getKeys(false)) {
-            if (EnumUtil.isInEnum(Settings.class, key.toUpperCase())) {
-                switch (Enum.valueOf(Settings.class, key.toUpperCase())) {
+            if (EnumUtil.isInEnum(SpellModifiers.class, key.toUpperCase())) {
+                switch (Enum.valueOf(SpellModifiers.class, key.toUpperCase())) {
                     case COST -> mechanicSettings.setCost(mechanicSection.getDouble(key));
                     case RANGE -> mechanicSettings.setRange(mechanicSection.getDouble(key));
                     case DAMAGE -> mechanicSettings.setDamage(mechanicSection.getDouble(key));
@@ -154,7 +161,7 @@ public class SpellConfig extends GenericConfig {
         }
     }
 
-    enum Settings {
+    enum SpellModifiers {
         KEYWORDS,
         RANGE,
         DURATION,

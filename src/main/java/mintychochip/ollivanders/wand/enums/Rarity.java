@@ -5,7 +5,7 @@ public enum Rarity {
     UNCOMMON('a'),
     RARE('9'),
     EPIC('5'),
-    LEGENDARY('b'),
+    LEGENDARY('6'),
     DEFAULT('f');
 
     public final char colorCode;

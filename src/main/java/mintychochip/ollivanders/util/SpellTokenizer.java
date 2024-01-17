@@ -19,6 +19,7 @@ public class SpellTokenizer { //can make this binary
     private Spell spell;
 
     private final StringBuilder stringBuilder = new StringBuilder();
+
     public SpellTokenizer setTokenizedSpell(String spell) throws IOException {
         if (spell == null) {
             throw new IOException();
@@ -39,32 +40,32 @@ public class SpellTokenizer { //can make this binary
         tokenizedSpell.put(stringBuild().toUpperCase(), keyword);
         return this;
     }
-    public SpellTokenizer setSpellMechanic(String mechanicName) throws IOException {
-        SpellMechanic spellMechanic = Registry.getMechanicAlias().get(mechanicName);
-        MechanicSettings settings = Registry.getSettingsMap().get(mechanicName.toUpperCase());
-        if(settings == null) {
-            settings = Registry.getSettingsMap().get(mechanicName.toUpperCase());
-        }
+
+    public SpellTokenizer setSpellMechanic(String keyword) throws IOException {
+        SpellMechanic spellMechanic = Registry.getMechanicAlias().get(keyword);
         if (spellMechanic == null) {
-            throw new IOException("Not a valid mechanic");
+           return null;
         }
         try {
             spell.setMechanic(spellMechanic.getClass().getConstructor().newInstance()
-                    .setMechanicName(mechanicName));
-        } catch (InvocationTargetException | InstantiationException | IllegalAccessException | NoSuchMethodException e) {
+                    .setMechanicName(spellMechanic.getClass().getSimpleName()));
+        } catch (InvocationTargetException | InstantiationException | IllegalAccessException |
+                 NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
         return this;
     }
+
     public SpellTokenizer setSpellMechanicSettings(String mechanicName) {
         String key = mechanicName + "-" + spell.getMechanic().getShape().toString();
         MechanicSettings settings = Registry.getSettingsMap().get(key.toUpperCase());
-        if(settings == null) {
-            settings = Registry.getSettingsMap().get(mechanicName.toUpperCase());
+        if (settings == null) {
+            settings = Registry.getSettingsMap().get(mechanicName.toUpperCase() + "-MAIN");
         }
         spell.setMechanic(spell.getMechanic().setMechanicSettings(settings));
         return this;
     }
+
     public SpellTokenizer setModifiers(List<PackagedModifier> packagedModifiers) throws IOException { //can generalize this function
         MechanicModifier mechanicModifier = new MechanicModifier();
         for (PackagedModifier packagedModifier : packagedModifiers) {
@@ -78,7 +79,7 @@ public class SpellTokenizer { //can make this binary
     }
 
     public SpellTokenizer setShape(String shape) {
-        if(Registry.getShapeAlias().containsKey(shape)) {
+        if (Registry.getShapeAlias().containsKey(shape)) {
             spell.getMechanic().setShape(Registry.getShapeAlias().get(shape));
         }
         return this;
@@ -148,13 +149,18 @@ public class SpellTokenizer { //can make this binary
     }
 
     public Spell defaultBuild(String spell) {
+
         try {
-            return this.setTokenizedSpell(spell)
-                    .setSpellMechanic(firstInstanceOfKeyword(Keyword.MECHANIC))
-                    .setShape(firstInstanceOfKeyword(Keyword.SHAPE))
-                    .setSpellMechanicSettings(firstInstanceOfKeyword(Keyword.MECHANIC))
-                    .setModifiers(getPackagedModifiers(allInstancesofKeyword(Keyword.MODIFIER)))
-                    .build();
+            SpellTokenizer spellTokenizer = this.setTokenizedSpell(spell)
+                    .setSpellMechanic(firstInstanceOfKeyword(Keyword.MECHANIC));
+            if(spellTokenizer == null) {
+                return null;
+            } else {
+               return spellTokenizer.setShape(firstInstanceOfKeyword(Keyword.SHAPE))
+                        .setSpellMechanicSettings(this.spell.getMechanic().getName())
+                        .setModifiers(getPackagedModifiers(allInstancesofKeyword(Keyword.MODIFIER)))
+                        .build();
+            }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

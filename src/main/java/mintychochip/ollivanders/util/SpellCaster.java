@@ -30,11 +30,11 @@ public class SpellCaster { //only casts and calls event, need to check if effect
         }
 
         if (player.getTotalExperience() < mechanic.getMechanicSettings().getCost()) {
-            Bukkit.broadcastMessage("out of xp");
+            player.sendMessage("out of xp");
             return false;
         }
         if(Ollivanders.getCooldownManager().hasCooldown(mechanic.getName() + "-" + mechanic.getShape(), mechanic.getMechanicSettings().getCooldown(), player.getUniqueId())) {
-            Bukkit.broadcastMessage(mechanic.getName() + " " + Ollivanders.getCooldownManager().cooldownRemaining(mechanic.getName() + "-" + mechanic.getShape(),mechanic.getMechanicSettings().getCooldown(),player.getUniqueId()));
+            player.sendMessage(mechanic.getName() + " " + Ollivanders.getCooldownManager().cooldownRemaining(mechanic.getName() + "-" + mechanic.getShape(),mechanic.getMechanicSettings().getCooldown(),player.getUniqueId()) + " seconds remaining");
             return false;
         }
         boolean b = genericCastMethod(mechanic); //was the mechanic able to be casted

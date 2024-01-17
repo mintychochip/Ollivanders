@@ -7,4 +7,6 @@ commands:
     description: wadwd
   wand:
     description: spawns a wand
+  book:
+    description: gives book
 depend: [Genesis]

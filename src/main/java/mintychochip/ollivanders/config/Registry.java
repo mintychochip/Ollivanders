@@ -13,9 +13,6 @@ public class Registry { //eventually allows to do lang files
     private static Map<String, Modifier> modifierAlias = new HashMap<>();
 
     private static Map<String, MechanicSettings> settingsMap = new HashMap<>();
-
-    private static Map<String, SpellMechanic> unsetMechanicMap = new HashMap<>();
-
     private static Map<String, Keyword> keywordAlias = new HashMap<>();
 
     private static Map<String, SpellMechanic> mechanicAlias = new HashMap<>();
@@ -44,10 +41,6 @@ public class Registry { //eventually allows to do lang files
 
     public static Map<String, MechanicSettings> getSettingsMap() {
         return settingsMap;
-    }
-
-    public static Map<String, SpellMechanic> getUnsetMechanicMap() {
-        return unsetMechanicMap;
     }
 
     public static void setShapeAlias(Map<String, Shape> shapeAlias) {

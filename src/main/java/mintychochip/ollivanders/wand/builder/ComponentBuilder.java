@@ -8,7 +8,6 @@ import mintychochip.ollivanders.wand.container.ComponentConfigurationSection;
 import mintychochip.ollivanders.wand.container.ComponentData;
 import mintychochip.ollivanders.wand.enums.ComponentType;
 import mintychochip.ollivanders.wand.enums.CoreType;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
@@ -65,9 +64,9 @@ public class ComponentBuilder extends ItemBuilder {
 
     //-----------------------------------------------------------
     public ItemStack defaultBuild() {
-        ComponentBuilder componentBuilder = this.setCustomModelData(main.getInt(""))
-                .setDisplayName(main.getString("name"))
-                .addLore(main.getStringList("lore"));
+        ComponentBuilder componentBuilder = this.setDisplayName(main.getString("name"))
+                .addLore(main.getStringList("lore"))
+                .setCustomModelData(main.getInt("model"));
         if (componentData.getComponentType() == ComponentType.CORE) {
             componentData.setCoreType(Enum.valueOf(CoreType.class, main.getItemPath().toUpperCase()));
         }

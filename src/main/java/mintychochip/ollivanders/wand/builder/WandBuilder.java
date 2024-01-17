@@ -16,23 +16,27 @@ import org.bukkit.persistence.PersistentDataType;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class WandBuilder extends ItemBuilder {
     private final WandData wandData;
     private final GenesisConfigurationSection main;
+    private Map<ComponentType, ItemStack> mappedMaterials;
 
     public WandBuilder(AbstractItem abstractItem, String theme, GenesisConfigurationSection main, List<ItemStack> materials) throws IOException {
         super(abstractItem, theme);
         if (materials == null) {
             throw new IOException("Wand builder materials cannot be null!");
         }
-        this.wandData = new WandData(main,materials);
+        this.wandData = new WandData(main, materials);
         this.main = main;
+        mappedMaterials = materials.stream().collect(Collectors.toMap(x -> ComponentUtil.componentDataFromItemStack(x).getComponentType(), material -> material));
+
     }
 
     public ComponentData dataFromType(ComponentType componentType) {
-        return (ComponentData) wandData.getMappedMaterials().keySet().stream().filter(x -> x.getComponentType() == componentType);
+        return ComponentUtil.componentDataFromItemStack(mappedMaterials.get(componentType));
     }
 
     public String generateWandName() {
@@ -45,10 +49,12 @@ public class WandBuilder extends ItemBuilder {
     public WandBuilder setCustomModelData(int model) {
         return (WandBuilder) super.setCustomModelData(model);
     }
+
     public WandBuilder setDisplayName(String displayName, ChatColor color) {
         wandData.setDisplayName(displayName);
         return (WandBuilder) super.setDisplayName(displayName, color);
     }
+
     public WandBuilder addWandLore(List<String> wandLore) {
         return (WandBuilder) super.addLore(wandLore);
     }
@@ -87,10 +93,9 @@ public class WandBuilder extends ItemBuilder {
     public ItemStack build() {
         ItemStack itemStack = abstractItem.getItemStack();
         try {
-            abstractItem.getItemMeta().getPersistentDataContainer().set(Genesis
-                    .getKeys()
-                    .getMap()
-                    .get("wand"), PersistentDataType.BYTE_ARRAY, Serializer.serialize(wandData));
+            abstractItem.getItemMeta().getPersistentDataContainer().set(
+                    Genesis.getKeys().getMap().get("wand"),
+                    PersistentDataType.BYTE_ARRAY, Serializer.serialize(wandData));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

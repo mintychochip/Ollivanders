@@ -1,5 +1,7 @@
 package mintychochip.ollivanders.handler;
 
+import mintychochip.genesis.util.MathUtil;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -27,7 +29,7 @@ public class CooldownManager {
 
     public double cooldownRemaining(String mechanicName, double duration, UUID player) {
         double l = System.currentTimeMillis() - cooldowns.get(player).get(mechanicName);
-        return duration - l * 0.001;
+        return MathUtil.roundToDecimals(duration - l * 0.001,1);
     }
 
     public void addCooldown(String mechanicName, UUID player) {
