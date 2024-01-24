@@ -1,10 +1,10 @@
-package mintychochip.ollivanders.wand.container;
+package mintychochip.ollivanders.items.container;
 
 
 import mintychochip.genesis.container.ItemData;
-import mintychochip.ollivanders.wand.enums.ComponentType;
-import mintychochip.ollivanders.wand.enums.CoreType;
-import mintychochip.ollivanders.wand.enums.Rarity;
+import mintychochip.genesis.util.Rarity;
+import mintychochip.ollivanders.items.enums.ComponentType;
+import mintychochip.ollivanders.items.enums.CoreType;
 
 public class ComponentData extends ItemData { //holds all wand related objects
     private static final long serialVersionUID = 120594823L;

@@ -1,34 +1,30 @@
 package mintychochip.ollivanders.listener;
 
 import mintychochip.genesis.Genesis;
-import mintychochip.genesis.GenesisCraftEvent;
-import mintychochip.genesis.container.AbstractItem;
 import mintychochip.genesis.util.Serializer;
 import mintychochip.ollivanders.Ollivanders;
 import mintychochip.ollivanders.api.SpellCastEvent;
 import mintychochip.ollivanders.container.Context;
 import mintychochip.ollivanders.container.Spell;
-import mintychochip.ollivanders.spellbook.BookBuilder;
-import mintychochip.ollivanders.spellbook.BookType;
-import mintychochip.ollivanders.spellbook.SpellBook;
 import mintychochip.ollivanders.container.SpellMechanic;
 import mintychochip.ollivanders.enums.Shape;
+import mintychochip.ollivanders.spellbook.BookData;
 import mintychochip.ollivanders.util.SpellCaster;
-import mintychochip.ollivanders.wand.builder.ComponentBuilder;
-import mintychochip.ollivanders.wand.container.ComponentConfigurationSection;
-import mintychochip.ollivanders.wand.container.WandData;
-import mintychochip.ollivanders.wand.util.OllivandersSerializer;
-import org.bukkit.*;
+import mintychochip.ollivanders.items.container.WandData;
+import mintychochip.ollivanders.items.util.OllivandersSerializer;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.ProjectileHitEvent;
-import org.bukkit.event.inventory.CraftItemEvent;
-import org.bukkit.event.inventory.PrepareItemCraftEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.inventory.*;
+import org.bukkit.inventory.EquipmentSlot;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.BookMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
@@ -36,7 +32,6 @@ import org.bukkit.persistence.PersistentDataType;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 public class SpellListener implements Listener {
 
@@ -68,19 +63,19 @@ public class SpellListener implements Listener {
                 if (!bookMeta.hasPages()) {
                     return;
                 }
-                SpellBook spellBook = OllivandersSerializer.extractBookData(bookMeta);
-                if(spellBook == null) {
+                BookData bookData = OllivandersSerializer.extractBookData(bookMeta);
+                if(bookData == null) {
                     return;
                 }
                 try {
-                    spellBook.updateBook(book);
+                    bookData.updateBook(book);
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
                 if(player.isSneaking()) {
-                    spellBook.openSpellBook(player,book);
+                    bookData.openSpellBook(player,book);
                 } else {
-                    Spell spellOnCurrentPage = spellBook.getSpellOnCurrentPage();
+                    Spell spellOnCurrentPage = bookData.getSpellOnCurrentPage();
                     if(spellOnCurrentPage == null) {
                         return;
                     }
@@ -89,7 +84,6 @@ public class SpellListener implements Listener {
             }
         }
     }
-
     @EventHandler
     public void onProjectileSpellHit(final ProjectileHitEvent event) {
         int entityId = event.getEntity().getEntityId();

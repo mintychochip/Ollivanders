@@ -1,8 +1,8 @@
-package mintychochip.ollivanders.wand.container;
+package mintychochip.ollivanders.items.container;
 
 import mintychochip.genesis.config.GenesisConfigurationSection;
 import mintychochip.ollivanders.util.EnumUtil;
-import mintychochip.ollivanders.wand.enums.WandModifier;
+import mintychochip.ollivanders.items.enums.WandModifier;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 

@@ -1,9 +1,9 @@
-package mintychochip.ollivanders.wand.util;
+package mintychochip.ollivanders.items.util;
 
 import mintychochip.genesis.Genesis;
 import mintychochip.genesis.util.Serializer;
-import mintychochip.ollivanders.wand.config.ComponentRegistry;
-import mintychochip.ollivanders.wand.container.ComponentData;
+import mintychochip.ollivanders.items.config.ComponentRegistry;
+import mintychochip.ollivanders.items.container.ComponentData;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;

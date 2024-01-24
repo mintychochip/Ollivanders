@@ -1,7 +1,6 @@
 package mintychochip.ollivanders;
 
 import mintychochip.genesis.Genesis;
-import mintychochip.genesis.container.AbstractItem;
 import mintychochip.ollivanders.commands.CommandManager;
 import mintychochip.ollivanders.commands.SpellBookCommand;
 import mintychochip.ollivanders.commands.WandCommand;
@@ -9,22 +8,16 @@ import mintychochip.ollivanders.config.SpellConfig;
 import mintychochip.ollivanders.handler.CooldownManager;
 import mintychochip.ollivanders.handler.PersistentSpellManager;
 import mintychochip.ollivanders.handler.ProjectileHandler;
-import mintychochip.ollivanders.listener.OllivandersItemListener;
+import mintychochip.ollivanders.items.config.ItemConfig;
+import mintychochip.ollivanders.listener.BookListener;
 import mintychochip.ollivanders.listener.SpellDamageListener;
 import mintychochip.ollivanders.listener.SpellListener;
-import mintychochip.ollivanders.spellbook.BookBuilder;
-import mintychochip.ollivanders.spellbook.BookType;
 import mintychochip.ollivanders.util.OllivandersItemLoader;
 import mintychochip.ollivanders.util.SpellTokenizer;
-import mintychochip.ollivanders.wand.builder.ComponentBuilder;
-import mintychochip.ollivanders.wand.config.ComponentConfig;
-import mintychochip.ollivanders.wand.config.ComponentRegistry;
-import mintychochip.ollivanders.wand.config.WandConfig;
-import mintychochip.ollivanders.wand.container.ComponentConfigurationSection;
+import mintychochip.ollivanders.items.config.ComponentConfig;
+import mintychochip.ollivanders.items.config.ComponentRegistry;
+import mintychochip.ollivanders.items.config.WandConfig;
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
-import org.bukkit.inventory.RecipeChoice;
-import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.IOException;
@@ -44,6 +37,8 @@ public final class Ollivanders extends JavaPlugin {
 
     private static CooldownManager cooldownManager;
     private static Ollivanders instance;
+
+    private static ItemConfig itemConfig;
 
     public static PersistentSpellManager getPersistentSpellManager() {
         return persistentSpellManager;
@@ -77,6 +72,10 @@ public final class Ollivanders extends JavaPlugin {
         return cooldownManager;
     }
 
+    public static ItemConfig getItemConfig() {
+        return itemConfig;
+    }
+
     public static OllivandersItemLoader itemLoader;
     @Override
     public void onEnable() {
@@ -89,6 +88,7 @@ public final class Ollivanders extends JavaPlugin {
         tokenizer = new SpellTokenizer();
         cooldownManager = new CooldownManager();
         componentConfig = new ComponentConfig("components.yml", this);
+        itemConfig = new ItemConfig("items.yml",this);
         wandConfig = new WandConfig("wand.yml", this);
         try {
             spellConfig = new SpellConfig("spells.yml", this);
@@ -101,7 +101,7 @@ public final class Ollivanders extends JavaPlugin {
         getCommand("component").setExecutor(new CommandManager());
         getCommand("book").setExecutor(new SpellBookCommand());
         Bukkit.getPluginManager().registerEvents(new SpellListener(), this);
-        Bukkit.getPluginManager().registerEvents(new OllivandersItemListener(), this);
+        Bukkit.getPluginManager().registerEvents(new BookListener(), this);
         Bukkit.getPluginManager().registerEvents(new SpellDamageListener(), this);
     }
     public static OllivandersItemLoader getItemLoader() {

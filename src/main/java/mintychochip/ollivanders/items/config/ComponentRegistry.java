@@ -1,8 +1,8 @@
-package mintychochip.ollivanders.wand.config;
+package mintychochip.ollivanders.items.config;
 
 import mintychochip.ollivanders.Ollivanders;
 import mintychochip.ollivanders.util.EnumUtil;
-import mintychochip.ollivanders.wand.container.ComponentData;
+import mintychochip.ollivanders.items.container.ComponentData;
 import org.bukkit.Material;
 
 import java.util.HashMap;

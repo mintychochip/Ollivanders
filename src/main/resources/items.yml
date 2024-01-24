@@ -1,0 +1,9 @@
+books:
+  poor_tome:
+    display-name: "Arch-Mages"
+    lore:
+      - asdasdasdsd
+      - asdasdasdasd
+    custom-model: 1
+    spell-slot-size: 3
+    rarity: LEGENDARY

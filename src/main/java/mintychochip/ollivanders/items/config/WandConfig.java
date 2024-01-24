@@ -1,4 +1,4 @@
-package mintychochip.ollivanders.wand.config;
+package mintychochip.ollivanders.items.config;
 
 import mintychochip.genesis.config.GenericConfig;
 import org.bukkit.plugin.java.JavaPlugin;

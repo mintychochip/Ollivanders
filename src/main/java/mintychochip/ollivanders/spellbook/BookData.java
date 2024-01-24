@@ -12,31 +12,28 @@ import org.bukkit.inventory.meta.BookMeta;
 import java.io.IOException;
 import java.util.*;
 
-public class SpellBook extends ItemData {
+public class BookData extends ItemData {
 
     private static final long serialVersionUID = 1205948223123L;
 
     private Map<Integer, String> content = new HashMap<>();
     private int currentPage = 0;
     private int bookTotalPages = 0;
-    private final BookType bookType;
 
-    public SpellBook(BookType bookType) throws IOException {
-        super("book");
-        this.bookType = bookType;
-    }
-
-    public BookType getBookType() {
-        return bookType;
-    }
+    private final int size;
 
     public int getSize() {
-        return bookType.getSize();
+        return size;
+    }
+
+    public BookData(int size) throws IOException {
+        super("book");
+        this.size = size;
     }
 
     public void openSpellBook(Player player, ItemStack book) {
         try {
-            SpellInventory spellInventory = new SpellInventory(bookType.getSize(), getSpells(), player, book);
+            SpellInventory spellInventory = new SpellInventory(size, getSpells(), player, book);
             Bukkit.getPluginManager().registerEvents(spellInventory,Ollivanders.getInstance());
             spellInventory.open();
         } catch (IOException e) {

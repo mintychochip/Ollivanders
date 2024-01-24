@@ -4,20 +4,14 @@ import mintychochip.genesis.Genesis;
 import mintychochip.genesis.container.AbstractItem;
 import mintychochip.ollivanders.Ollivanders;
 import mintychochip.ollivanders.spellbook.BookBuilder;
-import mintychochip.ollivanders.spellbook.BookType;
-import mintychochip.ollivanders.wand.builder.ComponentBuilder;
-import mintychochip.ollivanders.wand.container.ComponentConfigurationSection;
+import mintychochip.ollivanders.items.builder.ComponentBuilder;
+import mintychochip.ollivanders.items.container.ComponentConfigurationSection;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.inventory.CraftingRecipe;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.Recipe;
-import org.bukkit.inventory.ShapedRecipe;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class OllivandersItemLoader {
@@ -29,7 +23,8 @@ public class OllivandersItemLoader {
             loadBooks();
             Ollivanders instance = Ollivanders.getInstance();
             Genesis.getItemManager().addRecipeItems(instance,components);
-            Genesis.getItemManager().addRecipeResults(Ollivanders.getInstance(),books);
+            Genesis.getItemManager().addRecipeResults(instance,components);
+            Genesis.getItemManager().addRecipeResults(instance,books);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -37,9 +32,8 @@ public class OllivandersItemLoader {
     }
 
     public void loadBooks() throws IOException {
-        for (BookType value : BookType.values()) {
-            books.put(convertStringToKeyable(value.toString()),
-                    new BookBuilder(new AbstractItem(Ollivanders.getInstance(), Material.WRITABLE_BOOK,true), "CLASSIC", value).defaultBuild());
+        for (String key : Ollivanders.getItemConfig().getBooks().getKeys(false)) {
+            books.put(convertStringToKeyable(key),new BookBuilder(new AbstractItem(Ollivanders.getInstance(),Material.WRITABLE_BOOK,true), "CLASSIC", Ollivanders.getItemConfig().getBooks().getConfigurationSection(key)).defaultBuild());
         }
     }
     public String convertStringToKeyable(String text) {

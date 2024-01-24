@@ -21,6 +21,17 @@ public class MechanicSettings { //list of settings set by config
     private List<Particle> particleList;
     private boolean dot;
 
+    private int spellInventoryCustomModel;
+
+    public MechanicSettings setSpellInventoryCustomModel(int spellInventoryCustomModel) {
+        this.spellInventoryCustomModel = spellInventoryCustomModel;
+        return this;
+    }
+
+    public int getSpellInventoryCustomModel() {
+        return spellInventoryCustomModel;
+    }
+
     public void setDot(boolean dot) {
         this.dot = dot;
     }

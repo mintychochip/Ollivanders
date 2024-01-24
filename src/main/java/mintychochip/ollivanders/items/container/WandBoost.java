@@ -1,4 +1,4 @@
-package mintychochip.ollivanders.wand.container;
+package mintychochip.ollivanders.items.container;
 
 import java.io.Serializable;
 

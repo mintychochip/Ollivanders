@@ -1,4 +1,4 @@
-package mintychochip.ollivanders.wand.enums;
+package mintychochip.ollivanders.items.enums;
 
 public enum WandModifier {
     MAGNITUDE,

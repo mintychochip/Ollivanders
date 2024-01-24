@@ -1,41 +1,54 @@
 package mintychochip.ollivanders.spellbook;
 
 import mintychochip.genesis.Genesis;
-import mintychochip.genesis.builder.ItemBuilder;
+import mintychochip.genesis.builder.ConfigurationItemBuilder;
+import mintychochip.genesis.config.GenesisConfigurationSection;
 import mintychochip.genesis.container.AbstractItem;
+import mintychochip.genesis.util.Rarity;
 import mintychochip.genesis.util.Serializer;
-import org.bukkit.entity.Player;
+import mintychochip.ollivanders.Ollivanders;
+import mintychochip.ollivanders.util.OllivandersConfigMarker;
+import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.IOException;
+public class BookBuilder extends ConfigurationItemBuilder {
 
-public class BookBuilder extends ItemBuilder {
-
-    private final SpellBook spellBook;
-
-    public BookBuilder(AbstractItem abstractItem, String genesisTheme, BookType bookType) {
-        super(abstractItem,genesisTheme);
+    private final BookData bookData;
+    public BookBuilder(AbstractItem abstractItem, String genesisTheme, GenesisConfigurationSection main) {
+        super(abstractItem,genesisTheme,main);
         try {
-            spellBook = new SpellBook(bookType);
+            bookData = new BookData(main.getInt(OllivandersConfigMarker.spell_slot_size));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
-    public BookBuilder addDisplayName() {
-        BookType bookType = spellBook.getBookType();
+    public BookBuilder(String genesisTheme, GenesisConfigurationSection main) {
+        this(new AbstractItem(Ollivanders.getInstance(), Material.WRITABLE_BOOK),genesisTheme,main);
+    }
+    public BookBuilder setDisplayName(String displayName, char color) {
+        return (BookBuilder) super.setDisplayName(displayName,color);
+    }
+    public BookBuilder setCustomModelData(int model) {
+        return (BookBuilder) super.setCustomModelData(model);
+    }
 
-        return (BookBuilder) super.setDisplayName(bookType.getDisplayName(), bookType.getRarity().getColorCode());
+    public BookData getSpellBook() {
+        return bookData;
     }
-    public SpellBook getSpellBook() {
-        return spellBook;
-    }
+
     public BookBuilder addLore(String text) {
         return (BookBuilder) super.addLore(text);
     }
 
+    public BookBuilder defaultBuilder() {
+        return (BookBuilder) super.defaultBuilder();
+    }
+    @Override
     public ItemStack defaultBuild() {
-        return this.addDisplayName().addLore("A dusty wizard's book, you wonder what can be in it...").build();
+        return this.defaultBuilder().build();
     }
     @Override
     public ItemStack build() {
@@ -43,7 +56,7 @@ public class BookBuilder extends ItemBuilder {
         try {
             abstractItem.getItemMeta().getPersistentDataContainer().set(
                     Genesis.getKeys().getMap().get("book"),
-                    PersistentDataType.BYTE_ARRAY, Serializer.serialize(spellBook));
+                    PersistentDataType.BYTE_ARRAY, Serializer.serialize(bookData));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

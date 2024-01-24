@@ -4,8 +4,6 @@ import mintychochip.genesis.Genesis;
 import mintychochip.genesis.container.AbstractItem;
 import mintychochip.ollivanders.Ollivanders;
 import mintychochip.ollivanders.spellbook.BookBuilder;
-import mintychochip.ollivanders.spellbook.BookType;
-import mintychochip.ollivanders.util.EnumUtil;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
@@ -25,18 +23,16 @@ public class SpellBookCommand implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
         if (commandSender instanceof Player player) {
-            if (EnumUtil.isInEnum(BookType.class, strings[0].toUpperCase())) {
-                BookType bookType = Enum.valueOf(BookType.class, strings[0].toUpperCase());
-                ItemStack itemStack = new BookBuilder(new AbstractItem(Ollivanders.getInstance(), Material.WRITABLE_BOOK, true), "CLASSIC", bookType).defaultBuild();
-                ItemMeta itemMeta = itemStack.getItemMeta();
-                itemMeta.getPersistentDataContainer().set(Genesis.getKey("player"), PersistentDataType.STRING, strings[1]);
-                List<String> lore = itemMeta.getLore();
-                lore.add(ChatColor.DARK_GRAY + "This item belongs to: " + ChatColor.GOLD + strings[1]);
-                itemMeta.setLore(lore);
-                itemStack.setItemMeta(itemMeta);
-                player.getInventory().addItem(itemStack);
+            ItemStack itemStack = new BookBuilder(new AbstractItem(Ollivanders.getInstance(), Material.WRITABLE_BOOK, true), "CLASSIC", Ollivanders.getItemConfig().getBooks().getConfigurationSection(strings[0])).defaultBuild();
+            ItemMeta itemMeta = itemStack.getItemMeta();
+            itemMeta.getPersistentDataContainer().set(Genesis.getKey("player"), PersistentDataType.STRING, strings[1]);
+            List<String> lore = itemMeta.getLore();
+            lore.add(ChatColor.DARK_GRAY + "This item belongs to: " + ChatColor.GOLD + strings[1]);
+            itemMeta.setLore(lore);
+            itemStack.setItemMeta(itemMeta);
+            player.getInventory().addItem(itemStack);
 
-            }
+
         }
         return true;
     }

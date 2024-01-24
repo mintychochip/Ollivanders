@@ -1,16 +1,11 @@
 package mintychochip.ollivanders.commands;
 
-import mintychochip.genesis.container.AbstractItem;
 import mintychochip.ollivanders.Ollivanders;
-import mintychochip.ollivanders.wand.builder.ComponentBuilder;
-import mintychochip.ollivanders.wand.container.ComponentConfigurationSection;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-
-import java.lang.reflect.InvocationTargetException;
 
 public class CommandManager implements CommandExecutor {
     @Override

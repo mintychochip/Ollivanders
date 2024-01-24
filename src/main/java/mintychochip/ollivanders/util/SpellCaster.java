@@ -8,7 +8,7 @@ import mintychochip.ollivanders.container.SpellMechanic;
 import mintychochip.ollivanders.spells.shape.SpellArea;
 import mintychochip.ollivanders.spells.shape.SpellProjectile;
 import mintychochip.ollivanders.spells.shape.SpellSelf;
-import mintychochip.ollivanders.wand.container.WandData;
+import mintychochip.ollivanders.items.container.WandData;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
@@ -25,15 +25,18 @@ public class SpellCaster { //only casts and calls event, need to check if effect
                 .setContext(context)
                 .setWandData(wandData);
         Player player = context.getPlayer();
+        if(!Permissions.playerHasSpellPermission(player,mechanic.getName().toLowerCase())) {
+            return false;
+        }
         if (!mechanic.isValidShape()) {
             return false;//check if the book shape is applicable to the spell
         }
 
-        if (player.getTotalExperience() < mechanic.getMechanicSettings().getCost()) {
+        if (player.getTotalExperience() < mechanic.getMechanicSettings().getCost() && !Permissions.costBypass(player)) {
             player.sendMessage("out of xp");
             return false;
         }
-        if(Ollivanders.getCooldownManager().hasCooldown(mechanic.getName() + "-" + mechanic.getShape(), mechanic.getMechanicSettings().getCooldown(), player.getUniqueId())) {
+        if(Ollivanders.getCooldownManager().hasCooldown(mechanic.getName() + "-" + mechanic.getShape(), mechanic.getMechanicSettings().getCooldown(), player.getUniqueId()) && !Permissions.cooldownBypass(player)) {
             player.sendMessage(mechanic.getName() + " " + Ollivanders.getCooldownManager().cooldownRemaining(mechanic.getName() + "-" + mechanic.getShape(),mechanic.getMechanicSettings().getCooldown(),player.getUniqueId()) + " seconds remaining");
             return false;
         }

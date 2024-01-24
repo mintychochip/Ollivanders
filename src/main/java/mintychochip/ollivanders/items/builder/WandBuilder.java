@@ -1,15 +1,15 @@
-package mintychochip.ollivanders.wand.builder;
+package mintychochip.ollivanders.items.builder;
 
 import mintychochip.genesis.Genesis;
 import mintychochip.genesis.builder.ItemBuilder;
 import mintychochip.genesis.config.GenesisConfigurationSection;
 import mintychochip.genesis.container.AbstractItem;
 import mintychochip.genesis.util.Serializer;
-import mintychochip.ollivanders.wand.container.ComponentData;
-import mintychochip.ollivanders.wand.container.WandBoost;
-import mintychochip.ollivanders.wand.container.WandData;
-import mintychochip.ollivanders.wand.enums.ComponentType;
-import mintychochip.ollivanders.wand.util.ComponentUtil;
+import mintychochip.ollivanders.items.container.ComponentData;
+import mintychochip.ollivanders.items.container.WandBoost;
+import mintychochip.ollivanders.items.container.WandData;
+import mintychochip.ollivanders.items.enums.ComponentType;
+import mintychochip.ollivanders.items.util.ComponentUtil;
 import org.bukkit.ChatColor;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;

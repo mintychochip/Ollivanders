@@ -1,9 +1,9 @@
-package mintychochip.ollivanders.wand.container;
+package mintychochip.ollivanders.items.container;
 
 import mintychochip.genesis.config.GenesisConfigurationSection;
 import mintychochip.genesis.container.ItemData;
-import mintychochip.ollivanders.wand.enums.CoreType;
-import mintychochip.ollivanders.wand.util.ComponentUtil;
+import mintychochip.ollivanders.items.enums.CoreType;
+import mintychochip.ollivanders.items.util.ComponentUtil;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;

@@ -98,10 +98,11 @@ public class SpellConfig extends GenericConfig {
         if (settings == null) {
             return false;
         }
+        int customModel = mechanicConfiguration.getInt(OllivandersConfigMarker.custom_model);
         for (String key : settings.getKeys(false)) {
             MechanicSettings mechanicSettings = createMechanicSettings(settings, key);
             String registryKey = mechanic + "-" + key;
-            Registry.getSettingsMap().put(registryKey.toUpperCase(), mechanicSettings);
+            Registry.getSettingsMap().put(registryKey.toUpperCase(), mechanicSettings.setSpellInventoryCustomModel(customModel));
         }
         return true;
     }
@@ -131,7 +132,6 @@ public class SpellConfig extends GenericConfig {
                     case DURATION -> mechanicSettings.setDuration(mechanicSection.getDouble(key));
                     case INTERVAL -> mechanicSettings.setInterval(mechanicSection.getLong(key));
                     case PERSISTENT -> mechanicSettings.setPersistent(mechanicSection.getBoolean(key));
-                    case KEYWORDS -> mechanicSettings.setKeywords(mechanicSection.getStringList(key));
                     case ENTITY_TYPE ->
                             mechanicSettings.setEntityType(Enum.valueOf(EntityType.class, mechanicSection.getString(key).toUpperCase()));
                     case MAGNITUDE -> mechanicSettings.setMagnitude(mechanicSection.getDouble(key));
@@ -162,7 +162,6 @@ public class SpellConfig extends GenericConfig {
     }
 
     enum SpellModifiers {
-        KEYWORDS,
         RANGE,
         DURATION,
         COST,
@@ -173,6 +172,6 @@ public class SpellConfig extends GenericConfig {
         MAGNITUDE,
         COOLDOWN,
         GENESIS_SHAPE,
-        PARTICLES
+        PARTICLES,
     }
 }

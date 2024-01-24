@@ -1,15 +1,13 @@
-package mintychochip.ollivanders.wand.config;
+package mintychochip.ollivanders.items.config;
 
 import mintychochip.genesis.config.GenericConfig;
-import mintychochip.ollivanders.wand.container.ComponentConfigurationSection;
-import mintychochip.ollivanders.wand.container.CustomComponentSection;
-import mintychochip.ollivanders.wand.container.MaterialConfigurationSection;
+import mintychochip.ollivanders.items.container.ComponentConfigurationSection;
+import mintychochip.ollivanders.items.container.CustomComponentSection;
+import mintychochip.ollivanders.items.container.MaterialConfigurationSection;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.io.Serializable;
-
-public class ComponentConfig extends GenericConfig implements Serializable {
+public class ComponentConfig extends GenericConfig {
     private final ConfigurationSection materials = configReader.getConfigurationSection("materials");
     private final ConfigurationSection custom = configReader.getConfigurationSection("custom-items");
 

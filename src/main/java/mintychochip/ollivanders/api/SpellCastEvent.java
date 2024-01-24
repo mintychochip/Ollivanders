@@ -5,7 +5,9 @@ import mintychochip.ollivanders.container.Context;
 import mintychochip.ollivanders.container.Spell;
 import mintychochip.ollivanders.container.SpellMechanic;
 import mintychochip.ollivanders.handler.ExperienceHandler;
-import mintychochip.ollivanders.wand.container.WandData;
+import mintychochip.ollivanders.items.container.WandData;
+import mintychochip.ollivanders.util.Permissions;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
@@ -18,18 +20,42 @@ public class SpellCastEvent extends Event {
     private Context context;
     private WandData wandData;
 
+    private Player player;
+
     public SpellCastEvent(Spell spell, WandData wandData, Context context) {
         this.spell = spell;
         this.context = context;
         this.wandData = wandData;
-        Player player = context.getPlayer();
+        player = context.getPlayer();
         SpellMechanic mechanic = spell.getMechanic();
-        ExperienceHandler.reducePlayerLevel((int) mechanic.getMechanicSettings().getCost(), player);
+        if (!Permissions.costBypass(player)) {
+            int cost = Math.round((float) (spellCostFactor(player) * mechanic.getMechanicSettings().getCost()));
+            ExperienceHandler.reducePlayerLevel(cost, player);
+            Bukkit.broadcastMessage(cost + "");
+        }
         Ollivanders.getCooldownManager().addCooldown(mechanic.getName() + "-" + mechanic.getShape(), player.getUniqueId());
+    }
+
+    public double spellCostFactor(Player sender) {
+        double factor = 1;
+        if (Permissions.quarterOfCost(sender)) {
+            return 0.25;
+        }
+        if (Permissions.oneThirdOfCost(sender)) {
+            return 0.33;
+        }
+        if (Permissions.halfOfCost(sender)) {
+            return 0.5;
+        }
+        return factor;
     }
 
     public Spell getSpell() {
         return spell;
+    }
+
+    public Player getPlayer() {
+        return player;
     }
 
     public void setSpell(Spell spell) {
@@ -50,10 +76,6 @@ public class SpellCastEvent extends Event {
 
     public void setWandData(WandData wandData) {
         this.wandData = wandData;
-    }
-
-    public Player getPlayer() {
-        return context.getPlayer();
     }
 
     public static HandlerList getHandlerList() {
