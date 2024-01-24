@@ -91,7 +91,7 @@ materials:
     core: RESPAWN_ANCHOR
     title: Purgatory
     rarity: UNCOMMON
-custom-items:
+custom-items: #move these to items, components should remain separate
   slime:
     name: "Slime Nucleus"
     material: SLIME_BALL

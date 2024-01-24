@@ -20,7 +20,7 @@ public class BookData extends ItemData {
     private int currentPage = 0;
     private int bookTotalPages = 0;
 
-    private final int size;
+    private int size;
 
     public int getSize() {
         return size;
@@ -31,10 +31,15 @@ public class BookData extends ItemData {
         this.size = size;
     }
 
+    public BookData setSize(int size) {
+        this.size = size;
+        return this;
+    }
+
     public void openSpellBook(Player player, ItemStack book) {
         try {
             SpellInventory spellInventory = new SpellInventory(size, getSpells(), player, book);
-            Bukkit.getPluginManager().registerEvents(spellInventory,Ollivanders.getInstance());
+            Bukkit.getPluginManager().registerEvents(spellInventory, Ollivanders.getInstance());
             spellInventory.open();
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -52,11 +57,13 @@ public class BookData extends ItemData {
         return spellMap;
     }
 
-    public void setCurrentPage(int page) {
+    public BookData setCurrentPage(int page) {
         if (bookTotalPages <= page) {
             currentPage = page;
         }
+        return this;
     }
+
     public Spell getSpellOnCurrentPage() {
         return getSpellByPage(currentPage);
     }
@@ -83,7 +90,7 @@ public class BookData extends ItemData {
         List<Spell> spellList = new ArrayList<>();
         for (String s : page.split(",")) {
             Spell spell = Ollivanders.getTokenizer().defaultBuild(s);
-            if(spell == null) {
+            if (spell == null) {
                 return null;
             }
             spell.getMechanic().setTransition(null);
@@ -101,7 +108,8 @@ public class BookData extends ItemData {
     public int getCurrentPage() {
         return currentPage;
     }
+
     public boolean serialize(ItemStack item) {
-        return Serializer.serializeToItem(this,item);
+        return Serializer.serializeToItem(this, item);
     }
 }

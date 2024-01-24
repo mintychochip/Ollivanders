@@ -2,8 +2,11 @@ package mintychochip.ollivanders;
 
 import mintychochip.genesis.Genesis;
 import mintychochip.ollivanders.commands.CommandManager;
-import mintychochip.ollivanders.commands.SpellBookCommand;
+import mintychochip.ollivanders.commands.BookCommand;
+import mintychochip.ollivanders.commands.SubCommand;
 import mintychochip.ollivanders.commands.WandCommand;
+import mintychochip.ollivanders.commands.book.PageCommand;
+import mintychochip.ollivanders.commands.book.SetBookDataSize;
 import mintychochip.ollivanders.config.SpellConfig;
 import mintychochip.ollivanders.handler.CooldownManager;
 import mintychochip.ollivanders.handler.PersistentSpellManager;
@@ -21,6 +24,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public final class Ollivanders extends JavaPlugin {
 
@@ -99,10 +104,18 @@ public final class Ollivanders extends JavaPlugin {
         enableRegistries();
         getCommand("wand").setExecutor(new WandCommand());
         getCommand("component").setExecutor(new CommandManager());
-        getCommand("book").setExecutor(new SpellBookCommand());
+        getCommand("book").setExecutor(new BookCommand());
         Bukkit.getPluginManager().registerEvents(new SpellListener(), this);
         Bukkit.getPluginManager().registerEvents(new BookListener(), this);
         Bukkit.getPluginManager().registerEvents(new SpellDamageListener(), this);
+    }
+
+    public void commands() {
+        List<SubCommand> bookCommands = new ArrayList<>();
+        bookCommands.add(new SetBookDataSize("set","sets bookdaata size"));
+        bookCommands.add(new PageCommand("currentPage","sets current page"));
+        BookCommand bookCommand = new BookCommand(bookCommands);
+
     }
     public static OllivandersItemLoader getItemLoader() {
         return itemLoader;
