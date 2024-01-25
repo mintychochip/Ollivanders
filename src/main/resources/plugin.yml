@@ -21,9 +21,23 @@ permissions:
       default: false
       description: all spell abilities
       children:
+        ollivanders.commands: true
         ollivanders.spells.perks: true
         ollivanders.spells.abilities: true
         ollivanders.spells.bypass: true
+    ollivanders.commands:
+      default: false
+      description: all commands
+      children:
+        ollivanders.commands.component: true
+        ollivanders.commands.book: true
+        ollivanders.commands.wand: true
+    ollivanders.commands.component:
+      description: gives permission to generate a component
+    ollivanders.commands.book:
+      description: gives permission to generate a book
+    ollivanders.commands.wand:
+      description: gives permission to generate a wand
     ollivanders.spells.perks:
       default: false
       description: enables all perks

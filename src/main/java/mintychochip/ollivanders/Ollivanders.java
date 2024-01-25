@@ -1,12 +1,10 @@
 package mintychochip.ollivanders;
 
 import mintychochip.genesis.Genesis;
-import mintychochip.ollivanders.commands.CommandManager;
-import mintychochip.ollivanders.commands.BookCommand;
-import mintychochip.ollivanders.commands.SubCommand;
+import mintychochip.ollivanders.commands.abstraction.SubCommand;
 import mintychochip.ollivanders.commands.WandCommand;
-import mintychochip.ollivanders.commands.book.PageCommand;
-import mintychochip.ollivanders.commands.book.SetBookDataSize;
+import mintychochip.ollivanders.commands.book.BookCommandManager;
+import mintychochip.ollivanders.commands.book.subcommands.BookDataSize;
 import mintychochip.ollivanders.config.SpellConfig;
 import mintychochip.ollivanders.handler.CooldownManager;
 import mintychochip.ollivanders.handler.PersistentSpellManager;
@@ -15,6 +13,7 @@ import mintychochip.ollivanders.items.config.ItemConfig;
 import mintychochip.ollivanders.listener.BookListener;
 import mintychochip.ollivanders.listener.SpellDamageListener;
 import mintychochip.ollivanders.listener.SpellListener;
+import mintychochip.ollivanders.spellbook.BookData;
 import mintychochip.ollivanders.util.OllivandersItemLoader;
 import mintychochip.ollivanders.util.SpellTokenizer;
 import mintychochip.ollivanders.items.config.ComponentConfig;
@@ -103,8 +102,6 @@ public final class Ollivanders extends JavaPlugin {
         itemLoader = new OllivandersItemLoader();
         enableRegistries();
         getCommand("wand").setExecutor(new WandCommand());
-        getCommand("component").setExecutor(new CommandManager());
-        getCommand("book").setExecutor(new BookCommand());
         Bukkit.getPluginManager().registerEvents(new SpellListener(), this);
         Bukkit.getPluginManager().registerEvents(new BookListener(), this);
         Bukkit.getPluginManager().registerEvents(new SpellDamageListener(), this);
@@ -112,10 +109,9 @@ public final class Ollivanders extends JavaPlugin {
 
     public void commands() {
         List<SubCommand> bookCommands = new ArrayList<>();
-        bookCommands.add(new SetBookDataSize("set","sets bookdaata size"));
-        bookCommands.add(new PageCommand("currentPage","sets current page"));
-        BookCommand bookCommand = new BookCommand(bookCommands);
-
+        BookCommandManager bookCommandManager = new BookCommandManager("books", "sets books", bookCommands);
+        bookCommands.add(new BookDataSize("size","sets the inventory size"))
+        bookCommandManager.instantiateSubCommandManager("set","sets bookData on the book holding",)
     }
     public static OllivandersItemLoader getItemLoader() {
         return itemLoader;
