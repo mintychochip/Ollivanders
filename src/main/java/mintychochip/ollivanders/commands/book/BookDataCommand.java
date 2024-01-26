@@ -1,13 +1,13 @@
-package mintychochip.ollivanders.commands.book.subcommands;
+package mintychochip.ollivanders.commands.book;
 
-import mintychochip.ollivanders.commands.abstraction.GenericCommandObject;
+import mintychochip.genesis.commands.abstraction.GenericCommandObject;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BookMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 
 public class BookDataCommand extends GenericCommandObject {
     public BookDataCommand(String executor, String description) {
-        super(executor, description, -1);
+        super(executor, description);
     }
     public ItemStack getBook(ItemStack main, ItemStack off) {
         if(isValidBook(main)) {

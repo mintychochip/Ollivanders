@@ -4,14 +4,12 @@ import mintychochip.genesis.Genesis;
 import mintychochip.genesis.builder.ConfigurationItemBuilder;
 import mintychochip.genesis.config.GenesisConfigurationSection;
 import mintychochip.genesis.container.AbstractItem;
-import mintychochip.genesis.util.Rarity;
 import mintychochip.genesis.util.Serializer;
 import mintychochip.ollivanders.Ollivanders;
 import mintychochip.ollivanders.util.OllivandersConfigMarker;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
-import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.IOException;
 public class BookBuilder extends ConfigurationItemBuilder {

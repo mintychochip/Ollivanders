@@ -2,10 +2,10 @@ package mintychochip.ollivanders.container;
 
 import mintychochip.genesis.manager.GenesisHandler;
 import mintychochip.ollivanders.enums.Shape;
+import mintychochip.ollivanders.items.container.WandData;
 import mintychochip.ollivanders.spells.shape.SpellArea;
 import mintychochip.ollivanders.spells.shape.SpellProjectile;
 import mintychochip.ollivanders.spells.shape.SpellSelf;
-import mintychochip.ollivanders.items.container.WandData;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;

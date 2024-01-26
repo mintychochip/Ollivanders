@@ -1,14 +1,13 @@
-package mintychochip.ollivanders.commands.book.subcommands;
+package mintychochip.ollivanders.commands.book;
 
-import mintychochip.ollivanders.commands.abstraction.GenericCommandObject;
-import mintychochip.ollivanders.commands.abstraction.SubCommand;
+import mintychochip.genesis.commands.abstraction.SubCommand;
 import mintychochip.ollivanders.items.util.OllivandersSerializer;
 import mintychochip.ollivanders.spellbook.BookData;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
-import org.bukkit.inventory.meta.BookMeta;
-import org.bukkit.inventory.meta.ItemMeta;
 
 public class BookDataSize extends BookDataCommand implements SubCommand {
 
@@ -18,7 +17,7 @@ public class BookDataSize extends BookDataCommand implements SubCommand {
 
     @Override
     public boolean execute(String[] args, Player sender) {
-        if(args.length < 2) {
+        if(args.length < depth) {
             return false;
         }
         PlayerInventory inventory = sender.getInventory();
@@ -26,7 +25,12 @@ public class BookDataSize extends BookDataCommand implements SubCommand {
         if(book == null) {
             return false;
         }
-        return setBookDataSize(book, Integer.parseInt(args[depth - 1]));
+        int i = Integer.parseInt(args[depth - 1]);
+        if(i < 1 || i > 54) {
+            Bukkit.broadcastMessage(ChatColor.RED + "Invalid slot size!");
+            return false;
+        }
+        return setBookDataSize(book,i);
     }
 
     public boolean setBookDataSize(ItemStack book, int size) {

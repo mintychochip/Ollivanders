@@ -2,6 +2,7 @@ package mintychochip.ollivanders.commands;
 
 import mintychochip.genesis.config.GenesisConfigurationSection;
 import mintychochip.genesis.container.AbstractItem;
+import mintychochip.genesis.flags.Bindable;
 import mintychochip.ollivanders.Ollivanders;
 import mintychochip.ollivanders.items.builder.ComponentBuilder;
 import mintychochip.ollivanders.items.builder.WandBuilder;
@@ -18,7 +19,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class WandCommand implements CommandExecutor {
+public class WandCommand implements CommandExecutor, Bindable {
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
         if(commandSender instanceof Player player) {
@@ -40,7 +41,7 @@ public class WandCommand implements CommandExecutor {
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-            player.getInventory().addItem(wandBuilder.defaultBuild());
+            player.getInventory().addItem(addBind(wandBuilder.defaultBuild(), commandSender.getName()));
         }
         return false;
     }

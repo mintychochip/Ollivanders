@@ -96,6 +96,8 @@ public class SpellInventory implements Listener {
             BookData bookData = OllivandersSerializer.extractBookData(book);
             if (bookData != null) {
                 bookData.setCurrentPage(mappings.get(event.getSlot()));
+                bookData.setMappings(mappings);
+                Bukkit.broadcastMessage(bookData.getCurrentPage() + "");
                 bookData.serialize(book);
             }
         }
@@ -111,5 +113,9 @@ public class SpellInventory implements Listener {
             return false;
         }
         return true;
+    }
+
+    public Map<Integer, Integer> getMappings() {
+        return mappings;
     }
 }

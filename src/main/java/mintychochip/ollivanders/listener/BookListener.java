@@ -1,8 +1,8 @@
 package mintychochip.ollivanders.listener;
 
 import mintychochip.genesis.Genesis;
-import mintychochip.ollivanders.spellbook.BookData;
 import mintychochip.ollivanders.items.util.OllivandersSerializer;
+import mintychochip.ollivanders.spellbook.BookData;
 import org.bukkit.ChatColor;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -10,7 +10,6 @@ import org.bukkit.event.player.PlayerEditBookEvent;
 import org.bukkit.inventory.meta.BookMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
-import org.bukkit.entity.Player;
 
 public class BookListener implements Listener {
 

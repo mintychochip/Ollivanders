@@ -1,30 +1,31 @@
 package mintychochip.ollivanders;
 
 import mintychochip.genesis.Genesis;
-import mintychochip.ollivanders.commands.abstraction.SubCommand;
+import mintychochip.genesis.commands.abstraction.GenericMainCommandManager;
 import mintychochip.ollivanders.commands.WandCommand;
-import mintychochip.ollivanders.commands.book.BookCommandManager;
-import mintychochip.ollivanders.commands.book.subcommands.BookDataSize;
+import mintychochip.ollivanders.commands.book.BookDataSize;
+import mintychochip.ollivanders.commands.book.CurrentSlot;
+import mintychochip.ollivanders.commands.generate.GenerateAllBooks;
+import mintychochip.ollivanders.commands.generate.GenerateBook;
+import mintychochip.ollivanders.commands.generate.GenerateComponent;
+import mintychochip.ollivanders.commands.generate.GenerateWand;
 import mintychochip.ollivanders.config.SpellConfig;
 import mintychochip.ollivanders.handler.CooldownManager;
 import mintychochip.ollivanders.handler.PersistentSpellManager;
 import mintychochip.ollivanders.handler.ProjectileHandler;
+import mintychochip.ollivanders.items.config.ComponentConfig;
+import mintychochip.ollivanders.items.config.ComponentRegistry;
 import mintychochip.ollivanders.items.config.ItemConfig;
+import mintychochip.ollivanders.items.config.WandConfig;
 import mintychochip.ollivanders.listener.BookListener;
 import mintychochip.ollivanders.listener.SpellDamageListener;
 import mintychochip.ollivanders.listener.SpellListener;
-import mintychochip.ollivanders.spellbook.BookData;
 import mintychochip.ollivanders.util.OllivandersItemLoader;
 import mintychochip.ollivanders.util.SpellTokenizer;
-import mintychochip.ollivanders.items.config.ComponentConfig;
-import mintychochip.ollivanders.items.config.ComponentRegistry;
-import mintychochip.ollivanders.items.config.WandConfig;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 public final class Ollivanders extends JavaPlugin {
 
@@ -81,6 +82,7 @@ public final class Ollivanders extends JavaPlugin {
     }
 
     public static OllivandersItemLoader itemLoader;
+
     @Override
     public void onEnable() {
         instance = this;
@@ -92,7 +94,7 @@ public final class Ollivanders extends JavaPlugin {
         tokenizer = new SpellTokenizer();
         cooldownManager = new CooldownManager();
         componentConfig = new ComponentConfig("components.yml", this);
-        itemConfig = new ItemConfig("items.yml",this);
+        itemConfig = new ItemConfig("items.yml", this);
         wandConfig = new WandConfig("wand.yml", this);
         try {
             spellConfig = new SpellConfig("spells.yml", this);
@@ -105,17 +107,29 @@ public final class Ollivanders extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new SpellListener(), this);
         Bukkit.getPluginManager().registerEvents(new BookListener(), this);
         Bukkit.getPluginManager().registerEvents(new SpellDamageListener(), this);
+        commands();
     }
 
     public void commands() {
-        List<SubCommand> bookCommands = new ArrayList<>();
-        BookCommandManager bookCommandManager = new BookCommandManager("books", "sets books", bookCommands);
-        bookCommands.add(new BookDataSize("size","sets the inventory size"))
-        bookCommandManager.instantiateSubCommandManager("set","sets bookData on the book holding",)
+        GenericMainCommandManager books = new GenericMainCommandManager("books", "sets books");
+        GenericMainCommandManager generate = new GenericMainCommandManager("generate", "generates items");
+        generate.instantiateSubCommandManager("all", "sets generator to generate all")
+                .addSubCommand(new GenerateAllBooks("books", "generates all books"));
+        generate.instantiateSubCommandManager("single", "generates a single item")
+                .addSubCommand(new GenerateBook("books", "generates a book"))
+                .addSubCommand(new GenerateComponent("component", "generates a component"))
+                        .addSubCommand(new GenerateWand("wand","generates a wand"));
+        books.instantiateSubCommandManager("set", "sets books")
+                .addSubCommand(new BookDataSize("size", "sets inventory size"))
+                .addSubCommand(new CurrentSlot("slot", "sets current slot"));
+        getCommand("books").setExecutor(books);
+        getCommand("generate").setExecutor(generate);
     }
+
     public static OllivandersItemLoader getItemLoader() {
         return itemLoader;
     }
+
     public void enableRegistries() {
         new ComponentRegistry();
     }

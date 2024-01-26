@@ -5,12 +5,14 @@ import mintychochip.genesis.builder.ItemBuilder;
 import mintychochip.genesis.config.GenesisConfigurationSection;
 import mintychochip.genesis.container.AbstractItem;
 import mintychochip.genesis.util.Serializer;
+import mintychochip.ollivanders.Ollivanders;
 import mintychochip.ollivanders.items.container.ComponentData;
 import mintychochip.ollivanders.items.container.WandBoost;
 import mintychochip.ollivanders.items.container.WandData;
 import mintychochip.ollivanders.items.enums.ComponentType;
 import mintychochip.ollivanders.items.util.ComponentUtil;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
 
@@ -24,8 +26,8 @@ public class WandBuilder extends ItemBuilder {
     private final GenesisConfigurationSection main;
     private Map<ComponentType, ItemStack> mappedMaterials;
 
-    public WandBuilder(AbstractItem abstractItem, String theme, GenesisConfigurationSection main, List<ItemStack> materials) throws IOException {
-        super(abstractItem, theme);
+    public WandBuilder(AbstractItem abstractItem, String genesisTheme, GenesisConfigurationSection main, List<ItemStack> materials) throws IOException {
+        super(abstractItem, genesisTheme);
         if (materials == null) {
             throw new IOException("Wand builder materials cannot be null!");
         }
@@ -34,7 +36,9 @@ public class WandBuilder extends ItemBuilder {
         mappedMaterials = materials.stream().collect(Collectors.toMap(x -> ComponentUtil.componentDataFromItemStack(x).getComponentType(), material -> material));
 
     }
-
+    public WandBuilder(String genesisTheme, GenesisConfigurationSection main, List<ItemStack> materials) throws IOException {
+        this(new AbstractItem(Ollivanders.getInstance(), Material.BLAZE_ROD),genesisTheme,main,materials);
+    }
     public ComponentData dataFromType(ComponentType componentType) {
         return ComponentUtil.componentDataFromItemStack(mappedMaterials.get(componentType));
     }

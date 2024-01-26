@@ -4,7 +4,6 @@ import mintychochip.genesis.Genesis;
 import mintychochip.genesis.config.GenericConfig;
 import mintychochip.genesis.config.GenesisConfigurationSection;
 import mintychochip.genesis.particle.GenesisShape;
-import mintychochip.genesis.util.ConfigMarker;
 import mintychochip.ollivanders.Ollivanders;
 import mintychochip.ollivanders.container.MechanicSettings;
 import mintychochip.ollivanders.container.SpellMechanic;

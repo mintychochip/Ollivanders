@@ -19,6 +19,7 @@ public class BookData extends ItemData {
     private Map<Integer, String> content = new HashMap<>();
     private int currentPage = 0;
     private int bookTotalPages = 0;
+    private Map<Integer,Integer> mappings;
 
     private int size;
 
@@ -31,6 +32,11 @@ public class BookData extends ItemData {
         this.size = size;
     }
 
+    public BookData setMappings(Map<Integer, Integer> mappings) {
+        this.mappings = mappings;
+        return this;
+    }
+
     public BookData setSize(int size) {
         this.size = size;
         return this;
@@ -39,6 +45,7 @@ public class BookData extends ItemData {
     public void openSpellBook(Player player, ItemStack book) {
         try {
             SpellInventory spellInventory = new SpellInventory(size, getSpells(), player, book);
+            mappings = spellInventory.getMappings();
             Bukkit.getPluginManager().registerEvents(spellInventory, Ollivanders.getInstance());
             spellInventory.open();
         } catch (IOException e) {
@@ -58,9 +65,7 @@ public class BookData extends ItemData {
     }
 
     public BookData setCurrentPage(int page) {
-        if (bookTotalPages <= page) {
-            currentPage = page;
-        }
+        currentPage = page;
         return this;
     }
 
@@ -111,5 +116,9 @@ public class BookData extends ItemData {
 
     public boolean serialize(ItemStack item) {
         return Serializer.serializeToItem(this, item);
+    }
+
+    public Map<Integer, Integer> getMappings() {
+        return mappings;
     }
 }
