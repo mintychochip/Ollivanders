@@ -14,10 +14,10 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class OllivandersItemLoader {
+public class RecipeItemLoader {
     private final Map<String,ItemStack> components = new HashMap<>();
     private final Map<String,ItemStack> books = new HashMap<>();
-    public OllivandersItemLoader() {
+    public RecipeItemLoader() {
         try {
             loadComponents();
             loadBooks();

@@ -22,26 +22,24 @@ public class GenerateWand extends GenericCommandObject implements SubCommand, Bi
     }
 
     @Override
-    public boolean execute(String[] args, Player sender) {
-        if (args.length < depth) {
+    public boolean execute(String[] strings, Player sender) {
+        if (strings.length < depth) {
             return false;
         }
         String displayName = sender.getName();
-        if(args.length >= (depth + 2)) {
-            displayName = args[depth + 1];
+        if(strings.length >= (depth + 2)) {
+            displayName = strings[depth + 1];
         }
         List<ItemStack> materials = new ArrayList<>();
         materials.add(new ItemStack(Material.END_ROD));
         materials.add(new ItemStack(Material.EMERALD));
         materials.add(new ItemStack(Material.STRING));
-        ComponentConfigurationSection lens = Ollivanders.getComponentConfig().getMainConfigurationSection("lens", false);
-        materials.add(new ComponentBuilder(new AbstractItem(Ollivanders.getInstance(),lens.getDefaultMaterial(),true), "CLASSIC",lens).defaultBuild());
-        boolean b = Boolean.parseBoolean(args[depth]);
-
-        ComponentConfigurationSection core = Ollivanders.getComponentConfig().getMainConfigurationSection(args[depth - 1], b);
-        materials.add(new ComponentBuilder(new AbstractItem(Ollivanders.getInstance(),core.getDefaultMaterial(),true),"CLASSIC",core).defaultBuild());
+        materials.add(new ComponentBuilder(Ollivanders.getInstance(),"CLASSIC","lens").defaultBuild("lens",false));
+        boolean b = Boolean.parseBoolean(strings[depth]);
+        String core = strings[depth - 1];
+        materials.add(new ComponentBuilder(Ollivanders.getInstance(),"CLASSIC",strings[depth - 1]).defaultBuild(core,b));
         try {
-            ItemStack itemStack = new WandBuilder("CLASSIC", Ollivanders.getWandConfig().getMainConfigurationSection(args[depth - 1].toUpperCase()), materials).defaultBuild();
+            ItemStack itemStack = new WandBuilder("CLASSIC", Ollivanders.getWandConfig().getMainConfigurationSection(strings[depth - 1].toUpperCase()), materials).defaultBuild();
             sender.getInventory().addItem(addBind(itemStack,displayName));
         } catch (IOException e) {
             throw new RuntimeException(e);

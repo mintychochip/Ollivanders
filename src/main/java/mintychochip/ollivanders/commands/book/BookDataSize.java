@@ -16,8 +16,8 @@ public class BookDataSize extends BookDataCommand implements SubCommand {
     }
 
     @Override
-    public boolean execute(String[] args, Player sender) {
-        if(args.length < depth) {
+    public boolean execute(String[] strings, Player sender) {
+        if(strings.length < depth) {
             return false;
         }
         PlayerInventory inventory = sender.getInventory();
@@ -25,7 +25,7 @@ public class BookDataSize extends BookDataCommand implements SubCommand {
         if(book == null) {
             return false;
         }
-        int i = Integer.parseInt(args[depth - 1]);
+        int i = Integer.parseInt(strings[depth - 1]);
         if(i < 1 || i > 54) {
             Bukkit.broadcastMessage(ChatColor.RED + "Invalid slot size!");
             return false;

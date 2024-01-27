@@ -10,11 +10,16 @@ import mintychochip.ollivanders.util.OllivandersConfigMarker;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.IOException;
 public class BookBuilder extends ConfigurationItemBuilder {
 
     private final BookData bookData;
+
+    public BookBuilder(JavaPlugin instance, String genesisTheme, String itemKey) {
+        this(new AbstractItem(instance,Material.WRITABLE_BOOK),genesisTheme,Ollivanders.getItemConfig().getBooks().getConfigurationSection(itemKey));
+    }
     public BookBuilder(AbstractItem abstractItem, String genesisTheme, GenesisConfigurationSection main) {
         super(abstractItem,genesisTheme,main);
         try {

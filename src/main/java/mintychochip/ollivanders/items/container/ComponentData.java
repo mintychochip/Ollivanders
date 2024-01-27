@@ -5,6 +5,7 @@ import mintychochip.genesis.container.ItemData;
 import mintychochip.genesis.util.Rarity;
 import mintychochip.ollivanders.items.enums.ComponentType;
 import mintychochip.ollivanders.items.enums.CoreType;
+import mintychochip.ollivanders.util.OllivandersConfigMarker;
 
 public class ComponentData extends ItemData { //holds all wand related objects
     private static final long serialVersionUID = 120594823L;
@@ -12,13 +13,14 @@ public class ComponentData extends ItemData { //holds all wand related objects
     private WandBoost wandBoost;
     private ComponentType componentType;
     private CoreType coreType;
-    private Rarity rarity;
     public ComponentData(ComponentConfigurationSection main) {
         super("items");
-        this.setComponentType(main.enumFromSection(ComponentType.class,"type"))
-                .setRarity(main.enumFromSection(Rarity.class,"rarity"))
+        this.setComponentType(main.enumFromSection(ComponentType.class,"component-type"))
                 .setWandBoost(main.getDefaultWandBoost("modifiers"))
                 .setTitle(main.getString("title"));
+        if (componentType == ComponentType.CORE) {
+            this.setCoreType(main.enumFromSection(CoreType.class, OllivandersConfigMarker.core_type.toUpperCase()));
+        }
     }
     public String getTitle() {
         return title;
@@ -58,17 +60,8 @@ public class ComponentData extends ItemData { //holds all wand related objects
         this.coreType = coreType;
         return this;
     }
-
-    public Rarity getRarity() {
-        return rarity;
-    }
-
-    public ComponentData setRarity(Rarity rarity) {
-        this.rarity = rarity;
-        return this;
-    }
     public String toString() {
-        return String.format("%s %s %s %s", title,wandBoost.toString(),componentType.toString(),rarity.toString());
+        return String.format("%s %s %s", title,wandBoost.toString(),componentType.toString());
     }
 
 }

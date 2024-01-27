@@ -62,15 +62,17 @@
             <id>sonatype</id>
             <url>https://oss.sonatype.org/content/groups/public/</url>
         </repository>
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
     </repositories>
 
     <dependencies>
         <dependency>
-            <groupId>mintychochip</groupId>
-            <artifactId>Genesis</artifactId>
-            <version>2.0</version>
-            <scope>system</scope>
-            <systemPath>D:/papers/plugins/Genesis-2.0-shaded.jar</systemPath>
+            <groupId>com.github.mintychochip</groupId>
+            <artifactId>genesis</artifactId>
+            <version>genesis1</version>
         </dependency>
         <dependency>
             <groupId>org.spigotmc</groupId>

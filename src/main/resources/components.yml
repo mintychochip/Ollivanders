@@ -93,14 +93,9 @@ materials:
     rarity: UNCOMMON
 custom-items: #move these to items, components should remain separate
   slime:
-    name: "Slime Nucleus"
-    material: SLIME_BALL
-    type: CORE
-    lore:
-      - ASDASD
-    core: SLIME
+    component-type: CORE
+    core-type: SLIME
     title: Slippery
-    rarity: EPIC
   amber:
     name: "Crystallized Amber"
     material: HONEY_COMB

@@ -3,8 +3,6 @@ package mintychochip.ollivanders.commands.generate;
 import mintychochip.genesis.commands.abstraction.GenericCommandObject;
 import mintychochip.genesis.commands.abstraction.SubCommand;
 import mintychochip.genesis.flags.Bindable;
-import mintychochip.ollivanders.Ollivanders;
-import mintychochip.ollivanders.spellbook.BookBuilder;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -14,13 +12,13 @@ public class GenerateBook extends GenericCommandObject implements SubCommand, Bi
     }
 
     @Override
-    public boolean execute(String[] args, Player sender) {
-        if (args.length < depth) {
+    public boolean execute(String[] strings, Player sender) {
+        if (strings.length < depth) {
             return false;
         }
-        ItemStack itemStack = GenerationMethods.generateBook(args[depth - 1]);
-        if (args.length >= (depth + 1)) {
-            itemStack = addBind(itemStack, args[depth]);
+        ItemStack itemStack = GenerationMethods.generateBook(strings[depth - 1]);
+        if (strings.length >= (depth + 1)) {
+            itemStack = addBind(itemStack, strings[depth]);
         } else {
             itemStack = addBind(itemStack, sender.getName());
         }

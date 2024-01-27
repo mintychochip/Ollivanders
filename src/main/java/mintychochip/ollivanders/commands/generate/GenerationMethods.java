@@ -1,10 +1,13 @@
 package mintychochip.ollivanders.commands.generate;
 
+import mintychochip.genesis.config.GenesisConfigurationSection;
+import mintychochip.genesis.container.AbstractItem;
 import mintychochip.genesis.flags.Bindable;
 import mintychochip.ollivanders.Ollivanders;
+import mintychochip.ollivanders.items.builder.ComponentBuilder;
+import mintychochip.ollivanders.items.container.ComponentConfigurationSection;
 import mintychochip.ollivanders.spellbook.BookBuilder;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,5 +24,14 @@ public class GenerationMethods implements Bindable {
         }
         return itemStackList;
     }
-
+    public static ItemStack generateComponent(String component) {
+        return new ComponentBuilder(Ollivanders.getInstance(), "CLASSIC", component).defaultBuild(component,false);
+    }
+    public static List<ItemStack> generateAllComponents() {
+        List<ItemStack> itemStackList = new ArrayList<>();
+        for (String key : Ollivanders.getComponentConfig().getCustom().getKeys(false)) {
+            itemStackList.add(generateComponent(key));
+        }
+        return itemStackList;
+    }
 }

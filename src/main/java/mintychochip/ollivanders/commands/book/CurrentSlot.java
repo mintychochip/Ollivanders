@@ -14,8 +14,8 @@ public class CurrentSlot extends BookDataCommand implements SubCommand {
     }
 
     @Override
-    public boolean execute(String[] args, Player sender) {
-       if(args.length < depth) {
+    public boolean execute(String[] strings, Player sender) {
+       if(strings.length < depth) {
            Bukkit.broadcastMessage("book was not able to be set");
            return false;
        }
@@ -24,7 +24,7 @@ public class CurrentSlot extends BookDataCommand implements SubCommand {
         if(book == null) {
             return false;
         }
-        return setBookCurrentPage(book,Integer.parseInt(args[depth - 1]) - 1);
+        return setBookCurrentPage(book,Integer.parseInt(strings[depth - 1]) - 1);
     }
     public boolean setBookCurrentPage(ItemStack book, int currentPage) {
         BookData bookData = OllivandersSerializer.extractBookData(book);

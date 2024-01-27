@@ -7,3 +7,18 @@ books:
     custom-model: 1
     spell-slot-size: 3
     rarity: LEGENDARY
+components:
+  slime:
+    display-name: "Slime Nucleus"
+    lore:
+      - asdasdasd
+    custom-model: 0
+    rarity: LEGENDARY
+  ice_tear:
+    display-name: "The Frost Queen's Tear"
+    material: GHAST_TEAR
+    lore:
+      - asdasd
+    rarity: EPIC
+    custom-model: 0
+

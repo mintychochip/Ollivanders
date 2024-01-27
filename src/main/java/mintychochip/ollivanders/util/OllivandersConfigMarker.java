@@ -10,4 +10,6 @@ public class OllivandersConfigMarker extends ConfigMarker {
     public static String shape = "shape";
     public static String modifier = "modifier";
     public static String spell_slot_size = "spell-slot-size";
+
+    public static String core_type = "core-type";
 }
