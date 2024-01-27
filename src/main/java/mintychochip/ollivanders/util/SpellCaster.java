@@ -17,7 +17,6 @@ public class SpellCaster { //only casts and calls event, need to check if effect
 
 
     public static boolean cast(Spell spell, WandData wandData, Context context) {
-        boolean debug = false;
         if (spell == null) {
             return false;
         }
