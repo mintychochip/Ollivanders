@@ -4,6 +4,7 @@ import mintychochip.genesis.Genesis;
 import mintychochip.genesis.builder.ItemBuilder;
 import mintychochip.genesis.config.GenesisConfigurationSection;
 import mintychochip.genesis.container.AbstractItem;
+import mintychochip.genesis.util.Rarity;
 import mintychochip.genesis.util.Serializer;
 import mintychochip.ollivanders.Ollivanders;
 import mintychochip.ollivanders.items.container.ComponentData;
@@ -11,6 +12,7 @@ import mintychochip.ollivanders.items.container.WandBoost;
 import mintychochip.ollivanders.items.container.WandData;
 import mintychochip.ollivanders.items.enums.ComponentType;
 import mintychochip.ollivanders.items.util.ComponentUtil;
+import mintychochip.ollivanders.util.OllivandersConfigMarker;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -85,7 +87,7 @@ public class WandBuilder extends ItemBuilder {
         return this.addWandLore(main.getStringList("lore"))
                 .addStatLore()
                 .setCustomModelData(main.getInt("model"))
-                .setDisplayName(generateWandName(), ChatColor.getByChar(dataFromType(ComponentType.CORE).getRarity().colorCode))
+                .setDisplayName(generateWandName(), main.enumFromSection(Rarity.class, OllivandersConfigMarker.rarity).getChatColorCode())
                 .setUnstackable(true).build();
     }
 

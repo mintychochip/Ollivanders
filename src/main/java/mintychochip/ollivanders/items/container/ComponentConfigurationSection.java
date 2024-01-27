@@ -7,15 +7,10 @@ import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 
 public class ComponentConfigurationSection extends GenesisConfigurationSection {
-    protected Material defaultMaterial;
-
     protected final String itemPath;
     public ComponentConfigurationSection(ConfigurationSection configurationSection, String itemPath) {
         super(configurationSection, itemPath);
         this.itemPath = itemPath;
-    }
-    public Material getDefaultMaterial() {
-        return defaultMaterial;
     }
     public String getItemPath() {
         return itemPath;

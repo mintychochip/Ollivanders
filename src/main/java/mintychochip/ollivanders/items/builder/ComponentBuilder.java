@@ -20,14 +20,11 @@ import java.io.IOException;
 import java.util.List;
 
 public class ComponentBuilder extends ConfigurationItemBuilder {
+
+    private final String itemKey;
     public ComponentBuilder(JavaPlugin instance, String genesisTheme, String itemKey) { //key from the item config
-        this(instance,genesisTheme, Ollivanders.getItemConfig().getComponents().getConfigurationSection(itemKey));
-    }
-    public ComponentBuilder(JavaPlugin instance, String genesisTheme, GenesisConfigurationSection main) { //can be used to embed an item with different data
-        super(instance, genesisTheme, main);
-    }
-    public ComponentBuilder(AbstractItem abstractItem, String genesisTheme, GenesisConfigurationSection main) {
-        super(abstractItem,genesisTheme,main);
+        super(instance,genesisTheme, Ollivanders.getItemConfig().getComponents().getConfigurationSection(itemKey));
+        this.itemKey = itemKey;
     }
     public ComponentBuilder setDisplayName(String displayName, char color) {
         return (ComponentBuilder) super.setDisplayName(displayName, color);
@@ -62,12 +59,16 @@ public class ComponentBuilder extends ConfigurationItemBuilder {
     public ItemStack defaultBuild(String componentKey, boolean material) {
         return defaultBuilder().build(componentKey,material);
     }
+    public ItemStack defaultBuild(boolean material) {
+        return defaultBuild(itemKey,material);
+    }
     public ItemStack build(String componentKey, boolean material) {
         ItemStack itemStack = abstractItem.getItemStack();
         try {
+            ComponentData componentData = new ComponentData(Ollivanders.getComponentConfig().getMainConfigurationSection(componentKey, material));
             abstractItem.getItemMeta().getPersistentDataContainer().set(Genesis.getKeys()
                     .getMap()
-                    .get("items"), PersistentDataType.BYTE_ARRAY, Serializer.serialize(new ComponentData(Ollivanders.getComponentConfig().getMainConfigurationSection(componentKey, material))));
+                    .get("items"), PersistentDataType.BYTE_ARRAY, Serializer.serialize(componentData));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

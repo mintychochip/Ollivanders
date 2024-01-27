@@ -28,22 +28,16 @@ public class RecipeItemLoader {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
     }
-
     public void loadBooks() throws IOException {
         for (String key : Ollivanders.getItemConfig().getBooks().getKeys(false)) {
-            books.put(convertStringToKeyable(key),new BookBuilder(new AbstractItem(Ollivanders.getInstance(),Material.WRITABLE_BOOK,true), "CLASSIC", Ollivanders.getItemConfig().getBooks().getConfigurationSection(key)).defaultBuild());
+            books.put(key,new BookBuilder(new AbstractItem(Ollivanders.getInstance(),Material.WRITABLE_BOOK,true), "CLASSIC", Ollivanders.getItemConfig().getBooks().getConfigurationSection(key)).defaultBuild());
         }
-    }
-    public String convertStringToKeyable(String text) {
-        return ChatColor.stripColor(text.strip().replace(" ", "_").toLowerCase().replace("'",""));
     }
 
     public void loadComponents() {
-        for (String key : Ollivanders.getComponentConfig().getCustom().getKeys(false)) {
-            ComponentConfigurationSection main = Ollivanders.getComponentConfig().getMainConfigurationSection(key, false);
-            components.put(key, new ComponentBuilder(new AbstractItem(Ollivanders.getInstance(), main.getDefaultMaterial(),false), "CLASSIC", main).defaultBuild());
+        for (String key : Ollivanders.getItemConfig().getComponents().getKeys(false)) {
+            components.put(key, new ComponentBuilder(Ollivanders.getInstance(),"CLASSIC",key).defaultBuild(false));
         }
     }
 

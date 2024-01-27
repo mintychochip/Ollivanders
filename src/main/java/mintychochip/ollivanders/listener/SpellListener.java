@@ -1,6 +1,7 @@
 package mintychochip.ollivanders.listener;
 
 import mintychochip.genesis.Genesis;
+import mintychochip.genesis.container.ItemData;
 import mintychochip.genesis.util.Serializer;
 import mintychochip.ollivanders.Ollivanders;
 import mintychochip.ollivanders.api.SpellCastEvent;
@@ -8,6 +9,7 @@ import mintychochip.ollivanders.container.Context;
 import mintychochip.ollivanders.container.Spell;
 import mintychochip.ollivanders.container.SpellMechanic;
 import mintychochip.ollivanders.enums.Shape;
+import mintychochip.ollivanders.items.container.ComponentData;
 import mintychochip.ollivanders.items.container.WandData;
 import mintychochip.ollivanders.items.util.OllivandersSerializer;
 import mintychochip.ollivanders.spellbook.BookData;
@@ -30,6 +32,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 
 import java.io.IOException;
+import java.io.Serial;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -82,6 +85,20 @@ public class SpellListener implements Listener {
                     SpellCaster.cast(spellOnCurrentPage,extractWandData(inventory.getItemInMainHand()),new Context(player));
                 }
             }
+        }
+    }
+    @EventHandler
+    public void onInteract(final PlayerInteractEvent event) {
+        ItemMeta itemMeta = event.getPlayer().getInventory().getItemInMainHand().getItemMeta();
+        byte[] items = itemMeta.getPersistentDataContainer().get(Genesis.getKey("items"), PersistentDataType.BYTE_ARRAY);
+        try {
+            if(items == null) {
+                return;
+            }
+            String string = Serializer.deserialize(items).toString();
+            Bukkit.broadcastMessage(string);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
     @EventHandler

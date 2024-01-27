@@ -15,7 +15,7 @@ public class ComponentData extends ItemData { //holds all wand related objects
     private CoreType coreType;
     public ComponentData(ComponentConfigurationSection main) {
         super("items");
-        this.setComponentType(main.enumFromSection(ComponentType.class,"component-type"))
+        this.setComponentType(main.enumFromSection(ComponentType.class,OllivandersConfigMarker.component_type))
                 .setWandBoost(main.getDefaultWandBoost("modifiers"))
                 .setTitle(main.getString("title"));
         if (componentType == ComponentType.CORE) {
