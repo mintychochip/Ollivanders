@@ -1,8 +1,10 @@
 package mintychochip.ollivanders.spells;
 
+import mintychochip.ollivanders.api.SpellExplosionEvent;
 import mintychochip.ollivanders.container.SpellMechanic;
 import mintychochip.ollivanders.spells.shape.SpellArea;
 import mintychochip.ollivanders.spells.shape.SpellSelf;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 
 public class Explosion extends SpellMechanic implements SpellArea, SpellSelf {
@@ -22,6 +24,7 @@ public class Explosion extends SpellMechanic implements SpellArea, SpellSelf {
         if(originalCastLocation == null) {
             return false;
         }
-        return originalCastLocation.getWorld().createExplosion(originalCastLocation, (float) effectiveMagnitude());
+        Bukkit.getPluginManager().callEvent(new SpellExplosionEvent(originalCastLocation, (float) this.effectiveMagnitude()));
+        return true;
     }
 }

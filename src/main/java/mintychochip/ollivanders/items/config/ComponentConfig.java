@@ -1,6 +1,6 @@
 package mintychochip.ollivanders.items.config;
 
-import mintychochip.genesis.config.GenericConfig;
+import mintychochip.genesis.config.abstraction.GenericConfig;
 import mintychochip.ollivanders.items.container.ComponentConfigurationSection;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.plugin.java.JavaPlugin;

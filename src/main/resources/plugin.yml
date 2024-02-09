@@ -3,7 +3,7 @@ version: '${project.version}'
 main: mintychochip.ollivanders.Ollivanders
 api-version: '1.20'
 commands:
-  wand:
+  spells:
     description: spawns a wand
   books:
     description: gives book
@@ -71,6 +71,9 @@ permissions:
       description: all ollivanders spell permissions
       children:
         ollivanders.spells.abilities.fireball: true
+        ollivanders.spells.abilities.explosion: true
+        ollivanders.spells.abilities.immolate: true
+        ollivanders.spells.abilities.gravitywell: true
     ollivanders.spells.abilities.fireball:
       description: enables the use of the spell fireball
     ollivanders.spells.abilities.explosion:

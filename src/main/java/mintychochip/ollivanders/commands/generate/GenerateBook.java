@@ -1,14 +1,18 @@
 package mintychochip.ollivanders.commands.generate;
 
+import mintychochip.genesis.commands.abstraction.GenericCommand;
 import mintychochip.genesis.commands.abstraction.GenericCommandObject;
 import mintychochip.genesis.commands.abstraction.SubCommand;
 import mintychochip.genesis.flags.Bindable;
+import mintychochip.ollivanders.Ollivanders;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-public class GenerateBook extends GenericCommandObject implements SubCommand, Bindable {
-    public GenerateBook(String executor, String description) {
-        super(executor, description);
+import java.util.Set;
+
+public class GenerateBook extends GenericCommand implements SubCommand, Bindable {
+    public GenerateBook(String executor, String description, Set<String> strings) {
+        super(executor, description, strings);
     }
 
     @Override
@@ -17,6 +21,9 @@ public class GenerateBook extends GenericCommandObject implements SubCommand, Bi
             return false;
         }
         ItemStack itemStack = GenerationMethods.generateBook(strings[depth - 1]);
+        if (itemStack == null) {
+            return false;
+        }
         if (strings.length >= (depth + 1)) {
             itemStack = addBind(itemStack, strings[depth]);
         } else {

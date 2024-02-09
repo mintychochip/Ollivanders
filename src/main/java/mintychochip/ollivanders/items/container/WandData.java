@@ -1,6 +1,7 @@
 package mintychochip.ollivanders.items.container;
 
-import mintychochip.genesis.config.GenesisConfigurationSection;
+
+import mintychochip.genesis.config.abstraction.GenesisConfigurationSection;
 import mintychochip.genesis.container.ItemData;
 import mintychochip.ollivanders.items.enums.CoreType;
 import mintychochip.ollivanders.items.util.ComponentUtil;

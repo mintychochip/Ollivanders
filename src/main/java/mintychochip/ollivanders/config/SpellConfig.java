@@ -1,8 +1,8 @@
 package mintychochip.ollivanders.config;
 
 import mintychochip.genesis.Genesis;
-import mintychochip.genesis.config.GenericConfig;
-import mintychochip.genesis.config.GenesisConfigurationSection;
+import mintychochip.genesis.config.abstraction.GenericConfig;
+import mintychochip.genesis.config.abstraction.GenesisConfigurationSection;
 import mintychochip.genesis.particle.GenesisShape;
 import mintychochip.ollivanders.Ollivanders;
 import mintychochip.ollivanders.container.MechanicSettings;
@@ -61,6 +61,10 @@ public class SpellConfig extends GenericConfig {
             }
         }
         return map;
+    }
+
+    public GenesisConfigurationSection getMechanics() {
+        return mechanics;
     }
 
     public boolean registerMechanics() {

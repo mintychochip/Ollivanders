@@ -2,7 +2,7 @@ package mintychochip.ollivanders.items.builder;
 
 import mintychochip.genesis.Genesis;
 import mintychochip.genesis.builder.ItemBuilder;
-import mintychochip.genesis.config.GenesisConfigurationSection;
+import mintychochip.genesis.config.abstraction.GenesisConfigurationSection;
 import mintychochip.genesis.container.AbstractItem;
 import mintychochip.genesis.util.Rarity;
 import mintychochip.genesis.util.Serializer;

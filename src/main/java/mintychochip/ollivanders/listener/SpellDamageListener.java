@@ -1,7 +1,7 @@
 package mintychochip.ollivanders.listener;
 
 import mintychochip.genesis.Genesis;
-import mintychochip.ollivanders.api.SpellDamageEvent;
+import mintychochip.ollivanders.api.EntitySpellDamageEvent;
 import mintychochip.ollivanders.enums.DamageType;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -30,13 +30,6 @@ public class SpellDamageListener implements Listener {
                 }
             }
 
-        }
-    }
-    @EventHandler
-    public void onSpellDamageEvent(final SpellDamageEvent event) {
-        if(event.getDamageType() == DamageType.FIRE) {
-            Location location = event.getInflicted().getLocation();
-            location.getWorld().spawnParticle(Particle.SMOKE_LARGE,location,2,0,0,0,0,null,true);
         }
     }
 }

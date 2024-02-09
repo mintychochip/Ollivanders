@@ -91,13 +91,11 @@ public class SpellInventory implements Listener {
             return;
         }
         if(clickedValidSpell(player,event.getCurrentItem())) {
-            Bukkit.broadcastMessage("here");
             player.sendMessage("Selected page: " + (mappings.get(event.getSlot()) + 1));
             BookData bookData = OllivandersSerializer.extractBookData(book);
             if (bookData != null) {
                 bookData.setCurrentPage(mappings.get(event.getSlot()));
                 bookData.setMappings(mappings);
-                Bukkit.broadcastMessage(bookData.getCurrentPage() + "");
                 bookData.serialize(book);
             }
         }

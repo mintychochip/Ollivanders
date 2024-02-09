@@ -25,7 +25,6 @@ public abstract class SpellMechanic {
 
     protected Shape shape;
     protected String name;
-
     protected Location originalCastLocation;
 
     public static double effectiveFieldCalculation(double base, double modifier, double wandBoost) {

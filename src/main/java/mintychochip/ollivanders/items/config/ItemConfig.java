@@ -1,7 +1,7 @@
 package mintychochip.ollivanders.items.config;
 
-import mintychochip.genesis.config.GenericConfig;
-import mintychochip.genesis.config.GenesisConfigurationSection;
+import mintychochip.genesis.config.abstraction.GenericConfig;
+import mintychochip.genesis.config.abstraction.GenesisConfigurationSection;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class ItemConfig extends GenericConfig {

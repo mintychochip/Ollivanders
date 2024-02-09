@@ -1,9 +1,12 @@
 package mintychochip.ollivanders.commands.generate;
 
+import mintychochip.genesis.commands.abstraction.GenericCommand;
 import mintychochip.genesis.commands.abstraction.GenericCommandObject;
 import mintychochip.genesis.commands.abstraction.SubCommand;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+
+import java.util.Set;
 
 public class GenerateAllComponent extends GenericCommandObject implements SubCommand { //could port all these to one command later idk
     public GenerateAllComponent(String executor, String description) {

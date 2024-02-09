@@ -15,5 +15,7 @@ public class OllivandersConfigMarker extends ConfigMarker {
 
     public static String component_type = "component-type";
 
+    public static String description = "description";
+
 
 }

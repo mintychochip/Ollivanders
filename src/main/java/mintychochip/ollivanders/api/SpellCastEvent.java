@@ -13,13 +13,10 @@ import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import org.jetbrains.annotations.NotNull;
 
-public class SpellCastEvent extends Event {
-    private static final HandlerList handlers = new HandlerList();
-
+public class SpellCastEvent extends OllivandersEvent {
     private Spell spell;
     private Context context;
     private WandData wandData;
-
     private Player player;
 
     public SpellCastEvent(Spell spell, WandData wandData, Context context) {
@@ -78,13 +75,4 @@ public class SpellCastEvent extends Event {
         this.wandData = wandData;
     }
 
-    public static HandlerList getHandlerList() {
-        return handlers;
-    }
-
-    @NotNull
-    @Override
-    public HandlerList getHandlers() {
-        return handlers;
-    }
 }

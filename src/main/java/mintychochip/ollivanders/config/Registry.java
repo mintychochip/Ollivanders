@@ -14,9 +14,7 @@ public class Registry { //eventually allows to do lang files
 
     private static Map<String, MechanicSettings> settingsMap = new HashMap<>();
     private static Map<String, Keyword> keywordAlias = new HashMap<>();
-
     private static Map<String, SpellMechanic> mechanicAlias = new HashMap<>();
-
     private static Map<String, Shape> shapeAlias = new HashMap<>();
 
     public static Map<String, Shape> getShapeAlias() {

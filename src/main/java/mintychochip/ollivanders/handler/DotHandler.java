@@ -2,13 +2,14 @@ package mintychochip.ollivanders.handler;
 
 import mintychochip.genesis.manager.GenesisHandler;
 import mintychochip.ollivanders.Ollivanders;
-import mintychochip.ollivanders.api.SpellDamageEvent;
+import mintychochip.ollivanders.api.EntitySpellDamageEvent;
 import mintychochip.ollivanders.container.DamagePacket;
 import mintychochip.ollivanders.container.SpellMechanic;
 import mintychochip.ollivanders.enums.DamageType;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -78,8 +79,7 @@ public class DotHandler extends GenesisHandler {
     }
 
     public void inflictSpellDamage(LivingEntity inflicted, DamagePacket packet) {
-        Bukkit.getPluginManager().callEvent(new SpellDamageEvent(packet.getInflicted(), this, damageType, packet.getDamage()));
-        inflicted.damage(packet.getDamage());
+        Bukkit.getPluginManager().callEvent(new EntitySpellDamageEvent(packet.getInflicted(), EntityDamageEvent.DamageCause.CUSTOM, this,packet));
     }
 
     public void updateDamageTimers(double damage, DamageType type, List<LivingEntity> livingEntityList, int add, DotHandler handler) {

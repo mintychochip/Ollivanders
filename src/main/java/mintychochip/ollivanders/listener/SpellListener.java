@@ -1,15 +1,15 @@
 package mintychochip.ollivanders.listener;
 
 import mintychochip.genesis.Genesis;
-import mintychochip.genesis.container.ItemData;
 import mintychochip.genesis.util.Serializer;
 import mintychochip.ollivanders.Ollivanders;
+import mintychochip.ollivanders.api.EntitySpellDamageEvent;
 import mintychochip.ollivanders.api.SpellCastEvent;
+import mintychochip.ollivanders.api.SpellExplosionEvent;
 import mintychochip.ollivanders.container.Context;
 import mintychochip.ollivanders.container.Spell;
 import mintychochip.ollivanders.container.SpellMechanic;
 import mintychochip.ollivanders.enums.Shape;
-import mintychochip.ollivanders.items.container.ComponentData;
 import mintychochip.ollivanders.items.container.WandData;
 import mintychochip.ollivanders.items.util.OllivandersSerializer;
 import mintychochip.ollivanders.spellbook.BookData;
@@ -17,11 +17,13 @@ import mintychochip.ollivanders.util.SpellCaster;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
@@ -32,7 +34,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 
 import java.io.IOException;
-import java.io.Serial;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -67,7 +68,7 @@ public class SpellListener implements Listener {
                     return;
                 }
                 BookData bookData = OllivandersSerializer.extractBookData(bookMeta);
-                if(bookData == null) {
+                if (bookData == null) {
                     return;
                 }
                 try {
@@ -75,30 +76,16 @@ public class SpellListener implements Listener {
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
-                if(player.isSneaking()) {
-                    bookData.openSpellBook(player,book);
+                if (player.isSneaking()) {
+                    bookData.openSpellBook(player, book);
                 } else {
                     Spell spellOnCurrentPage = bookData.getSpellOnCurrentPage();
-                    if(spellOnCurrentPage == null) {
+                    if (spellOnCurrentPage == null) {
                         return;
                     }
-                    SpellCaster.cast(spellOnCurrentPage,extractWandData(inventory.getItemInMainHand()),new Context(player));
+                    SpellCaster.cast(spellOnCurrentPage, extractWandData(inventory.getItemInMainHand()), new Context(player));
                 }
             }
-        }
-    }
-    @EventHandler
-    public void onInteract(final PlayerInteractEvent event) {
-        ItemMeta itemMeta = event.getPlayer().getInventory().getItemInMainHand().getItemMeta();
-        byte[] items = itemMeta.getPersistentDataContainer().get(Genesis.getKey("items"), PersistentDataType.BYTE_ARRAY);
-        try {
-            if(items == null) {
-                return;
-            }
-            String string = Serializer.deserialize(items).toString();
-            Bukkit.broadcastMessage(string);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
         }
     }
     @EventHandler
@@ -119,6 +106,7 @@ public class SpellListener implements Listener {
             }
         }
     }
+
     @EventHandler
     public void onSpellCastEvent(final SpellCastEvent event) {
         SpellMechanic mechanic = event.getSpell().getMechanic();
@@ -126,31 +114,34 @@ public class SpellListener implements Listener {
         if (mechanic.getTransition() != null && mechanic.getShape() != Shape.PROJECTILE) {
             Context passingContext = null;
             switch (mechanic.getShape()) {
-                case AREA -> {
-                    passingContext = new Context(player, event.getContext().getHitLocation());
-                }
-                case SELF -> {
-                    passingContext = new Context(player, player.getLocation());
-                }
+                case AREA -> passingContext = new Context(player, event.getContext().getHitLocation());
+                case SELF -> passingContext = new Context(player, player.getLocation());
             }
             Spell transition = mechanic.getTransition();
             SpellCaster.cast(transition, mechanic.getWandData(), passingContext);
+
+        }
+    }
+    @EventHandler (priority = EventPriority.MONITOR)
+    private void entityDamageEvent(final EntitySpellDamageEvent event) {
+       if(!event.isCancelled()) {
+           event.getInflicted().damage(event.getDamagePacket().getDamage());
+       }
+    }
+    @EventHandler (priority = EventPriority.HIGHEST)
+    private void entityDssamageEvent(final EntitySpellDamageEvent event) {
+        if(event.getInflicted().getType() == EntityType.PIG) {
+            event.setCancelled(true);
+        }
+        if(event.getCause() == EntityDamageEvent.DamageCause.BLOCK_EXPLOSION) {
+            event.setCancelled(true);
         }
     }
     @EventHandler
-    public void onPlayerinteract(final PlayerInteractEvent event) {
-        PlayerInventory inventory = event.getPlayer().getInventory();
-        if(inventory.getItemInMainHand().getType() == Material.AIR) {
-            return;
-        }
-        if(inventory.getItemInMainHand().getItemMeta() == null) {
-            return;
-        }
-        if(inventory.getItemInMainHand().getItemMeta().getPersistentDataContainer().has(Genesis.getKey("bind"),PersistentDataType.STRING)) {
-            Bukkit.broadcastMessage("hello" + inventory.getItemInMainHand().getItemMeta().getPersistentDataContainer().get(Genesis.getKey("bind"),PersistentDataType.STRING));
-        }
+    private void onEntityTakeExplosionDamage(final SpellExplosionEvent event) {
+        Location explosionLocation = event.getExplosionLocation();
+        Bukkit.broadcastMessage(explosionLocation.toString());
     }
-
     public WandData extractWandData(ItemStack itemStack) {
         if (itemStack.getItemMeta() == null) {
             return null;

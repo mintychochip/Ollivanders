@@ -7,7 +7,10 @@ import mintychochip.ollivanders.items.enums.ComponentType;
 import mintychochip.ollivanders.items.enums.CoreType;
 import mintychochip.ollivanders.util.OllivandersConfigMarker;
 
+import java.io.Serial;
+
 public class ComponentData extends ItemData { //holds all wand related objects
+    @Serial
     private static final long serialVersionUID = 120594823L;
     private String title;
     private WandBoost wandBoost;
@@ -15,50 +18,24 @@ public class ComponentData extends ItemData { //holds all wand related objects
     private CoreType coreType;
     public ComponentData(ComponentConfigurationSection main) {
         super("items");
-        this.setComponentType(main.enumFromSection(ComponentType.class,OllivandersConfigMarker.component_type))
-                .setWandBoost(main.getDefaultWandBoost("modifiers"))
-                .setTitle(main.getString("title"));
+        this.componentType = main.enumFromSection(ComponentType.class, OllivandersConfigMarker.component_type);
+        this.wandBoost = main.getDefaultWandBoost("modifiers");
+        this.title = main.getString("title");
         if (componentType == ComponentType.CORE) {
-            this.setCoreType(main.enumFromSection(CoreType.class, OllivandersConfigMarker.core_type.toUpperCase()));
+            this.coreType = main.enumFromSection(CoreType.class, OllivandersConfigMarker.core_type.toUpperCase());
         }
     }
     public String getTitle() {
         return title;
     }
-
-    public ComponentData setTitle(String title) {
-        this.title = title;
-        return this;
-    }
-    public ComponentData setDisplayName(String displayName) {
-        return (ComponentData) super.setDisplayName(displayName);
-    }
-
     public WandBoost getWandBoost() {
         return wandBoost;
     }
-
-    public ComponentData setWandBoost(WandBoost wandBoost) {
-        this.wandBoost = wandBoost;
-        return this;
-    }
-
     public ComponentType getComponentType() {
         return componentType;
     }
-
-    public ComponentData setComponentType(ComponentType componentType) {
-        this.componentType = componentType;
-        return this;
-    }
-
     public CoreType getCoreType() {
         return coreType;
-    }
-
-    public ComponentData setCoreType(CoreType coreType) {
-        this.coreType = coreType;
-        return this;
     }
     public String toString() {
         return String.format("%s %s %s", title,wandBoost.toString(),componentType.toString());

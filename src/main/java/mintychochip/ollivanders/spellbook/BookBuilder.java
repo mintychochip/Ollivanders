@@ -2,7 +2,7 @@ package mintychochip.ollivanders.spellbook;
 
 import mintychochip.genesis.Genesis;
 import mintychochip.genesis.builder.ConfigurationItemBuilder;
-import mintychochip.genesis.config.GenesisConfigurationSection;
+import mintychochip.genesis.config.abstraction.GenesisConfigurationSection;
 import mintychochip.genesis.container.AbstractItem;
 import mintychochip.genesis.util.Serializer;
 import mintychochip.ollivanders.Ollivanders;

@@ -1,6 +1,7 @@
 package mintychochip.ollivanders.container;
 
 import mintychochip.genesis.particle.GenesisShape;
+import mintychochip.ollivanders.enums.DamageType;
 import org.bukkit.Particle;
 import org.bukkit.entity.EntityType;
 
@@ -19,8 +20,7 @@ public class MechanicSettings { //list of settings set by config
     private long interval;
     private GenesisShape genesisShape;
     private List<Particle> particleList;
-    private boolean dot;
-
+    private DamageType damageType;
     private int spellInventoryCustomModel;
 
     public MechanicSettings setSpellInventoryCustomModel(int spellInventoryCustomModel) {
@@ -31,15 +31,6 @@ public class MechanicSettings { //list of settings set by config
     public int getSpellInventoryCustomModel() {
         return spellInventoryCustomModel;
     }
-
-    public void setDot(boolean dot) {
-        this.dot = dot;
-    }
-
-    public boolean isDot() {
-        return dot;
-    }
-
     public List<Particle> getParticleList() {
         return particleList;
     }
@@ -114,6 +105,14 @@ public class MechanicSettings { //list of settings set by config
 
     public double getMagnitude() {
         return magnitude;
+    }
+
+    public DamageType getDamageType() {
+        return damageType;
+    }
+
+    public void setDamageType(DamageType damageType) {
+        this.damageType = damageType;
     }
 
     public MechanicSettings setMagnitude(double magnitude) {

@@ -4,10 +4,8 @@ import mintychochip.genesis.Genesis;
 import mintychochip.genesis.commands.abstraction.GenericMainCommandManager;
 import mintychochip.ollivanders.commands.book.BookDataSize;
 import mintychochip.ollivanders.commands.book.CurrentSlot;
-import mintychochip.ollivanders.commands.generate.GenerateAllBooks;
-import mintychochip.ollivanders.commands.generate.GenerateBook;
-import mintychochip.ollivanders.commands.generate.GenerateComponent;
-import mintychochip.ollivanders.commands.generate.GenerateWand;
+import mintychochip.ollivanders.commands.generate.*;
+import mintychochip.ollivanders.commands.spells.SpellInfo;
 import mintychochip.ollivanders.config.SpellConfig;
 import mintychochip.ollivanders.handler.CooldownManager;
 import mintychochip.ollivanders.handler.PersistentSpellManager;
@@ -109,19 +107,23 @@ public final class Ollivanders extends JavaPlugin {
     }
 
     public void commands() {
+        GenericMainCommandManager spells = new GenericMainCommandManager("spells", "spells");
+        spells.addSubCommand(new SpellInfo("info", "tells the description of a spell"));
         GenericMainCommandManager books = new GenericMainCommandManager("books", "sets books");
         GenericMainCommandManager generate = new GenericMainCommandManager("generate", "generates items");
         generate.instantiateSubCommandManager("all", "sets generator to generate all")
-                .addSubCommand(new GenerateAllBooks("books", "generates all books"));
+                .addSubCommand(new GenerateAllBooks("books", "generates all books"))
+                .addSubCommand(new GenerateAllComponent("component", "generates all components"));
         generate.instantiateSubCommandManager("single", "generates a single item")
-                .addSubCommand(new GenerateBook("books", "generates a book"))
-                .addSubCommand(new GenerateComponent("component", "generates a component"))
+                .addSubCommand(new GenerateBook("books", "generates a book",Ollivanders.getItemConfig().getBooks().getKeys(false)))
+                .addSubCommand(new GenerateComponent("component", "generates a component", Ollivanders.getItemConfig().getComponents().getKeys(false)))
                 .addSubCommand(new GenerateWand("wand", "generates a wand"));
         books.instantiateSubCommandManager("set", "sets books")
                 .addSubCommand(new BookDataSize("size", "sets inventory size"))
                 .addSubCommand(new CurrentSlot("slot", "sets current slot"));
         getCommand("books").setExecutor(books);
         getCommand("generate").setExecutor(generate);
+        getCommand("spells").setExecutor(spells);
     }
 
     public static RecipeItemLoader getItemLoader() {
