@@ -1,10 +1,14 @@
-package mintychochip.ollivanders.spellbook;
+package mintychochip.ollivanders.items.container.spellbook;
 
+import mintychochip.genesis.Genesis;
 import mintychochip.genesis.container.ItemData;
+import mintychochip.genesis.container.items.interfaces.Appraisable;
+import mintychochip.genesis.util.Rarity;
 import mintychochip.genesis.util.Serializer;
 import mintychochip.ollivanders.Ollivanders;
 import mintychochip.ollivanders.container.Spell;
 import org.bukkit.Bukkit;
+import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BookMeta;
@@ -12,29 +16,21 @@ import org.bukkit.inventory.meta.BookMeta;
 import java.io.IOException;
 import java.util.*;
 
-public class BookData extends ItemData {
+public class BookData extends ItemData implements Appraisable {
 
-    private static final long serialVersionUID = 1205948223123L;
-
-    private Map<Integer, String> content = new HashMap<>();
+    protected static final NamespacedKey key = Genesis.getKey("book");
+    private final Map<Integer, String> content = new HashMap<>();
     private int currentPage = 0;
     private int bookTotalPages = 0;
-    private Map<Integer,Integer> mappings;
-
+    private Map<Integer, Integer> mappings;
     private int size;
-
-    public int getSize() {
-        return size;
-    }
-
+    private Rarity rarity;
     public BookData(int size) throws IOException {
-        super("book");
         this.size = size;
     }
 
-    public BookData setMappings(Map<Integer, Integer> mappings) {
-        this.mappings = mappings;
-        return this;
+    public int getSize() {
+        return size;
     }
 
     public BookData setSize(int size) {
@@ -62,11 +58,6 @@ public class BookData extends ItemData {
             }
         }
         return spellMap;
-    }
-
-    public BookData setCurrentPage(int page) {
-        currentPage = page;
-        return this;
     }
 
     public Spell getSpellOnCurrentPage() {
@@ -114,11 +105,25 @@ public class BookData extends ItemData {
         return currentPage;
     }
 
-    public boolean serialize(ItemStack item) {
-        return Serializer.serializeToItem(this, item);
+    public BookData setCurrentPage(int page) {
+        currentPage = page;
+        return this;
     }
-
     public Map<Integer, Integer> getMappings() {
         return mappings;
+    }
+
+    public BookData setMappings(Map<Integer, Integer> mappings) {
+        this.mappings = mappings;
+        return this;
+    }
+    @Override
+    public void setRarity(Rarity rarity) {
+        this.rarity = rarity;
+    }
+
+    @Override
+    public NamespacedKey getKey() {
+        return key;
     }
 }

@@ -20,7 +20,7 @@ public class GenerateBook extends GenericCommand implements SubCommand, Bindable
         if (strings.length < depth) {
             return false;
         }
-        ItemStack itemStack = GenerationMethods.generateBook(strings[depth - 1]);
+        ItemStack itemStack = GenerationMethods.generateBook(strings[depth - 1]).getItemStack();
         if (itemStack == null) {
             return false;
         }

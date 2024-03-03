@@ -26,20 +26,20 @@ public class Accelerate extends SpellMechanic implements SpellSelf, SpellArea {
         Location location = player.getLocation();
         Entity entity = location.getWorld().spawnEntity(location, EntityType.FIREBALL);
         new BukkitRunnable() {
-            Location loc = entity.getLocation();
-            double t = 0;   
-            double r = 2;
+            final Location loc = entity.getLocation();
+            double t = 0;
+            final double r = 2;
 
             public void run() {
-                t = t + Math.PI/16;
-                    double x = r * Math.cos(t);
-                    double y = r * Math.sin(t) + 1;
-                    double z = r;
+                t = t + Math.PI / 16;
+                double x = r * Math.cos(t);
+                double y = r * Math.sin(t) + 1;
+                double z = r;
 
-                    Vector vector = new Vector(x, y, z);
-                    vector = MathUtil.rotateFunction(vector,loc);
-                    loc.getWorld().spawnParticle(Particle.FLAME, loc.add(vector), 1, 0, 0, 0,0,null,true);
-                    loc.subtract(vector);
+                Vector vector = new Vector(x, y, z);
+                vector = MathUtil.rotateFunction(vector, loc);
+                loc.getWorld().spawnParticle(Particle.FLAME, loc.add(vector), 1, 0, 0, 0, 0, null, true);
+                loc.subtract(vector);
                 if (t > Math.PI * 52) {
                     this.cancel();
                 }

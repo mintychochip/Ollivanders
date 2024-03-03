@@ -6,13 +6,13 @@ import org.bukkit.NamespacedKey;
 
 public enum DamageType {
 
-    CURSE(true,3L,1L,false,"curse",true,true),
+    CURSE(true, 3L, 1L, false, "curse", true, true),
 
-    FIRE(true,3L,1L,true,"fire",true,true),
+    FIRE(true, 3L, 1L, true, "fire", true, true),
 
-    AIR(false,3L,1L,false,"air",false,false),
+    AIR(false, 3L, 1L, false, "air", false, false),
 
-    WATER(false,3L,1L,false,"water", false, false);
+    WATER(false, 3L, 1L, false, "water", false, false);
 
     private final boolean damageOverTime;
 
@@ -33,7 +33,7 @@ public enum DamageType {
         this.delay = delay;
         this.interval = interval;
         this.visualFire = visualFire;
-        this.genesisKey = Genesis.getKeys().addKey(Ollivanders.getInstance(),key);
+        this.genesisKey = Genesis.getKeys().addKey(Ollivanders.getInstance(), key);
         //can use this for mythic hook
         this.ignoresArmor = ignoresArmor;
         this.ignoresResistance = ignoresResistance;

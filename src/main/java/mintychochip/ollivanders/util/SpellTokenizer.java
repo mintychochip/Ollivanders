@@ -14,11 +14,9 @@ import java.util.Map;
 
 public class SpellTokenizer { //can make this binary
 
-    private Map<String, Keyword> tokenizedSpell;
-
-    private Spell spell;
-
     private final StringBuilder stringBuilder = new StringBuilder();
+    private Map<String, Keyword> tokenizedSpell;
+    private Spell spell;
 
     public SpellTokenizer setTokenizedSpell(String spell) throws IOException {
         if (spell == null) {
@@ -44,7 +42,7 @@ public class SpellTokenizer { //can make this binary
     public SpellTokenizer setSpellMechanic(String keyword) throws IOException {
         SpellMechanic spellMechanic = Registry.getMechanicAlias().get(keyword);
         if (spellMechanic == null) {
-           return null;
+            return null;
         }
         try {
             spell.setMechanic(spellMechanic.getClass().getConstructor().newInstance()
@@ -153,10 +151,10 @@ public class SpellTokenizer { //can make this binary
         try {
             SpellTokenizer spellTokenizer = this.setTokenizedSpell(spell)
                     .setSpellMechanic(firstInstanceOfKeyword(Keyword.MECHANIC));
-            if(spellTokenizer == null) {
+            if (spellTokenizer == null) {
                 return null;
             } else {
-               return spellTokenizer.setShape(firstInstanceOfKeyword(Keyword.SHAPE))
+                return spellTokenizer.setShape(firstInstanceOfKeyword(Keyword.SHAPE))
                         .setSpellMechanicSettings(this.spell.getMechanic().getName())
                         .setModifiers(getPackagedModifiers(allInstancesofKeyword(Keyword.MODIFIER)))
                         .build();

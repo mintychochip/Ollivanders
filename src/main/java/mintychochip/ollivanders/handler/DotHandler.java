@@ -21,14 +21,14 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class DotHandler extends GenesisHandler {
 
-    private Map<LivingEntity, DamagePacket> damagePacketMap = new ConcurrentHashMap<>();
-    private DamageType damageType;
-    private BukkitTask task;
+    private final Map<LivingEntity, DamagePacket> damagePacketMap = new ConcurrentHashMap<>();
+    private final DamageType damageType;
+    private final BukkitTask task;
 
     private int id;
     private boolean cancellable = false;
 
-    private SpellMechanic mechanic;
+    private final SpellMechanic mechanic;
 
     public DotHandler(String name, int id, DamageType type, SpellMechanic mechanic) {
         super(name, id);
@@ -79,7 +79,7 @@ public class DotHandler extends GenesisHandler {
     }
 
     public void inflictSpellDamage(LivingEntity inflicted, DamagePacket packet) {
-        Bukkit.getPluginManager().callEvent(new EntitySpellDamageEvent(packet.getInflicted(), EntityDamageEvent.DamageCause.CUSTOM, this,packet));
+        Bukkit.getPluginManager().callEvent(new EntitySpellDamageEvent(packet.getInflicted(), EntityDamageEvent.DamageCause.CUSTOM, this, packet));
     }
 
     public void updateDamageTimers(double damage, DamageType type, List<LivingEntity> livingEntityList, int add, DotHandler handler) {
@@ -101,6 +101,7 @@ public class DotHandler extends GenesisHandler {
             }
         }
     }
+
     @Override
     public void cancel() {
         cancellable = true;

@@ -9,9 +9,11 @@ public class ItemConfig extends GenericConfig {
     private final GenesisConfigurationSection books = getMainConfigurationSection("books");
 
     private final GenesisConfigurationSection components = getMainConfigurationSection("components");
+
     public ItemConfig(String path, JavaPlugin plugin) {
         super(path, plugin);
     }
+
     public GenesisConfigurationSection getBooks() {
         return books;
     }

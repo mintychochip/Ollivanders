@@ -17,11 +17,12 @@ public class Explosion extends SpellMechanic implements SpellArea, SpellSelf {
     public boolean castSelf() {
         return genericCastMethod(context.getPlayer().getLocation());
     }
+
     public boolean genericCastMethod(Location location) {
-        if(location != null) {
+        if (location != null) {
             originalCastLocation = location;
         }
-        if(originalCastLocation == null) {
+        if (originalCastLocation == null) {
             return false;
         }
         Bukkit.getPluginManager().callEvent(new SpellExplosionEvent(originalCastLocation, (float) this.effectiveMagnitude()));

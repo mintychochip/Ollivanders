@@ -4,6 +4,7 @@ import mintychochip.ollivanders.Ollivanders;
 import mintychochip.ollivanders.container.Context;
 import mintychochip.ollivanders.container.Spell;
 import mintychochip.ollivanders.container.SpellMechanic;
+import mintychochip.ollivanders.handler.CooldownManager;
 import mintychochip.ollivanders.handler.ExperienceHandler;
 import mintychochip.ollivanders.items.container.WandData;
 import mintychochip.ollivanders.util.Permissions;
@@ -17,9 +18,9 @@ public class SpellCastEvent extends OllivandersEvent {
     private Spell spell;
     private Context context;
     private WandData wandData;
-    private Player player;
+    private final Player player;
 
-    public SpellCastEvent(Spell spell, WandData wandData, Context context) {
+    public SpellCastEvent(Spell spell, WandData wandData, Context context, CooldownManager cooldownManager) {
         this.spell = spell;
         this.context = context;
         this.wandData = wandData;
@@ -30,7 +31,7 @@ public class SpellCastEvent extends OllivandersEvent {
             ExperienceHandler.reducePlayerLevel(cost, player);
             Bukkit.broadcastMessage(cost + "");
         }
-        Ollivanders.getCooldownManager().addCooldown(mechanic.getName() + "-" + mechanic.getShape(), player.getUniqueId());
+        cooldownManager.addCooldown(mechanic.getName() + "-" + mechanic.getShape(), player.getUniqueId());
     }
 
     public double spellCostFactor(Player sender) {
@@ -51,12 +52,12 @@ public class SpellCastEvent extends OllivandersEvent {
         return spell;
     }
 
-    public Player getPlayer() {
-        return player;
-    }
-
     public void setSpell(Spell spell) {
         this.spell = spell;
+    }
+
+    public Player getPlayer() {
+        return player;
     }
 
     public Context getContext() {

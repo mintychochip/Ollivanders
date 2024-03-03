@@ -23,14 +23,15 @@ public class MechanicSettings { //list of settings set by config
     private DamageType damageType;
     private int spellInventoryCustomModel;
 
+    public int getSpellInventoryCustomModel() {
+        return spellInventoryCustomModel;
+    }
+
     public MechanicSettings setSpellInventoryCustomModel(int spellInventoryCustomModel) {
         this.spellInventoryCustomModel = spellInventoryCustomModel;
         return this;
     }
 
-    public int getSpellInventoryCustomModel() {
-        return spellInventoryCustomModel;
-    }
     public List<Particle> getParticleList() {
         return particleList;
     }
@@ -107,17 +108,17 @@ public class MechanicSettings { //list of settings set by config
         return magnitude;
     }
 
+    public MechanicSettings setMagnitude(double magnitude) {
+        this.magnitude = magnitude;
+        return this;
+    }
+
     public DamageType getDamageType() {
         return damageType;
     }
 
     public void setDamageType(DamageType damageType) {
         this.damageType = damageType;
-    }
-
-    public MechanicSettings setMagnitude(double magnitude) {
-        this.magnitude = magnitude;
-        return this;
     }
 
     public EntityType getEntityType() {

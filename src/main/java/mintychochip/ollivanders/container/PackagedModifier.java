@@ -8,7 +8,7 @@ public class PackagedModifier {
 
     private final String value;
 
-    public PackagedModifier(Modifier modifier,String value) {
+    public PackagedModifier(Modifier modifier, String value) {
         this.modifer = modifier;
         this.value = value;
     }

@@ -29,20 +29,20 @@ public class CooldownManager {
 
     public double cooldownRemaining(String mechanicName, double duration, UUID player) {
         double l = System.currentTimeMillis() - cooldowns.get(player).get(mechanicName);
-        return MathUtil.roundToDecimals(duration - l * 0.001,1);
+        return MathUtil.roundToDecimals(duration - l * 0.001, 1);
     }
 
     public void addCooldown(String mechanicName, UUID player) {
         Map<String, Long> stringLongMap = cooldowns.remove(player);
-        if(stringLongMap == null) {
+        if (stringLongMap == null) {
             stringLongMap = new HashMap<>();
         }
-        if(stringLongMap.containsKey(mechanicName)) {
-            stringLongMap.replace(mechanicName,System.currentTimeMillis());
+        if (stringLongMap.containsKey(mechanicName)) {
+            stringLongMap.replace(mechanicName, System.currentTimeMillis());
         } else {
-            stringLongMap.put(mechanicName,System.currentTimeMillis());
+            stringLongMap.put(mechanicName, System.currentTimeMillis());
         }
-        cooldowns.put(player,stringLongMap);
+        cooldowns.put(player, stringLongMap);
     }
 
     public Map<String, Long> playerCooldowns(UUID player) {

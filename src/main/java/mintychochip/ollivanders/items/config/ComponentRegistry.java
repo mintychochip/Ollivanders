@@ -15,9 +15,9 @@ public class ComponentRegistry {
     public ComponentRegistry() {
         ComponentConfig cc = Ollivanders.getComponentConfig();
         for (String key : cc.getConfigReader().getConfigurationSection("materials").getKeys(false)) {
-            if(EnumUtil.isInEnum(Material.class,key)) {
-                Material material = Enum.valueOf(Material.class,key);
-                componentData.put(material, new ComponentData(cc.getMainConfigurationSection(key,true)));
+            if (EnumUtil.isInEnum(Material.class, key)) {
+                Material material = Enum.valueOf(Material.class, key);
+                componentData.put(material, new ComponentData(cc.getMainConfigurationSection(key, true)));
             }
         }
     }

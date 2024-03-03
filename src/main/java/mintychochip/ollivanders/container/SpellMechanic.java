@@ -50,20 +50,48 @@ public abstract class SpellMechanic {
         return wandData;
     }
 
+    public SpellMechanic setWandData(WandData wandData) {
+        this.wandData = wandData;
+        return this;
+    }
+
     public Shape getShape() {
         return shape;
+    }
+
+    public SpellMechanic setShape(Shape shape) {
+        this.shape = shape;
+        return this;
     }
 
     public MechanicSettings getMechanicSettings() {
         return mechanicSettings;
     }
 
+    public SpellMechanic setMechanicSettings(MechanicSettings mechanicSettings) {
+        this.mechanicSettings = mechanicSettings;
+        return this;
+    }
+
     public Context getContext() {
         return context;
     }
 
+    public SpellMechanic setContext(Context context) {
+        if (context != null) {
+            this.context = context;
+            originalCastLocation = getCurrentCastLocation();
+        }
+        return this;
+    }
+
     public MechanicModifier getMechanicModifier() {
         return mechanicModifier;
+    }
+
+    public SpellMechanic setMechanicModifier(MechanicModifier mechanicModifier) {
+        this.mechanicModifier = mechanicModifier;
+        return this;
     }
 
     public String getName() {
@@ -74,9 +102,14 @@ public abstract class SpellMechanic {
         return transition;
     }
 
+    public SpellMechanic setTransition(Spell transition) {
+        this.transition = transition;
+        return this;
+    }
+
     public List<Entity> getNearbyEntities(boolean useOrigin) { //can probably make this better
         Location castLocation = getCurrentCastLocation();
-        if(useOrigin) {
+        if (useOrigin) {
             castLocation = originalCastLocation;
         }
         double effectiveRange = (mechanicSettings.getRange() * wandData.getWandBoost().getRange()) / 2; //diameter / 2
@@ -93,40 +126,8 @@ public abstract class SpellMechanic {
                 .collect(Collectors.toList());
     }
 
-    public SpellMechanic setWandData(WandData wandData) {
-        this.wandData = wandData;
-        return this;
-    }
-
-    public SpellMechanic setContext(Context context) {
-        if(context != null) {
-            this.context = context;
-            originalCastLocation = getCurrentCastLocation();
-        }
-        return this;
-    }
-
-    public SpellMechanic setMechanicSettings(MechanicSettings mechanicSettings) {
-        this.mechanicSettings = mechanicSettings;
-        return this;
-    }
     public SpellMechanic setMechanicName(String name) {
         this.name = name;
-        return this;
-    }
-
-    public SpellMechanic setMechanicModifier(MechanicModifier mechanicModifier) {
-        this.mechanicModifier = mechanicModifier;
-        return this;
-    }
-
-    public SpellMechanic setTransition(Spell transition) {
-        this.transition = transition;
-        return this;
-    }
-
-    public SpellMechanic setShape(Shape shape) {
-        this.shape = shape;
         return this;
     }
 
@@ -145,6 +146,7 @@ public abstract class SpellMechanic {
     public Location getOriginalCastLocation() {
         return originalCastLocation;
     }
+
     public Location getCurrentCastLocation() {
         return context.getHitLocation() == null ? context.getPlayer().getLocation() : context.getHitLocation();
     }

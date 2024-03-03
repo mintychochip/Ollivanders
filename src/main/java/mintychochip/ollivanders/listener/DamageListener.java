@@ -15,8 +15,5 @@ public class DamageListener implements Listener {
     private void preventDamageWhenImmune(final EntitySpellDamageEvent event) {
         Entity entity = event.getEntity();
         PersistentDataContainer persistentDataContainer = entity.getPersistentDataContainer();
-        if(persistentDataContainer.has(Genesis.getKey("immune"), PersistentDataType.)) {
-            event.setCancelled(true);
-        }
     }
 }

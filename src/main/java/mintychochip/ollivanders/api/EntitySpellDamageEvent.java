@@ -16,6 +16,7 @@ public class EntitySpellDamageEvent extends EntityDamageEvent {
     private final LivingEntity inflicted;
     private final GenesisHandler process;
     private final DamagePacket damagePacket;
+
     public EntitySpellDamageEvent(@NotNull LivingEntity damagee, @NotNull EntityDamageEvent.DamageCause cause, GenesisHandler process, DamagePacket damagePacket) {
         super(damagee, cause, damagePacket.getDamage());
         this.inflicted = damagee;
@@ -31,6 +32,7 @@ public class EntitySpellDamageEvent extends EntityDamageEvent {
     public GenesisHandler getProcess() {
         return process;
     }
+
     public LivingEntity getInflicted() {
         return inflicted;
     }

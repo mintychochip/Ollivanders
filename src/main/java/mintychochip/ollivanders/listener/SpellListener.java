@@ -1,5 +1,6 @@
 package mintychochip.ollivanders.listener;
 
+import com.google.gson.Gson;
 import mintychochip.genesis.Genesis;
 import mintychochip.genesis.util.Serializer;
 import mintychochip.ollivanders.Ollivanders;
@@ -12,7 +13,7 @@ import mintychochip.ollivanders.container.SpellMechanic;
 import mintychochip.ollivanders.enums.Shape;
 import mintychochip.ollivanders.items.container.WandData;
 import mintychochip.ollivanders.items.util.OllivandersSerializer;
-import mintychochip.ollivanders.spellbook.BookData;
+import mintychochip.ollivanders.items.container.spellbook.BookData;
 import mintychochip.ollivanders.util.SpellCaster;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -31,6 +32,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.BookMeta;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
 import java.io.IOException;
@@ -39,6 +41,10 @@ import java.util.List;
 
 public class SpellListener implements Listener {
 
+    private final SpellCaster spellCaster;
+    public SpellListener(SpellCaster spellCaster) {
+        this.spellCaster = spellCaster;
+    }
     private final List<Player> waitingForNextEvent = new ArrayList<>();
 
     @EventHandler(priority = EventPriority.HIGHEST)
@@ -63,6 +69,8 @@ public class SpellListener implements Listener {
         if (inventory.getItemInMainHand().getType() == Material.BLAZE_ROD) {
             ItemStack book = inventory.getItemInOffHand();
             ItemMeta itemMeta = book.getItemMeta();
+
+
             if (itemMeta instanceof BookMeta bookMeta) {
                 if (!bookMeta.hasPages()) {
                     return;
@@ -73,21 +81,35 @@ public class SpellListener implements Listener {
                 }
                 try {
                     bookData.updateBook(book);
+
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
+
                 if (player.isSneaking()) {
                     bookData.openSpellBook(player, book);
+
                 } else {
                     Spell spellOnCurrentPage = bookData.getSpellOnCurrentPage();
                     if (spellOnCurrentPage == null) {
                         return;
                     }
-                    SpellCaster.cast(spellOnCurrentPage, extractWandData(inventory.getItemInMainHand()), new Context(player));
+                    ItemStack blazerod = inventory.getItemInMainHand();
+                    ItemMeta blazerodItemMeta = blazerod.getItemMeta();
+                    PersistentDataContainer persistentDataContainer = blazerodItemMeta.getPersistentDataContainer();
+                    WandData wandData = null;
+
+                    if(persistentDataContainer.has(Genesis.getKey("wand"),PersistentDataType.STRING)) {
+                        wandData = new Gson().fromJson(persistentDataContainer.get(Genesis.getKey("wand"),PersistentDataType.STRING),WandData.class);
+                    }
+                    if(wandData != null) {
+                        spellCaster.cast(spellOnCurrentPage, wandData, new Context(player));
+                    }
                 }
             }
         }
     }
+
     @EventHandler
     public void onProjectileSpellHit(final ProjectileHitEvent event) {
         int entityId = event.getEntity().getEntityId();
@@ -102,7 +124,7 @@ public class SpellListener implements Listener {
             }
             Context context = new Context(player, hitLocation);
             if (spellMechanic.getTransition() != null) {
-                SpellCaster.cast(spellMechanic.getTransition(), spellMechanic.getWandData(), context); //can add delay in the future
+                spellCaster.cast(spellMechanic.getTransition(), spellMechanic.getWandData(), context); //can add delay in the future
             }
         }
     }
@@ -118,42 +140,43 @@ public class SpellListener implements Listener {
                 case SELF -> passingContext = new Context(player, player.getLocation());
             }
             Spell transition = mechanic.getTransition();
-            SpellCaster.cast(transition, mechanic.getWandData(), passingContext);
+            spellCaster.cast(transition, mechanic.getWandData(), passingContext);
 
         }
     }
-    @EventHandler (priority = EventPriority.MONITOR)
+
+    @EventHandler(priority = EventPriority.MONITOR)
     private void entityDamageEvent(final EntitySpellDamageEvent event) {
-       if(!event.isCancelled()) {
-           event.getInflicted().damage(event.getDamagePacket().getDamage());
-       }
+        if (!event.isCancelled()) {
+            event.getInflicted().damage(event.getDamagePacket().getDamage());
+        }
     }
-    @EventHandler (priority = EventPriority.HIGHEST)
+
+    @EventHandler(priority = EventPriority.HIGHEST)
     private void entityDssamageEvent(final EntitySpellDamageEvent event) {
-        if(event.getInflicted().getType() == EntityType.PIG) {
+        if (event.getInflicted().getType() == EntityType.PIG) {
             event.setCancelled(true);
         }
-        if(event.getCause() == EntityDamageEvent.DamageCause.BLOCK_EXPLOSION) {
+        if (event.getCause() == EntityDamageEvent.DamageCause.BLOCK_EXPLOSION) {
             event.setCancelled(true);
         }
     }
     @EventHandler
-    private void onEntityTakeExplosionDamage(final SpellExplosionEvent event) {
-        Location explosionLocation = event.getExplosionLocation();
-        Bukkit.broadcastMessage(explosionLocation.toString());
-    }
-    public WandData extractWandData(ItemStack itemStack) {
-        if (itemStack.getItemMeta() == null) {
-            return null;
+    private void onClicK(final PlayerInteractEvent event) {
+        Player player = event.getPlayer();
+        PlayerInventory inventory = player.getInventory();
+        ItemStack itemInMainHand = inventory.getItemInMainHand();
+        if(itemInMainHand.getType() == Material.AIR) {
+            return;
         }
-        try {
-            byte[] bytes = itemStack.getItemMeta().getPersistentDataContainer().get(Genesis.getKeys().getMap().get("wand"), PersistentDataType.BYTE_ARRAY);
-            if (bytes != null) {
-                return (WandData) Serializer.deserialize(bytes);
-            }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        ItemMeta itemMeta = itemInMainHand.getItemMeta();
+        if(itemMeta == null) {
+            return;
         }
-        return null;
+        PersistentDataContainer persistentDataContainer = itemMeta.getPersistentDataContainer();
+        if (persistentDataContainer.has(Genesis.getKey("wand"), PersistentDataType.STRING)) {
+            String s = persistentDataContainer.get(Genesis.getKey("wand"), PersistentDataType.STRING);
+            Bukkit.broadcastMessage(s);
+        }
     }
 }

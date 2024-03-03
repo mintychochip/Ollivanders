@@ -15,14 +15,14 @@ public class Immolate extends SpellMechanic implements SpellArea, SpellSelf { //
     @Override
     public boolean castArea() {
         int ceil = (int) Math.ceil(effectiveDuration());
-        dotHandler.updateDamageTimers(effectiveMagnitude(),damageType, nearbyLivingEntities(true), ceil,dotHandler); //make a better damage calculation
+        dotHandler.updateDamageTimers(effectiveMagnitude(), damageType, nearbyLivingEntities(true), ceil, dotHandler); //make a better damage calculation
         return true;
     }
 
     @Override
     public boolean castSelf() {
         int ceil = (int) Math.ceil(effectiveDuration());
-        dotHandler.updateDamageTimers(effectiveMagnitude(),damageType, nearbyLivingEntities(false), ceil,dotHandler);
+        dotHandler.updateDamageTimers(effectiveMagnitude(), damageType, nearbyLivingEntities(false), ceil, dotHandler);
         return true;
     }
 

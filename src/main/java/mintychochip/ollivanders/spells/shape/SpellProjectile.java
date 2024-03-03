@@ -11,12 +11,13 @@ import org.bukkit.util.Vector;
 
 public interface SpellProjectile {
 
-    abstract void effectOnHit();
+    void effectOnHit();
+
     default Entity launchProjectile(EntityType entityType, Player player, MechanicModifier modifier) {
         Location playerLocation = player.getLocation();
         //injection
-        if(playerLocation.getWorld() != null && entityType != null) {
-            Projectile spawnedProjectile = (Projectile) playerLocation.getWorld().spawnEntity(playerLocation.add(playerLocation.getDirection().getX(),1f,playerLocation.getDirection().getZ()), entityType);
+        if (playerLocation.getWorld() != null && entityType != null) {
+            Projectile spawnedProjectile = (Projectile) playerLocation.getWorld().spawnEntity(playerLocation.add(playerLocation.getDirection().getX(), 1f, playerLocation.getDirection().getZ()), entityType);
             float velocity = 1;
             spawnedProjectile.getLocation().setDirection(playerLocation.getDirection());
             return spawnedProjectile;

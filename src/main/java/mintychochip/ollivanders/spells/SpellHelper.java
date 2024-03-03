@@ -8,7 +8,6 @@ import org.bukkit.persistence.PersistentDataType;
 public class SpellHelper {
 
 
-
     public static void updateTimer(NamespacedKey key, LivingEntity nearbyLivingEntity, int add) {
         Long l = 0L;
         PersistentDataContainer persistentDataContainer = nearbyLivingEntity.getPersistentDataContainer();

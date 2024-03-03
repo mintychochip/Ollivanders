@@ -8,13 +8,16 @@ import org.bukkit.configuration.ConfigurationSection;
 
 public class ComponentConfigurationSection extends GenesisConfigurationSection {
     protected final String itemPath;
+
     public ComponentConfigurationSection(ConfigurationSection configurationSection, String itemPath) {
         super(configurationSection, itemPath);
         this.itemPath = itemPath;
     }
+
     public String getItemPath() {
         return itemPath;
     }
+
     public WandBoost getDefaultWandBoost(String marker) {
         WandBoost wandBoost = new WandBoost();
         ConfigurationSection modifiers = main.getConfigurationSection(marker);

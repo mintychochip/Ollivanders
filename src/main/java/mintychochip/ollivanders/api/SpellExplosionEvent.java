@@ -7,15 +7,15 @@ import java.util.List;
 
 public class SpellExplosionEvent extends OllivandersEvent {
 
-    private Location explosionLocation;
+    private final Location explosionLocation;
 
     private List<Entity> affectedEntities;
 
     public SpellExplosionEvent(Location explosionLocation, float magnitude) {
         this.explosionLocation = explosionLocation;
-        if(explosionLocation != null) {
-            if(explosionLocation.getWorld() != null) {
-                explosionLocation.getWorld().createExplosion(explosionLocation,magnitude);
+        if (explosionLocation != null) {
+            if (explosionLocation.getWorld() != null) {
+                explosionLocation.getWorld().createExplosion(explosionLocation, magnitude);
 
             }
         }

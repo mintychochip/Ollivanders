@@ -18,6 +18,7 @@ import mintychochip.ollivanders.listener.BookListener;
 import mintychochip.ollivanders.listener.SpellDamageListener;
 import mintychochip.ollivanders.listener.SpellListener;
 import mintychochip.ollivanders.util.RecipeItemLoader;
+import mintychochip.ollivanders.util.SpellCaster;
 import mintychochip.ollivanders.util.SpellTokenizer;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -26,26 +27,14 @@ import java.io.IOException;
 
 public final class Ollivanders extends JavaPlugin {
 
+    public static RecipeItemLoader itemLoader;
     private static ComponentConfig componentConfig;
     private static WandConfig wandConfig;
-
     private static SpellConfig spellConfig;
-
     private static SpellTokenizer tokenizer;
-
     private static ProjectileHandler projectileHandler;
-
-    private static PersistentSpellManager persistentSpellManager;
-
-    private static CooldownManager cooldownManager;
     private static Ollivanders instance;
-
     private static ItemConfig itemConfig;
-
-    public static PersistentSpellManager getPersistentSpellManager() {
-        return persistentSpellManager;
-    }
-
     public static WandConfig getWandConfig() {
         return wandConfig;
     }
@@ -69,16 +58,13 @@ public final class Ollivanders extends JavaPlugin {
     public static ProjectileHandler getProjectileHandler() {
         return projectileHandler;
     }
-
-    public static CooldownManager getCooldownManager() {
-        return cooldownManager;
-    }
-
     public static ItemConfig getItemConfig() {
         return itemConfig;
     }
 
-    public static RecipeItemLoader itemLoader;
+    public static RecipeItemLoader getItemLoader() {
+        return itemLoader;
+    }
 
     @Override
     public void onEnable() {
@@ -86,10 +72,9 @@ public final class Ollivanders extends JavaPlugin {
         // Plugin startup logic
         String[] spells = {"fire"};
         Genesis.getKeys().generateKeys(this, spells);
-        persistentSpellManager = new PersistentSpellManager();
+        SpellCaster spellCaster = new SpellCaster(new PersistentSpellManager(), new CooldownManager());
         projectileHandler = new ProjectileHandler();
         tokenizer = new SpellTokenizer();
-        cooldownManager = new CooldownManager();
         componentConfig = new ComponentConfig("components.yml", this);
         itemConfig = new ItemConfig("items.yml", this);
         wandConfig = new WandConfig("wand.yml", this);
@@ -100,7 +85,7 @@ public final class Ollivanders extends JavaPlugin {
         }
         itemLoader = new RecipeItemLoader();
         enableRegistries();
-        Bukkit.getPluginManager().registerEvents(new SpellListener(), this);
+        Bukkit.getPluginManager().registerEvents(new SpellListener(spellCaster), this);
         Bukkit.getPluginManager().registerEvents(new BookListener(), this);
         Bukkit.getPluginManager().registerEvents(new SpellDamageListener(), this);
         commands();
@@ -115,7 +100,7 @@ public final class Ollivanders extends JavaPlugin {
                 .addSubCommand(new GenerateAllBooks("books", "generates all books"))
                 .addSubCommand(new GenerateAllComponent("component", "generates all components"));
         generate.instantiateSubCommandManager("single", "generates a single item")
-                .addSubCommand(new GenerateBook("books", "generates a book",Ollivanders.getItemConfig().getBooks().getKeys(false)))
+                .addSubCommand(new GenerateBook("books", "generates a book", Ollivanders.getItemConfig().getBooks().getKeys(false)))
                 .addSubCommand(new GenerateComponent("component", "generates a component", Ollivanders.getItemConfig().getComponents().getKeys(false)))
                 .addSubCommand(new GenerateWand("wand", "generates a wand"));
         books.instantiateSubCommandManager("set", "sets books")
@@ -124,10 +109,6 @@ public final class Ollivanders extends JavaPlugin {
         getCommand("books").setExecutor(books);
         getCommand("generate").setExecutor(generate);
         getCommand("spells").setExecutor(spells);
-    }
-
-    public static RecipeItemLoader getItemLoader() {
-        return itemLoader;
     }
 
     public void enableRegistries() {
