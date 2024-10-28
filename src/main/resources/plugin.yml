@@ -3,5 +3,93 @@ version: '${project.version}'
 main: mintychochip.ollivanders.Ollivanders
 api-version: '1.20'
 commands:
-  wand:
-    description: wadwd
+  spells:
+    description: spawns a wand
+  books:
+    description: gives book
+  generate:
+    description: generates items
+depend: [Genesis]
+permissions:
+    ollivanders.*:
+      default: false
+      description: all ollivanders permissions
+      children:
+        ollivanders.defaults: true
+        ollivanders.spells: true
+    ollivanders.admin:
+      default: false
+      description: all command permission
+      children:
+        ollivanders.commands: true
+    ollivanders.spells:
+      default: false
+      description: all spell abilities
+      children:
+        ollivanders.commands: true
+        ollivanders.spells.perks: true
+        ollivanders.spells.abilities: true
+        ollivanders.spells.bypass: true
+    ollivanders.commands:
+      default: false
+      description: all commands
+      children:
+        ollivanders.commands.component: true
+        ollivanders.commands.book: true
+        ollivanders.commands.wand: true
+    ollivanders.commands.component:
+      description: gives permission to generate a component
+    ollivanders.commands.book:
+      default: false
+      description: all book commands
+      children:
+        ollivanders.commands.book.slot: true
+        ollivanders.commands.book.size: true
+        ollivanders.commands.book.generate: true
+    ollivanders.commands.wand:
+      description: gives permission to generate a wand
+    ollivanders.spells.perks:
+      default: false
+      description: enables all perks
+      children:
+        ollivanders.spells.perks.cooldown: true
+    ollivanders.spells.perks.cooldown:
+      default: false
+      description: enables all cooldown perks
+      children:
+        ollivanders.spells.perks.cooldown.double: true
+        ollivanders.spells.perks.cooldown.triple: true
+        ollivanders.spells.perks.cooldown.quadruple: true
+    ollivanders.spells.perks.cooldown.double:
+      description: enables half reduction of spell cost/
+    ollivanders.spells.perks.cooldown.triple:
+      description: enables triple reduction of spell cost/
+    ollivanders.spells.perks.cooldown.quadruple:
+      description: enables quadruple reduction of spell cost/
+    ollivanders.spells.abilities:
+      default: false
+      description: all ollivanders spell permissions
+      children:
+        ollivanders.spells.abilities.fireball: true
+        ollivanders.spells.abilities.explosion: true
+        ollivanders.spells.abilities.immolate: true
+        ollivanders.spells.abilities.gravitywell: true
+    ollivanders.spells.abilities.fireball:
+      description: enables the use of the spell fireball
+    ollivanders.spells.abilities.explosion:
+      description: enables the use of the spell explosion
+    ollivanders.spells.abilities.immolate:
+      description: enables the use of the spell immolate
+    ollivanders.spells.abilities.gravitywell:
+      description: enables the use of the spell gravitywell
+    ollivanders.spells.bypass:
+      default: false
+      description: all bypass perks
+      children:
+        ollivanders.spells.bypass.cooldown: true
+        ollivanders.spells.bypass.cost: true
+    ollivanders.spells.bypass.cooldown:
+      description: removes all cooldown on abilities
+    ollivanders.spells.bypass.cost:
+      description: removes all cost on abilities
+

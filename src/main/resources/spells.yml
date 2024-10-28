@@ -1,0 +1,33 @@
+default:
+  mechanic:
+    range: 15
+    duration: 5
+    magnitude: 1
+    interval: 5
+    persistent: false
+    damage: 2
+    entity_type: fireball
+    cooldown: 2
+    cost: 20
+mechanics:
+  Fireball: #same as class name
+    class: Fireball
+    settings:
+      cooldown: .5
+      magnitude: 7
+      keywords: [ fireball ]
+keywords:
+  keyword:
+    START: [ start ]
+    MECHANIC: [ mechanic ]
+    END: [ end ]
+    SHAPE: [ shape ]
+    WAIT: [ wait ]
+    MODIFIER: [ modifier ]
+  shape:
+    PROJECTILE: [ projectile ]
+    AREA: [ area ]
+    SELF: [ self ]
+  modifier:
+    ENCHANTMENT: [ enchantment ]
+    MAGNITUDE: [ magnitude ]

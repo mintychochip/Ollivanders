@@ -1,57 +1,54 @@
 package mintychochip.ollivanders.handler;
 
+import mintychochip.genesis.util.MathUtil;
 import mintychochip.ollivanders.Ollivanders;
-import mintychochip.ollivanders.betterwand.WandBoost;
-import mintychochip.ollivanders.container.Context;
-import mintychochip.ollivanders.container.WizardSpell;
-import mintychochip.ollivanders.spellcaster.WizardCaster;
-import mintychochip.ollivanders.util.ActionBarUtil;
-import mintychochip.ollivanders.util.ActionBarUtil.ProgressBar;
-import org.bukkit.ChatColor;
+import mintychochip.ollivanders.container.Spell;
+import mintychochip.ollivanders.util.SpellCaster;
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.TextComponent;
+import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
-public class PersistentSpellManager {
+public class PersistentSpellManager { //gotta revise this class
+    private final Map<Spell, Player> currentPersistentSpells = new ConcurrentHashMap<>();
 
-    private final List<WizardSpell> currentCastingSpells = new ArrayList<>();
-
-    public void add(WizardSpell spell, Context context, WandBoost wandBoost) {
-        run(spell, context, wandBoost);
-        currentCastingSpells.add(spell);
+    public void add(Spell spell, Player player) {
+        run(spell, player);
+        currentPersistentSpells.put(spell, player);
     }
 
-    public void run(WizardSpell spell, Context context, WandBoost wandBoost) {
-        new BukkitRunnable() {
-            final BukkitTask bukkitTask = startTimer(spell, context);
+    private BukkitTask run(Spell spell, Player player) {
+        return new BukkitRunnable() {
+            final BukkitTask timer = timer((double) System.currentTimeMillis() / 1000, 5, player);
+
             @Override
             public void run() {
-                WizardCaster caster = new WizardCaster(spell);
-                caster.persistentCast(context, wandBoost);
-                if (bukkitTask.isCancelled()) {
-                    currentCastingSpells.remove(spell);
+                SpellCaster.persistentCast(spell);
+                if (timer.isCancelled()) {
+                    currentPersistentSpells.remove(spell);
+                    if (spell.getMechanic().getHandlers() != null) {
+                        spell.getMechanic().cancelHandlers();
+                    }
                     cancel();
                 }
             }
-        }.runTaskTimerAsynchronously(Ollivanders.getInstance(), spell.getMechanic().getMechanicSettings().getInterval(), spell.getMechanic().getMechanicSettings().getInterval());
+        }.runTaskTimer(Ollivanders.getInstance(), spell.getMechanic().getMechanicSettings().getInterval(), spell.getMechanic().getMechanicSettings().getInterval());
     }
 
-    public BukkitTask startTimer(WizardSpell spell, Context context) {
-        return new BukkitRunnable() {
-            final ProgressBar progressBar = new ProgressBar(40, spell.getMechanic().getMechanicSettings().getDuration(), "|");
+    public boolean containsKey(Spell key) {
+        return currentPersistentSpells.containsKey(key);
+    }
 
-            @Override
+    private BukkitTask timer(double start, double duration, Player player) {
+        return new BukkitRunnable() {
             public void run() {
-                ActionBarUtil.sendActionBarMessage(context.getPlayer(), ChatColor.DARK_GRAY + "Casting: "
-                        + ChatColor.GOLD
-                        + spell.getMechanic().getName()
-                        + " "
-                        + ActionBarUtil.roundToDecimals(progressBar.getRemainingSeconds(),1)
-                        + ChatColor.DARK_GRAY
-                        + " seconds remaining");
-                if(progressBar.getRemainingSeconds() < 0) {
+                double l = ((double) System.currentTimeMillis() / 1000) - start;
+                player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(String.format("%s", MathUtil.roundToDecimals(duration - l, 1))));
+                if (l >= duration) {
                     cancel();
                 }
             }

@@ -1,44 +1,32 @@
 package mintychochip.ollivanders.spells;
 
-import mintychochip.ollivanders.container.WizardMechanic;
-import mintychochip.ollivanders.shape.WizardAoe;
-import mintychochip.ollivanders.shape.WizardSelf;
-import mintychochip.ollivanders.shape.implementation.AoeImplementation;
-import org.bukkit.Location;
-import org.bukkit.Particle;
-import org.bukkit.entity.Entity;
+import mintychochip.genesis.Genesis;
+import mintychochip.ollivanders.container.SpellMechanic;
+import mintychochip.ollivanders.enums.DamageType;
+import mintychochip.ollivanders.handler.DotHandler;
+import mintychochip.ollivanders.spells.shape.SpellArea;
+import mintychochip.ollivanders.spells.shape.SpellSelf;
 
-public class Immolate extends WizardMechanic implements WizardSelf, WizardAoe {
+public class Immolate extends SpellMechanic implements SpellArea, SpellSelf { //can make inheritable to auto generate the handler
+    private final DamageType damageType = DamageType.FIRE;
+
+    private final DotHandler dotHandler = (DotHandler) addHandler(new DotHandler("immolate", Genesis.getMath().getRandom().nextInt(), damageType, this));
+
     @Override
-    public boolean castAoe() {
-        Location castLocation = getImplementation().getCastLocation();
-        if (castLocation.getWorld() == null) {
-            return false;
-        }
-        double range = getMechanicSettings().getRange() / 2f;
-        castLocation.getWorld().spawnParticle(Particle.FLAME,castLocation,50,range,range,range,0,null,true);
-        for (Entity nearbyEntity : getImplementation().getNearbyLivingEntities()) {
-            if(nearbyEntity != context.getPlayer()) {
-                nearbyEntity.setFireTicks(mechanicSettings.getDuration());
-                double random = 0.5;
-                nearbyEntity.getLocation().getWorld().spawnParticle(Particle.SMOKE_LARGE,nearbyEntity.getLocation().add(0f,2f,0f),1,random,random,random,0,null,true);
-            }
-        }
+    public boolean castArea() {
+        int ceil = (int) Math.ceil(effectiveDuration());
+        dotHandler.updateDamageTimers(effectiveMagnitude(), damageType, nearbyLivingEntities(true), ceil, dotHandler); //make a better damage calculation
         return true;
     }
 
     @Override
     public boolean castSelf() {
-        Location castLocation = context.getPlayer().getLocation();
-        if (castLocation.getWorld() == null) {
-            return false;
-        }
-        context.getPlayer().setFireTicks(mechanicSettings.getDuration());
+        int ceil = (int) Math.ceil(effectiveDuration());
+        dotHandler.updateDamageTimers(effectiveMagnitude(), damageType, nearbyLivingEntities(false), ceil, dotHandler);
         return true;
     }
 
-    @Override
-    public void applyParticleSelf() {
-        //need a lib for this
+    public boolean genericCastMethod() {
+        return true;
     }
 }

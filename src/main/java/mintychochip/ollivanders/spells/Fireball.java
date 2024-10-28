@@ -1,24 +1,12 @@
 package mintychochip.ollivanders.spells;
 
-import mintychochip.ollivanders.container.WizardMechanic;
-import mintychochip.ollivanders.shape.WizardProjectile;
+import mintychochip.ollivanders.container.SpellMechanic;
+import mintychochip.ollivanders.spells.shape.SpellProjectile;
+import org.bukkit.Particle;
 
-public class Fireball extends WizardMechanic implements WizardProjectile {
-
-
+public class Fireball extends SpellMechanic implements SpellProjectile {
     @Override
-    public int castProjectile() {
-        //all fireball code is handled by the implementation
-        return 0;
-    }
-
-    @Override
-    public void effect() {
-        //lava impact whne it lands
-    }
-
-    @Override
-    public void applyParticleProjectile() {
-        //add back the lava line projectile effect
+    public void effectOnHit() {
+        originalCastLocation.getWorld().spawnParticle(Particle.LAVA, originalCastLocation, 5);
     }
 }

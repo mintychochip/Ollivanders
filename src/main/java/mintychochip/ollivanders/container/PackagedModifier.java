@@ -1,23 +1,23 @@
 package mintychochip.ollivanders.container;
 
+import mintychochip.ollivanders.enums.Modifier;
+
 public class PackagedModifier {
 
-    private final Modifier type;
+    private final Modifier modifer;
+
     private final String value;
 
-    public PackagedModifier(Modifier type) {
-        this(type,null);
-    }
-    public PackagedModifier(Modifier type, String value) {
-        this.type = type;
+    public PackagedModifier(Modifier modifier, String value) {
+        this.modifer = modifier;
         this.value = value;
     }
 
-    public Modifier getType() {
-        return type;
+    public Modifier getModifer() {
+        return modifer;
     }
+
     public String getValue() {
         return value;
     }
-
 }
